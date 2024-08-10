@@ -34,7 +34,7 @@ void AbstractOdometry::update_from_values(int vertical, int horizontal, int head
     // Convert polar displacement back to cartesian and update our position
     current_pose.x += local_polar_radius * std::cos(global_angle);
     current_pose.y += local_polar_radius * std::sin(global_angle);
-    current_pose.theta = std::fmod(current_pose.theta + delta_heading, 360);
+    current_pose.theta = current_pose.theta + delta_heading;
 }
 
 

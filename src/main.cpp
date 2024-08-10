@@ -46,7 +46,7 @@ rd::Console console;
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-    pros::Task([]() { odometry.log_coordinates(console); });
+    pros::Task([&]() { odometry.log_coordinates(console); });
 }
 
 /**

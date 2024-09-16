@@ -67,7 +67,7 @@ void VerticalTrackerImuOdometry::initialize() {
     imu.reset(true);
 
     // Start the odometry loop
-    pros::Task([=] {
+    pros::Task([this] {
         while (true) {
             update();
             pros::delay(DELAY_TIME);

@@ -8,15 +8,12 @@
 #include "pose.hpp"
 #include "controller.hpp"
 #include "drivetrain.hpp"
-#include "motion_tracker.hpp"
 #include "odometry.hpp"
 #include "params.hpp"
 #include "constants.h"
 
 
 enum SwingType {LEFT, RIGHT};
-enum MotionType {LINEAR, ANGULAR};
-
 
 class Motions {
 public:
@@ -30,8 +27,6 @@ public:
 
     bool in_motion() const;
     void end_motion();
-    void wait_until_done() const;
-    void wait_until(double until, MotionType type) const;
 
     void turn_to_heading(double heading, MovementParams params = {});
     void swing_to_heading(double heading, SwingType swing_type, MovementParams params = {});
@@ -39,6 +34,5 @@ public:
 
 protected:
     bool is_in_motion;
-    std::unique_ptr<MotionTracker> motion_tracker = nullptr;
     bool start_motion();
 };

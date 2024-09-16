@@ -26,7 +26,6 @@ bool Motions::start_motion() {
     }
 
     is_in_motion = true;
-    motion_tracker = std::make_unique<MotionTracker>(odometry);
     return true;
 }
 
@@ -38,28 +37,11 @@ bool Motions::in_motion() const {
 
 void Motions::end_motion() {
     is_in_motion = false;
-    motion_tracker = nullptr;
 
     linear_controller.reset();
     angular_controller.reset();
 
     drivetrain.tank(0, 0);
-}
-
-
-void Motions::wait_until_done() const {
-    do pros::delay(DELAY_TIME);
-    while (in_motion());
-}
-
-
-void Motions::wait_until(double until, MotionType type) const {
-    do pros::delay(DELAY_TIME);
-    while (in_motion() && (
-            type == MotionType::LINEAR ?
-            motion_tracker->get_distance() :
-            motion_tracker->get_angle()) < until
-    );
 }
 
 
@@ -90,8 +72,6 @@ void Motions::turn_to_heading(double heading, MovementParams params) {
         // Move the drivetrain
         drivetrain.tank(voltage, -voltage);
 
-        // Tell the motion tracker to update the distance traveled
-        motion_tracker->update();
         pros::delay(DELAY_TIME);
     }
 
@@ -133,8 +113,6 @@ void Motions::swing_to_heading(double heading, SwingType swing_type, MovementPar
             drivetrain.tank(0, -voltage);
         }
 
-        // Tell the motion tracker to update the distance traveled
-        motion_tracker->update();
         pros::delay(DELAY_TIME);
     }
 

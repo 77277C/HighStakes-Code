@@ -47,7 +47,6 @@
 #include "qlib/controller.hpp"
 #include "qlib/pose.hpp"
 #include "qlib/drivetrain.hpp"
-#include "qlib/motion_tracker.hpp"
 #include "qlib/motions.hpp"
 #include "qlib/odometry.hpp"
 #include "qlib/params.hpp"

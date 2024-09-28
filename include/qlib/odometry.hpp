@@ -5,6 +5,7 @@
 #include "units.hpp"
 #include "tracking_wheel.hpp"
 #include "pose.hpp"
+#include "console.hpp"
 #include <cmath>
 #include <memory>
 #include <optional>
@@ -38,7 +39,7 @@ public:
      *
      * @param console The console to log the coordinates to
      */
-    void log_coordinates(rd::Console& console) const;
+    void log_coordinates() const;
     /**
      * Initialize the odometry
      */

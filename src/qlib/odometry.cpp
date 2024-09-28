@@ -48,7 +48,7 @@ void AbstractOdometry::set_pose(Pose pose) {
 }
 
 
-void AbstractOdometry::log_coordinates(rd::Console &console) const {
+void AbstractOdometry::log_coordinates() const {
     while (true) {
         Pose pose = this->get_pose();
         console.printf("(%f, %f, %f)\n", pose.x, pose.y, rad_to_deg(pose.theta));

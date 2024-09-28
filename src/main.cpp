@@ -36,7 +36,6 @@ Motions motions(
 
 
 rd::Selector selector({});
-rd::Console console;
 
 
 /**
@@ -47,7 +46,7 @@ rd::Console console;
  */
 void initialize() {
     odometry.initialize();
-    pros::Task([&]() { odometry.log_coordinates(console); });
+    pros::Task([&]() { odometry.log_coordinates(); });
 }
 
 /**
@@ -96,7 +95,7 @@ void autonomous() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
-void opcontrol() {
+[[ noreturn ]] void opcontrol() {
     pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
     while (true) {

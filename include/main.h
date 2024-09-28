@@ -52,6 +52,7 @@
 #include "qlib/params.hpp"
 #include "qlib/tracking_wheel.hpp"
 #include "devices.hpp"
+#include "console.hpp"
 
 
 /**
@@ -82,7 +83,7 @@ void autonomous(void);
 void initialize(void);
 void disabled(void);
 void competition_initialize(void);
-void opcontrol(void);
+[[ noreturn ]] void opcontrol(void);
 #ifdef __cplusplus
 }
 #endif

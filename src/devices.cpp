@@ -6,6 +6,8 @@ pros::adi::Pneumatics clamp('A', false);
 pros::MotorGroup left_motors({-3, -4});
 pros::MotorGroup right_motors({1, 2});
 
+pros::MotorGroup intake({-6, 7});
+
 Drivetrain drivetrain (
         left_motors,
         right_motors

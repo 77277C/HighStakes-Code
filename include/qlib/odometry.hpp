@@ -32,7 +32,7 @@ public:
      * @param vertical_offset The vertical offset of the tracking wheel
      * @param horizontal_offset The horizontal offset of the tracking wheel
      */
-    void update_from_values(int vertical, int horizontal, int heading, int vertical_offset, int horizontal_offset);
+    void update_from_values(double vertical, double horizontal, double heading, double vertical_offset, double horizontal_offset);
     /**
      * Log the current coordinates to the console
      * this function will block foreever

@@ -30,7 +30,8 @@ public:
 
     void turn_to_heading(double heading, MovementParams params = {});
     void swing_to_heading(double heading, SwingType swing_type, MovementParams params = {});
-    void move_to_point(double x, double y, LinearMovementParams params = {});
+    void move_to_pose(double x, double y, double heading, double dlead = 0.6, LinearMovementParams params = {});
+    void move_to_pose(Pose target, double dlead = 0.6, LinearMovementParams params = {});
 
 protected:
     bool is_in_motion;

@@ -35,3 +35,8 @@ double Pose::angle_to(const Pose& other) const {
     // atan2 (arctan) takes all 4 quadrants into account
     return std::atan2(other.y - this->y, other.x - this->x);
 }
+
+
+double Pose::angular_error(const Pose &other) const {
+    return other.theta - theta;
+}

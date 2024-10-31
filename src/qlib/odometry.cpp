@@ -2,7 +2,7 @@
 #include "qlib/constants.h"
 
 
-void AbstractOdometry::update_from_values(int vertical, int horizontal, int heading, int vertical_offset, int horizontal_offset) {
+void AbstractOdometry::update_from_values(double vertical, double horizontal, double heading, double vertical_offset, double horizontal_offset) {
     // because in the first iteration, there is no previous value so we use the current value instead
     double delta_vertical = vertical - previous_vertical.value_or(vertical);
     double delta_horizontal = horizontal - previous_horizontal.value_or(horizontal);

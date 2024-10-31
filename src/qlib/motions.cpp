@@ -122,17 +122,47 @@ void Motions::swing_to_heading(double heading, SwingType swing_type, MovementPar
 }
 
 
-void Motions::move_to_point(double x, double y, LinearMovementParams params) {
+void Motions::move_to_pose(double x, double y, double heading, double dlead, LinearMovementParams params) {
+    move_to_pose(Pose(x, y, heading), dlead, params);
+}
+
+
+void Motions::move_to_pose(Pose target, double dlead, LinearMovementParams params) {
     if (!start_motion()) { return; }
     if (params.async) {
         params.async = false;
         pros::Task([&]() {
-            move_to_point(x, y, params);
+            move_to_pose(target, dlead, params);
         });
         pros::delay(DELAY_TIME);
         return;
     }
 
-    Pose target(x, y, 0_rad);
+    target.theta = std::fmod(2 * M_PI - target.theta, 2 * M_PI);
+
+    while (!linear_controller.check_exit_conditions(DELAY_TIME) &&
+           !angular_controller.check_exit_conditions(DELAY_TIME) && in_motion()) {
+        Pose current_pose = odometry.get_pose();
+        double distance_to_target = current_pose.distance_to(target);
+
+        Pose carrot_point(
+                target.x - distance_to_target * std::cos(target.theta),
+                target.y - distance_to_target * std::sin(target.theta)
+        );
+
+        double linear_error = current_pose.distance_to(carrot_point);
+        double angular_error = current_pose.angular_error(carrot_point);
+
+        double linear_voltage = linear_controller.compute(linear_error);
+        double angular_voltage = angular_controller.compute(angular_error);
+
+        drivetrain.arcade(linear_voltage, angular_voltage);
+
+        pros::delay(DELAY_TIME);
+    }
+
+    linear_controller.reset();
+    angular_controller.reset();
+    end_motion();
 }
 

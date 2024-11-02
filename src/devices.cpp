@@ -3,8 +3,8 @@
 
 pros::adi::Pneumatics clamp('A', false);
 
-pros::MotorGroup left_motors({-3, -4});
-pros::MotorGroup right_motors({1, 2});
+pros::MotorGroup left_motors({-3, -4, 6});
+pros::MotorGroup right_motors({1, 2, -3});
 
 pros::MotorGroup intake({-6, 7});
 

@@ -46,7 +46,6 @@ rd::Selector selector({});
  */
 void initialize() {
     odometry.initialize();
-    pros::Task([&]() { odometry.log_coordinates(); });
 }
 
 /**
@@ -115,7 +114,6 @@ void autonomous() {
         else {
             intake.brake();
         }
-
 
         drivetrain.arcade(left_y, right_x);
         pros::delay(DELAY_TIME);  // delay to save resources

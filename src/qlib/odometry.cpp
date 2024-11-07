@@ -66,6 +66,8 @@ void VerticalTrackerImuOdometry::initialize() {
     vertical_tracking_wheel.reset();
     imu.reset(true);
 
+    pros::Controller(pros::E_CONTROLLER_MASTER).rumble("...");
+
     // Start the odometry loop
     pros::Task([this] {
         while (true) {

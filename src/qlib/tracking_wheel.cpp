@@ -38,4 +38,5 @@ double MotorTrackingWheel::get_distance_traveled() const {
 
 void MotorTrackingWheel::reset() const {
     motor.tare_position();
+    motor.set_encoder_units(pros::MotorUnits::rotations);
 }

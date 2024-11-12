@@ -2,11 +2,12 @@
 
 
 pros::adi::Pneumatics clamp('A', false);
+pros::adi::Pneumatics hang('B', false);
 
-pros::MotorGroup left_motors({-3, -4, 6});
-pros::MotorGroup right_motors({1, 2, -3});
+pros::MotorGroup left_motors({-4, -5, -6});
+pros::MotorGroup right_motors({1, 2, 3});
 
-pros::MotorGroup intake({-6, 7});
+pros::MotorGroup intake({-7, 8});
 
 Drivetrain drivetrain (
         left_motors,

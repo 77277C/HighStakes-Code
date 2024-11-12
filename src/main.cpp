@@ -2,26 +2,18 @@
 
 
 PIDController linear_pid_controller (
-        10,   // kP
-        0,    // kI
-        5,    // kD
-        0,    // Integral Start
-        1,    // Small error range
-        500,  // Small error time,
-        3,    // Big error range
-        1000  // Big error time,
+        3,   // kP
+        0,   // kI
+        0,   // kD
+        0    // Integral Start
 );
 
 
 PIDController angular_pid_controller (
-        10,   // kP
-        0,    // kI
-        5,    // kD
-        0,    // Integral Start
-        1,    // Small error range
-        500,  // Small error time,
-        3,    // Big error range
-        1000  // Big error time
+        1,   // kP
+        0,   // kI
+        0,   // kD
+        0    // Integral Start
 );
 
 VerticalTrackerImuOdometry odometry(vertical_tracking_wheel, imu);
@@ -101,7 +93,11 @@ void autonomous() {
         int left_y = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         int right_x = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
-        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
+            hang.extend();
+        }
+
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
             clamp.toggle();
         }
 
@@ -115,8 +111,15 @@ void autonomous() {
             intake.brake();
         }
 
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+            motions.move_to_pose({0, 10, 0_deg}, MoveToPoseParams{
+                .async = false
+            });
+        }
+
+        Pose current_pose = odometry.get_pose();
         drivetrain.arcade(left_y, right_x);
-        pros::delay(DELAY_TIME);  // delay to save resources
+        pros::delay(100);  // delay to save resources
     }
 }
 

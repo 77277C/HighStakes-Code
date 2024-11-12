@@ -11,6 +11,7 @@
 #include "odometry.hpp"
 #include "params.hpp"
 #include "constants.h"
+#include "console.hpp"
 
 
 enum SwingType {LEFT, RIGHT};
@@ -28,10 +29,9 @@ public:
     bool in_motion() const;
     void end_motion();
 
-    void turn_to_heading(double heading, MovementParams params = {});
-    void swing_to_heading(double heading, SwingType swing_type, MovementParams params = {});
-    void move_to_pose(double x, double y, double heading, double dlead = 0.6, LinearMovementParams params = {});
-    void move_to_pose(Pose target, double dlead = 0.6, LinearMovementParams params = {});
+    void turn_to_heading(double heading, TurnParams params = {});
+    void swing_to_heading(double heading, SwingType swing_type, TurnParams params = {});
+    void move_to_pose(Pose target, MoveToPoseParams params = {});
 
 protected:
     bool is_in_motion;

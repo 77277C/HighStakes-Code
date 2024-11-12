@@ -4,20 +4,16 @@
 #include <cmath>
 #include "pose.hpp"
 #include "drivetrain.hpp"
+#include "console.hpp"
 
 
 class PIDController {
 public:
-    PIDController(double p, double i, double d, double start_i, double small_error, double small_error_time ,
-        double big_error, double big_error_time);
+    PIDController(double p, double i, double d, double start_i);
 
     double compute(double error);
     void reset();
-    void reset_timers();
     void set_constants(double p, double i, double d, double start_i = 0);
-    void set_exit_conditions(double small_error, double small_error_time,
-                             double big_error, double big_error_time);
-    bool check_exit_conditions(double refresh_rate);
 
 protected:
     double p;
@@ -28,14 +24,6 @@ protected:
     double error;
     double previous_error;
     double integral;
-
-    double small_error = 0;
-    double small_error_time = 0;
-    double big_error = 0;
-    double big_error_time = 0;
-
-    double inside_small_timer;
-    double inside_big_timer;
 };
 
 
@@ -48,6 +36,5 @@ public:
     double compute(double target);
     void reset();
 
-protected:
     double previous;
 };

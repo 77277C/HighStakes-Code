@@ -45,7 +45,7 @@ void Motions::end_motion() {
 }
 
 
-void Motions::turn_to_heading(double heading, MovementParams params) {
+void Motions::turn_to_heading(double heading, TurnParams params) {
     // If there is already a motion running, ignore this motion
     if (!start_motion()) { return; }
     if (params.async) {
@@ -62,9 +62,10 @@ void Motions::turn_to_heading(double heading, MovementParams params) {
         heading = std::fmod(heading + 180, 360);
     }
 
-    while (!angular_controller.check_exit_conditions(DELAY_TIME) && in_motion()) {
+    double error;
+    do {
         // Calculate the closest angle between our target angle and our current angle
-        double error = rad_to_deg(odometry.get_pose().theta - heading);
+        error = rad_to_deg(odometry.get_pose().theta - heading);
 
         // Update the angular controller
         double voltage = angular_controller.compute(error);
@@ -73,7 +74,7 @@ void Motions::turn_to_heading(double heading, MovementParams params) {
         drivetrain.tank(voltage, -voltage);
 
         pros::delay(DELAY_TIME);
-    }
+    } while (error > 5 && in_motion());
 
     // Reset PID controller and stop the drivetrain
     angular_controller.reset();
@@ -81,7 +82,7 @@ void Motions::turn_to_heading(double heading, MovementParams params) {
 }
 
 
-void Motions::swing_to_heading(double heading, SwingType swing_type, MovementParams params) {
+void Motions::swing_to_heading(double heading, SwingType swing_type, TurnParams params) {
     // If there is already a motion running, ignore this motion
     if (!start_motion()) { return; }
     if (params.async) {
@@ -98,9 +99,10 @@ void Motions::swing_to_heading(double heading, SwingType swing_type, MovementPar
         heading = std::fmod(heading + 180, 360);
     }
 
-    while (!angular_controller.check_exit_conditions(DELAY_TIME)  && in_motion()) {
+    double error;
+    do {
         // Calculate the closest angle between our target angle and our current angle
-        double error = rad_to_deg(odometry.get_pose().theta - heading);
+        error = rad_to_deg(odometry.get_pose().theta - heading);
 
         // Update the angular PID and slew controller with our new errors
         double voltage = angular_controller.compute(error);
@@ -114,7 +116,7 @@ void Motions::swing_to_heading(double heading, SwingType swing_type, MovementPar
         }
 
         pros::delay(DELAY_TIME);
-    }
+    } while (error > 5 && in_motion());
 
     // Reset PID controller and stop the drivetrain
     angular_controller.reset();
@@ -122,44 +124,41 @@ void Motions::swing_to_heading(double heading, SwingType swing_type, MovementPar
 }
 
 
-void Motions::move_to_pose(double x, double y, double heading, double dlead, LinearMovementParams params) {
-    move_to_pose(Pose(x, y, heading), dlead, params);
-}
-
-
-void Motions::move_to_pose(Pose target, double dlead, LinearMovementParams params) {
+void Motions::move_to_pose(Pose target, MoveToPoseParams params) {
     if (!start_motion()) { return; }
+
     if (params.async) {
         params.async = false;
         pros::Task([&]() {
-            move_to_pose(target, dlead, params);
+            move_to_pose(target, params);
         });
         pros::delay(DELAY_TIME);
         return;
     }
 
+
     target.theta = std::fmod(2 * M_PI - target.theta, 2 * M_PI);
 
-    while (!linear_controller.check_exit_conditions(DELAY_TIME) &&
-           !angular_controller.check_exit_conditions(DELAY_TIME) && in_motion()) {
+    double linear_error;
+    double angular_error;
+    do {
         Pose current_pose = odometry.get_pose();
         double distance_to_target = current_pose.distance_to(target);
 
         Pose carrot_point(
-                target.x - distance_to_target * std::cos(target.theta),
-                target.y - distance_to_target * std::sin(target.theta)
+                target.x - distance_to_target * std::cos(target.theta) * params.dlead,
+                target.y - distance_to_target * std::sin(target.theta) * params.dlead
         );
 
-        double linear_error = current_pose.distance_to(carrot_point);
-        double angular_error = current_pose.angular_error(carrot_point);
+        linear_error = current_pose.distance_to(carrot_point);
+        angular_error = current_pose.angle_to(carrot_point);
 
         double linear_voltage = linear_controller.compute(linear_error);
         double angular_voltage = angular_controller.compute(angular_error);
-
         drivetrain.arcade(linear_voltage, angular_voltage);
 
         pros::delay(DELAY_TIME);
-    }
+    } while ((linear_error > 0.5 || angular_error > 5) && in_motion());
 
     linear_controller.reset();
     angular_controller.reset();

@@ -1,16 +1,11 @@
 #include "qlib/controller.hpp"
 
-
 // Constructor initializes pid gains and exit conditions
-PIDController::PIDController(double p, double i, double d, double start_i, double small_error, double small_error_time, double big_error, double big_error_time)
+PIDController::PIDController(double p, double i, double d, double start_i)
         : p(p),
           i(i),
           d(d),
-          start_i(start_i),
-          small_error(small_error),
-          small_error_time(small_error_time),
-          big_error(big_error),
-          big_error_time(big_error_time) {}
+          start_i(start_i){}
 
 // Compute the control output based on the error
 double PIDController::compute(double error) {
@@ -35,14 +30,8 @@ double PIDController::compute(double error) {
 void PIDController::reset() {
     previous_error = 0;
     integral = 0;
-    reset_timers();
 }
 
-// Reset internal timers used for exit conditions
-void PIDController::reset_timers() {
-    inside_small_timer = 0;
-    inside_big_timer = 0;
-}
 
 // Set new PID gains for the PIDController controller
 void PIDController::set_constants(double p, double i, double d, double start_i) {
@@ -50,46 +39,6 @@ void PIDController::set_constants(double p, double i, double d, double start_i) 
     this->i = i;
     this->d = d;
     this->start_i = start_i;
-}
-
-// Set new exit conditions for the PIDController controller
-void PIDController::set_exit_conditions(double small_error, double small_error_time, double big_error, double big_error_time) {
-    this->small_error = small_error;
-    this->small_error_time = small_error_time;
-    this->big_error = big_error;
-    this->big_error_time = big_error_time;
-}
-
-
-// Check if exit conditions are met based on error and timers
-bool PIDController::check_exit_conditions(double refresh_rate) {
-    if (small_error != 0) {
-        if (std::abs(error) <= small_error) {
-            inside_small_timer += refresh_rate;
-
-            // Ignore big error timer when inside small error, small error timer takes priority
-            inside_big_timer = 0;
-
-            if (inside_small_timer >= small_error_time) {
-                reset_timers();
-                return true; // Exit condition met
-            }
-        }
-        else {
-            inside_small_timer = 0;
-        }
-    }
-    if (big_error != 0) {
-        if (std::abs(error) <= big_error) {
-            inside_big_timer += refresh_rate;
-
-            if (inside_big_timer >= big_error_time) {
-                reset_timers();
-                return true; // Exit condition met
-            }
-        }
-    }
-    return false; // Exit condition not met
 }
 
 

@@ -54,6 +54,7 @@
 #include "qlib/tracking_wheel.hpp"
 #include "devices.hpp"
 #include "console.hpp"
+#include "autons.hpp"
 
 
 /**
@@ -71,6 +72,8 @@
 /**
  * Add any variables that should be visible to other files here.
  */
+
+extern lemlib::Chassis chassis;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure

@@ -64,7 +64,7 @@ lemlib::ExpoDriveCurve steer_curve(3, // joystick deadband out of 127
 lemlib::Chassis chassis(drivetrain, lateral_controller, angular_controller, sensors, &throttle_curve, &steer_curve);
 
 
-rd::Selector selector({});
+rd::Selector selector(autons);
 
 
 /**

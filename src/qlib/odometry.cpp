@@ -61,7 +61,10 @@ VerticalTrackerImuOdometry::VerticalTrackerImuOdometry(const TrackingWheel &vert
         : vertical_tracking_wheel(vertical_tracking_wheel), imu(imu) {}
 
 
-void VerticalTrackerImuOdometry::initialize() {
+pros::Task* odomTask = nullptr;
+
+
+void VerticalTrackerImuOdometry::initialize(lemlib::Chassis& chassis) {
     // Reset the sensors
     vertical_tracking_wheel.reset();
     imu.reset(true);
@@ -69,9 +72,11 @@ void VerticalTrackerImuOdometry::initialize() {
     pros::Controller(pros::E_CONTROLLER_MASTER).rumble("...");
 
     // Start the odometry loop
-    pros::Task([this] {
+    odomTask = new pros::Task([this, &chassis] {
         while (true) {
             update();
+            Pose pose = this->get_pose();
+            chassis.setPose(pose.x, pose.y, pose.theta, true);
             pros::delay(DELAY_TIME);
         }
     });

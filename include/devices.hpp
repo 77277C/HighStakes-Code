@@ -11,7 +11,6 @@ extern pros::adi::Pneumatics hang;
 extern pros::MotorGroup left_motors;
 extern pros::MotorGroup right_motors;
 extern pros::MotorGroup intake;
-extern Drivetrain drivetrain;
 extern pros::Imu imu;
 extern MotorTrackingWheel vertical_tracking_wheel;
 

@@ -43,6 +43,7 @@
 //#include "pros/api_legacy.h"
 
 #include "robodash/api.h"
+#include "lemlib/api.hpp"
 
 #include "qlib/controller.hpp"
 #include "qlib/pose.hpp"

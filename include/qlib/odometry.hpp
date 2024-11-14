@@ -9,6 +9,7 @@
 #include <cmath>
 #include <memory>
 #include <optional>
+#include "lemlib/api.hpp"
 
 
 class AbstractOdometry {
@@ -43,7 +44,7 @@ public:
     /**
      * Initialize the odometry
      */
-    virtual void initialize() = 0;
+    virtual void initialize(lemlib::Chassis& chassis) = 0;
     /**
      * Update the odometry
      */
@@ -70,7 +71,7 @@ public:
     /**
      * Initialize the odometry
      */
-    void initialize() override;
+    void initialize(lemlib::Chassis& chassis) override;
     /**
      * Update the odometry
      */

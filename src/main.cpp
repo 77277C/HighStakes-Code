@@ -1,30 +1,67 @@
 #include "main.h"
 
 
-PIDController linear_pid_controller (
-        3,   // kP
-        0,   // kI
-        0,   // kD
-        0    // Integral Start
-);
-
-
-PIDController angular_pid_controller (
-        1,   // kP
-        0,   // kI
-        0,   // kD
-        0    // Integral Start
-);
-
 VerticalTrackerImuOdometry odometry(vertical_tracking_wheel, imu);
 
 
-Motions motions(
-        drivetrain,
-        linear_pid_controller,
-        angular_pid_controller,
-        odometry
+lemlib::Drivetrain drivetrain(
+        &left_motors,
+        &right_motors,
+        12.5,
+        lemlib::Omniwheel::NEW_275,
+        450,
+        2
 );
+
+
+// All sensors all nullptr because we will use our custom odometry
+lemlib::OdomSensors sensors(
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+);
+
+
+lemlib::ControllerSettings lateral_controller(
+        10, // proportional gain (kP)
+        0, // integral gain (kI)
+        3, // derivative gain (kD)
+        3, // anti windup
+        1, // small error range, in inches
+        100, // small error range timeout, in milliseconds
+        3, // large error range, in inches
+        500, // large error range timeout, in milliseconds
+        20 // maximum acceleration (slew)
+);
+
+
+lemlib::ControllerSettings angular_controller(
+        2, // proportional gain (kP)
+        0, // integral gain (kI)
+        10, // derivative gain (kD)
+        3, // anti windup
+        1, // small error range, in degrees
+        100, // small error range timeout, in milliseconds
+        3, // large error range, in degrees
+        500, // large error range timeout, in milliseconds
+        0 // maximum acceleration (slew)
+);
+
+
+lemlib::ExpoDriveCurve throttle_curve(3, // joystick deadband out of 127
+                                      10, // minimum output where drivetrain will move out of 127
+                                      1.019 // expo curve gain
+);
+
+
+lemlib::ExpoDriveCurve steer_curve(3, // joystick deadband out of 127
+                                   10, // minimum output where drivetrain will move out of 127
+                                   1.019 // expo curve gain
+);
+
+lemlib::Chassis chassis(drivetrain, lateral_controller, angular_controller, sensors, &throttle_curve, &steer_curve);
 
 
 rd::Selector selector({});
@@ -37,7 +74,7 @@ rd::Selector selector({});
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-    odometry.initialize();
+    odometry.initialize(chassis);
 }
 
 /**
@@ -90,9 +127,6 @@ void autonomous() {
     pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
     while (true) {
-        int left_y = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-        int right_x = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
-
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
             hang.extend();
         }
@@ -104,22 +138,18 @@ void autonomous() {
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
             intake.move(127);
         }
-        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
             intake.move(-127);
         }
         else {
             intake.brake();
         }
 
-        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
-            motions.move_to_pose({0, 10, 0_deg}, MoveToPoseParams{
-                .async = false
-            });
-        }
+        int left_y = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+        int right_x = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+        chassis.arcade(left_y, right_x, 0.75);
 
-        Pose current_pose = odometry.get_pose();
-        drivetrain.arcade(left_y, right_x);
-        pros::delay(100);  // delay to save resources
+        pros::delay(DELAY_TIME);  // delay to save resources
     }
 }
 

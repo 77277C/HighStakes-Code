@@ -4,16 +4,10 @@
 pros::adi::Pneumatics clamp('A', false);
 pros::adi::Pneumatics hang('B', false);
 
-pros::MotorGroup left_motors({-4, -5, -6});
-pros::MotorGroup right_motors({1, 2, 3});
+pros::MotorGroup left_motors({-4, -5, -6}, pros::MotorGears::blue);
+pros::MotorGroup right_motors({1, 2, 3}, pros::MotorGears::blue);
 
 pros::MotorGroup intake({-7, 8});
-
-Drivetrain drivetrain (
-        left_motors,
-        right_motors
-);
-
 
 MotorTrackingWheel vertical_tracking_wheel (
         left_motors,              // motors
@@ -21,6 +15,7 @@ MotorTrackingWheel vertical_tracking_wheel (
         -6,                        // offset
         2.50                      // wheel diameter
 );
+
 
 pros::Imu imu(9);
 

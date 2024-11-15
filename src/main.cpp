@@ -147,7 +147,7 @@ void autonomous() {
 
         int left_y = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         int right_x = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
-        chassis.arcade(left_y, right_x, 0.75);
+        chassis.arcade(left_y, right_x, false, 0.6);
 
         pros::delay(DELAY_TIME);  // delay to save resources
     }

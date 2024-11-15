@@ -20,7 +20,7 @@ void auton1() {
     chassis.turnToHeading(90, 2000);
 
     // Swing turn
-    chassis.swingToHeading(90, 2000);
+    chassis.swingToHeading(90, lemlib::DriveSide::LEFT, 2000);
 
     // Run intake at max speed for 3 seconds
     intake.move(127);

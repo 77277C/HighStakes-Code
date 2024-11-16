@@ -17,8 +17,10 @@ void auton1() {
     chassis.waitUntilDone();
     
     chassis.moveToPoint(-23.5, 41, 5000);
-    chassis.waitUntil(5);
+    chassis.waitUntil(2);
     chassis.cancelMotion();
+
+    pros::delay(500);
 
     chassis.moveToPoint(-23.5, 41, 5000, {.maxSpeed = 50});
     intake.move(127);
@@ -41,7 +43,7 @@ void auton1() {
     pros::delay(1000);
 
 
-    chassis.moveToPose(-23, 0, 135, 5000, {.lead = 0.8, .maxSpeed = 50});
+    chassis.moveToPose(-23, 0, 135, 5000, {.lead = 0.8, .maxSpeed = 60});
     chassis.waitUntilDone();
 
     intake.brake();

@@ -77,7 +77,8 @@ void VerticalTrackerImuOdometry::initialize(lemlib::Chassis& chassis) {
             update();
             Pose pose = this->get_pose();
             chassis.setPose(pose.x, pose.y, pose.theta, true);
-            pros::delay(DELAY_TIME);
+            lemlib::Pose p = chassis.getPose();
+            pros::delay(1000);
         }
     });
 }

@@ -74,6 +74,7 @@
  */
 
 extern lemlib::Chassis chassis;
+extern VerticalTrackerImuOdometry odometry;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure

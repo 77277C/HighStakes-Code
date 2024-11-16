@@ -2,41 +2,55 @@
 
 
 void auton1() {
-    // lemlib docs: lemlib.readthedocs.io
-    // See path.jerryio.com to see coordinates
-
-    // Set where the robot starts from
-    chassis.setPose(-34, -28, 80);
-
-    // This will turn to the point and move in a straight line to it
-    chassis.moveToPoint(0, 10, 4000);
-
-    // This will take a curved path and end at the specified heading
-    // Higher dlead means curvier
-    // https://www.desmos.com/calculator/sptjw5szex see for path
-    chassis.moveToPose(0, 10, 90, 4000);
-
-    // Turn in place
-    chassis.turnToHeading(90, 2000);
-
-    // Swing turn
-    chassis.swingToHeading(90, lemlib::DriveSide::LEFT, 2000);
-
-    // Run intake at max speed for 3 seconds
-    intake.move(127);
-    pros::delay(3000);
-    intake.brake();
-
-    // clamp extend
+    chassis.setPose(-55, 43.5, 270);
+    chassis.moveToPose(-23.5, 25, 310, 5000, {.forwards = false, .lead = 0.5});
+    chassis.waitUntil(15);
+    chassis.cancelMotion();
+    chassis.moveToPose(-24, 24.5, 310, 5000, {.forwards = false, .maxSpeed=30});    
+    chassis.waitUntil(15);
     clamp.extend();
+    chassis.waitUntilDone();
 
-    // retract clamp
-    clamp.retract();
+    chassis.setPose(-23.5, 23.5, chassis.getPose().theta + 5);
+
+    chassis.turnToPoint(-23.5, 41, 5000, {.minSpeed = 127});
+    chassis.waitUntilDone();
+    
+    chassis.moveToPoint(-23.5, 41, 5000);
+    chassis.waitUntil(5);
+    chassis.cancelMotion();
+
+    chassis.moveToPoint(-23.5, 41, 5000, {.maxSpeed = 50});
+    intake.move(127);
+    chassis.waitUntilDone();
+    
+    chassis.moveToPoint(-22.5, 36.5, 5000, {.forwards = false, .maxSpeed = 50});
+    chassis.waitUntilDone();
+
+    chassis.moveToPoint(-11.5, 39, 5000, {.maxSpeed = 50});
+    chassis.waitUntilDone();
+
+    pros::delay(1000);
+
+    chassis.moveToPoint(-23, 46, 5000, {.forwards = false, .maxSpeed = 50});
+    chassis.waitUntilDone();
+
+    chassis.moveToPoint(-11.25, 47, 5000, {.maxSpeed = 40});
+    chassis.waitUntilDone();
+
+    pros::delay(1000);
+
+
+    chassis.moveToPose(-23, 0, 135, 5000, {.lead = 0.8, .maxSpeed = 50});
+    chassis.waitUntilDone();
+
+    intake.brake();
+    
 }
 
 
 void auton2() {
-
+    
 }
 
 

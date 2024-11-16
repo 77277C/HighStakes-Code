@@ -20,27 +20,27 @@ lemlib::OdomSensors sensors(
         nullptr,
         nullptr,
         nullptr,
-        nullptr
+        &imu
 );
 
 
 lemlib::ControllerSettings lateral_controller(
-        10, // proportional gain (kP)
+        60, // proportional gain (kP)
         0, // integral gain (kI)
-        3, // derivative gain (kD)
+        30, // derivative gain (kD)
         3, // anti windup
         1, // small error range, in inches
         100, // small error range timeout, in milliseconds
         3, // large error range, in inches
         500, // large error range timeout, in milliseconds
-        20 // maximum acceleration (slew)
+        40 // maximum acceleration (slew)
 );
 
 
 lemlib::ControllerSettings angular_controller(
-        2, // proportional gain (kP)
+        6, // proportional gain (kP)
         0, // integral gain (kI)
-        10, // derivative gain (kD)
+        46, // derivative gain (kD)
         3, // anti windup
         1, // small error range, in degrees
         100, // small error range timeout, in milliseconds
@@ -74,7 +74,7 @@ rd::Selector selector(autons);
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-    odometry.initialize(chassis);
+    chassis.calibrate();
 }
 
 /**
@@ -126,9 +126,15 @@ void autonomous() {
 [[ noreturn ]] void opcontrol() {
     pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
+    int maxVoltage = 127;
+
     while (true) {
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
             hang.extend();
+        }
+
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+            selector.run_auton();
         }
 
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
@@ -147,6 +153,11 @@ void autonomous() {
 
         int left_y = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         int right_x = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+
+        if (left_y > maxVoltage) {
+            left_y = maxVoltage;
+        }
+
         chassis.arcade(left_y, right_x, false, 0.6);
 
         pros::delay(DELAY_TIME);  // delay to save resources

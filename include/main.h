@@ -55,6 +55,7 @@
 #include "devices.hpp"
 #include "console.hpp"
 #include "autons.hpp"
+#include "drivecurve.hpp"
 
 
 /**

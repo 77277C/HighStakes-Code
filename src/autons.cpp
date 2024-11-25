@@ -1,21 +1,10 @@
 #include "autons.hpp"
 
 
-void auton1() {
-    chassis.setPose(-55, 43.5, 270);
-    chassis.moveToPose(-23.5, 25, 310, 5000, {.forwards = false, .lead = 0.5});
-    chassis.waitUntil(15);
-    chassis.cancelMotion();
-    chassis.moveToPose(-24, 24.5, 310, 5000, {.forwards = false, .maxSpeed=30});    
-    chassis.waitUntil(15);
-    clamp.extend();
-    chassis.waitUntilDone();
-
-    chassis.setPose(-23.5, 23.5, chassis.getPose().theta + 5);
-
+void red_left_after_mogo() {
     chassis.turnToPoint(-23.5, 41, 5000, {.minSpeed = 127});
     chassis.waitUntilDone();
-    
+
     chassis.moveToPoint(-23.5, 41, 5000);
     chassis.waitUntil(2);
     chassis.cancelMotion();
@@ -25,7 +14,7 @@ void auton1() {
     chassis.moveToPoint(-23.5, 41, 5000, {.maxSpeed = 50});
     intake.move(127);
     chassis.waitUntilDone();
-    
+
     chassis.moveToPoint(-22.5, 36.5, 5000, {.forwards = false, .maxSpeed = 50});
     chassis.waitUntilDone();
 
@@ -47,25 +36,35 @@ void auton1() {
     chassis.waitUntilDone();
 
     intake.brake();
-    
 }
 
 
-void auton2() {
-    chassis.setPose(55, 43.5, 90);
-    chassis.moveToPose(23.5, 25, 50, 5000, {.forwards = false, .lead = 0.5});
+void red_left() {
+    chassis.setPose(-55, 43.5, 270);
+    chassis.moveToPose(-23.5, 25, 310, 5000, {.forwards = false, .lead = 0.5});
     chassis.waitUntil(15);
     chassis.cancelMotion();
-    chassis.moveToPose(24, 24.5, 50, 5000, {.forwards = false, .maxSpeed=30});    
+    chassis.moveToPose(-24, 24.5, 310, 5000, {.forwards = false, .maxSpeed=30});    
     chassis.waitUntil(15);
     clamp.extend();
     chassis.waitUntilDone();
 
-    chassis.setPose(23.5, 23.5, chassis.getPose().theta + 5);
+    chassis.setPose(-23.5, 23.5, chassis.getPose().theta + 5);
 
+    red_left_after_mogo();
+}
+
+
+void solo_awp_red_left() {
+    // Do code for the solo awp and grabbing the first mogo
+    red_left_after_mogo();
+}
+
+
+void blue_right_after_mogo() {
     chassis.turnToPoint(23.5, 41, 5000, {.minSpeed = 127});
     chassis.waitUntilDone();
-    
+
     chassis.moveToPoint(23.5, 41, 5000);
     chassis.waitUntil(2);
     chassis.cancelMotion();
@@ -75,7 +74,7 @@ void auton2() {
     chassis.moveToPoint(23.5, 41, 5000, {.maxSpeed = 50});
     intake.move(127);
     chassis.waitUntilDone();
-    
+
     chassis.moveToPoint(22.5, 36.5, 5000, {.forwards = false, .maxSpeed = 50});
     chassis.waitUntilDone();
 
@@ -98,7 +97,31 @@ void auton2() {
 
     intake.brake();
 }
-void auton3(){
+
+
+void blue_right() {
+    chassis.setPose(55, 43.5, 90);
+    chassis.moveToPose(23.5, 25, 50, 5000, {.forwards = false, .lead = 0.5});
+    chassis.waitUntil(15);
+    chassis.cancelMotion();
+    chassis.moveToPose(24, 24.5, 50, 5000, {.forwards = false, .maxSpeed=30});    
+    chassis.waitUntil(15);
+    clamp.extend();
+    chassis.waitUntilDone();
+
+    chassis.setPose(23.5, 23.5, chassis.getPose().theta + 5);
+
+    blue_right_after_mogo();
+}
+
+
+void solo_awp_blue_right() {
+    // Do code for solo AWP  and grabbing the first mogo
+    blue_right_after_mogo();
+}
+
+
+void red_right(){
     chassis.setPose(-58.5, -35, 270);
     chassis.moveToPose(-35, -30,225, 3000, {.forwards = false, .lead = 0.6} );
     chassis.waitUntilDone();
@@ -122,7 +145,12 @@ void auton3(){
     chassis.moveToPoint(-23.5, -8, 4000, {.maxSpeed = 40});
     chassis.waitUntilDone();
 }
-void auton4(){
+
+
+void solo_awp_red_right() {}
+
+
+void blue_left(){
     chassis.setPose(58.5, -35, 90);
     chassis.moveToPose(35, -30,135, 3000, {.forwards = false, .lead = 0.6} );
     chassis.waitUntilDone();
@@ -148,12 +176,11 @@ void auton4(){
     chassis.waitUntilDone();
 }
 
-void auton5(){
-    chassis.setPose(0, 0, 0);
-    chassis.turnToHeading(90, 1000);
-    chassis.waitUntilDone();
-}
-void auton6(){
+
+void solo_awp_blue_left() {}
+
+
+void skills(){
     chassis.setPose(-58.5, -35, 270);
     chassis.moveToPose(-35, -30,225, 3000, {.forwards = false, .lead = 0.6} );
     chassis.waitUntilDone();
@@ -212,10 +239,13 @@ void auton6(){
 
 
 std::vector<rd::Selector::routine_t> autons = {
-    {"4 ring Red", auton1},
-    {"4 ring Blue", auton2},
-    {"2 ring Red", auton3},
-    {"2 ring Blue", auton4},
-    {"angular tune", auton5},
-    {"SKILLS", auton6},
+    {"Red left", red_left},
+    {"Solo AWP Red left", solo_awp_red_left},
+    {"Blue right", blue_right},
+    {"Solo AWP Blue right", solo_awp_blue_right},
+    {"Red right", red_right},
+    {"Solo AWP Red right", solo_awp_red_right},
+    {"Blue left", blue_left},
+    {"Solo AWP Blue left", solo_awp_blue_left},
+    {"Skills", skills},
 };

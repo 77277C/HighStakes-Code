@@ -130,22 +130,26 @@ void autonomous() {
     int maxVoltage = 127;
 
     while (true) {
-        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
-            hang.extend();
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+            doinker.extend();
+        }
+        else
+        {
+            doinker.retract();
         }
 
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
             selector.run_auton();
         }
 
-        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
             clamp.toggle();
         }
 
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
             intake.move(127);
         }
-        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
             intake.move(-127);
         }
         else {

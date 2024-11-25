@@ -1,6 +1,5 @@
 #include <memory>
 #include <vector>
-#include "squiggles.hpp"
 #include "pros/motors.hpp"
 #include "pros/imu.hpp"
 #include "robodash/api.h"

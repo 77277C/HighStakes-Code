@@ -18,3 +18,4 @@ temp.errors
 
 .idea/
 venv/
+cmake-build-debug/

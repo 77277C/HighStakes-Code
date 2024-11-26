@@ -44,18 +44,18 @@
 
 #include "robodash/api.h"
 #include "lemlib/api.hpp"
+#include "command/includes.h"
 
-#include "qlib/controller.hpp"
-#include "qlib/pose.hpp"
-#include "qlib/drivetrain.hpp"
-#include "qlib/motions.hpp"
-#include "qlib/odometry.hpp"
-#include "qlib/params.hpp"
-#include "qlib/tracking_wheel.hpp"
-#include "devices.hpp"
 #include "console.hpp"
 #include "autons.hpp"
 #include "drivecurve.hpp"
+#include "devices.hpp"
+
+#include "subsystems/intake.hpp"
+#include "subsystems/clamp.hpp"
+#include "subsystems/doinker.hpp"
+
+#define DELAY_TIME 20
 
 
 /**
@@ -75,7 +75,9 @@
  */
 
 extern lemlib::Chassis chassis;
-extern VerticalTrackerImuOdometry odometry;
+extern Intake* intake;
+extern Clamp* clamp;
+extern Doinker* doinker;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure

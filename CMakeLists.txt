@@ -20,6 +20,7 @@ set(CMAKE_CXX_COMPILER "${USER_HOME_DIR}/AppData/Roaming/Code/User/globalStorage
 include_directories(
         ${CMAKE_SOURCE_DIR}
         "${CMAKE_SOURCE_DIR}/include"
+        "${CMAKE_SOURCE_DIR}/include/subsystems"
 )
 
 # Define preprocessor macros
@@ -37,7 +38,11 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.c")
 
 # Define the executable target
-add_executable(PROS_Project ${SOURCES})
+add_executable(PROS_Project ${SOURCES}
+        include/subsystems/intake.hpp
+        include/subsystems/clamp.hpp
+        include/subsystems/doinker.hpp
+)
 
 # Optionally, link to external libraries if necessary
 # target_link_libraries(PROS_Project <external_libraries>)

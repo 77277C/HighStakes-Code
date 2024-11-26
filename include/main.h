@@ -55,7 +55,7 @@
 #include "subsystems/clamp.hpp"
 #include "subsystems/doinker.hpp"
 
-#define DELAY_TIME 20
+#define DELAY_TIME 10
 
 
 /**

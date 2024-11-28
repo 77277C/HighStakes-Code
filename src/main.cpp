@@ -88,7 +88,7 @@ Doinker* doinker;
         CommandScheduler::run();
 
         // Use delay until if this computation ends up being expensive, keeping loop time in check
-        pros::c::task_delay_until(&start_time, 10);
+        pros::c::task_delay_until(&start_time, DELAY_TIME);
     }
 }
 

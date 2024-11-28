@@ -30,7 +30,7 @@ public:
     /**
      * @brief Simple command to move the intake
      *
-     * @param pct Percentage Desired for this command
+     * @param percentage Percentage Desired for this command
      * @return Command pointer to a RunCommand that moves the intake
      */
     RunCommand* move_percentage_command(const int percentage) {

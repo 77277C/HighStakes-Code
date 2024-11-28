@@ -164,6 +164,44 @@ void blue_left(){
     intake->move_percentage(100);
     chassis.waitUntilDone();
 
+    chassis.moveToPoint(15, -47,3000, {.maxSpeed = 40});
+    chassis.waitUntilDone();
+    doinker->set_state(true);
+
+    chassis.moveToPoint(20, -47,3000, {.maxSpeed = 40, .forwards = false});
+    chassis.waitUntilDone();
+
+    chassis.moveToPoint(23.5, -15, 4000, {.maxSpeed = 60});
+    chassis.waitUntilDone();
+    pros::delay(2000);
+
+    intake->move_percentage(0);
+
+    chassis.moveToPoint(23.5, -9, 2500, {.maxSpeed = 40});
+    chassis.waitUntilDone();
+}
+void blue_Left_Alliance()
+{
+    chassis.setPose(58.5, -11.5, 45);
+    // score on alliance stake
+    pros::delay(1000);
+
+    chassis.moveToPose(27.3, -21.35, 55, 3000, {.forwards = false, .lead = 0.2, .maxSpeed = 70} );
+    chassis.waitUntilDone();
+    clamp->set_state(true);
+
+    chassis.moveToPoint(25.5, -38.5,3000, {.maxSpeed = 40});
+    chassis.waitUntil(8.5);
+    intake->move_percentage(100);
+    chassis.waitUntilDone();
+
+    chassis.moveToPoint(15, -47,3000, {.maxSpeed = 40});
+    chassis.waitUntilDone();
+    doinker->set_state(true);
+
+    chassis.moveToPoint(20, -47,3000, {.maxSpeed = 40, .forwards = false});
+    chassis.waitUntilDone();
+
     chassis.moveToPoint(23.5, -15, 4000, {.maxSpeed = 60});
     chassis.waitUntilDone();
     pros::delay(2000);

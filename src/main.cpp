@@ -109,15 +109,15 @@ void initialize() {
     intake = new Intake(intake_motor);
     CommandScheduler::registerSubsystem(intake, intake->move_percentage_command(0));
     controller.getTrigger(pros::E_CONTROLLER_DIGITAL_R1)->whileTrue(intake->move_percentage_command(100));
-    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_L1)->whileTrue(intake->move_percentage_command(100));
+    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_R2)->whileTrue(intake->move_percentage_command(-100));
 
     clamp = new Clamp(clamp_piston);
     CommandScheduler::registerSubsystem(clamp, clamp->set_state_command(false));
-    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_L2)->onChange(clamp->toggle_command());
+    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_L2)->toggleOnTrue(clamp->set_state_command(true));
 
     doinker = new Doinker(doinker_piston);
     CommandScheduler::registerSubsystem(doinker, doinker->set_state_command(false));
-    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_L1)->whileTrue(doinker->set_state_command(true));
+    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_L1)->toggleOnTrue(doinker->set_state_command(true));
 
 }
 

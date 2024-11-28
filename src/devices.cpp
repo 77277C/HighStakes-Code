@@ -1,21 +1,13 @@
 #include "devices.hpp"
 
 
-pros::adi::Pneumatics clamp('A', false);
-pros::adi::Pneumatics doinker('B', false);
+pros::adi::Pneumatics clamp_piston('A', false);
+pros::adi::Pneumatics doinker_piston('B', false);
 
 pros::MotorGroup left_motors({-5, -4, -6}, pros::MotorGears::blue);
 pros::MotorGroup right_motors({1, 2, 3}, pros::MotorGears::blue);
 
-pros::MotorGroup intake({-7, 8});
-
-MotorTrackingWheel vertical_tracking_wheel (
-        left_motors,              // motors
-        450,                      // rpm
-        -6,                        // offset
-        2.50                      // wheel diameter
-);
+pros::MotorGroup intake_motor({-7, 8});
 
 
 pros::Imu imu(9);
-

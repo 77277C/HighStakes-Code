@@ -1,9 +1,6 @@
 #include "main.h"
 
 
-VerticalTrackerImuOdometry odometry(vertical_tracking_wheel, imu);
-
-
 lemlib::Drivetrain drivetrain(
         &left_motors,
         &right_motors,
@@ -68,6 +65,34 @@ lemlib::Chassis chassis(drivetrain, lateral_controller, angular_controller, sens
 rd::Selector selector(autons);
 
 
+CommandController controller(pros::E_CONTROLLER_MASTER);
+
+Intake* intake;
+Clamp* clamp;
+Doinker* doinker;
+
+
+/**
+ * @brief This function runs the update scheduler at each frame with a consistent schedule
+ *
+ * @warning This function or alternative similar to it must be running to ensure the \refitem CommandScheduler is run
+ */
+[[noreturn]] void update_loop() {
+    // Loop forever
+    while (true) {
+        // Store the start time
+        auto start_time = pros::millis();
+
+        // Run the command scheduler
+        // This might be an expensive(Time wise) computation
+        CommandScheduler::run();
+
+        // Use delay until if this computation ends up being expensive, keeping loop time in check
+        pros::c::task_delay_until(&start_time, DELAY_TIME);
+    }
+}
+
+
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -75,7 +100,25 @@ rd::Selector selector(autons);
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
+    // Calibrate the inertial sensor
     chassis.calibrate();
+
+    // Start the command scheduler task
+    pros::Task command_scheduler_task(update_loop);
+
+    intake = new Intake(intake_motor);
+    CommandScheduler::registerSubsystem(intake, intake->move_percentage_command(0));
+    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_R1)->whileTrue(intake->move_percentage_command(100));
+    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_R2)->whileTrue(intake->move_percentage_command(-100));
+
+    clamp = new Clamp(clamp_piston);
+    CommandScheduler::registerSubsystem(clamp, clamp->set_state_command(false));
+    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_L2)->toggleOnTrue(clamp->set_state_command(true));
+
+    doinker = new Doinker(doinker_piston);
+    CommandScheduler::registerSubsystem(doinker, doinker->set_state_command(false));
+    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_L1)->toggleOnTrue(doinker->set_state_command(true));
+
 }
 
 /**
@@ -125,44 +168,9 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 [[ noreturn ]] void opcontrol() {
-    pros::Controller controller(pros::E_CONTROLLER_MASTER);
-
-    int maxVoltage = 127;
-
     while (true) {
-        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-            doinker.extend();
-        }
-        else
-        {
-            doinker.retract();
-        }
-
-        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-            selector.run_auton();
-        }
-
-        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
-            clamp.toggle();
-        }
-
-        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-            intake.move(127);
-        }
-        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-            intake.move(-127);
-        }
-        else {
-            intake.brake();
-        }
-
         int left_y = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         int right_x = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
-
-        if (left_y > maxVoltage) {
-            left_y = maxVoltage;
-        }
-
         chassis.arcade(left_y, right_x, false, 0.6);
 
         pros::delay(DELAY_TIME);  // delay to save resources

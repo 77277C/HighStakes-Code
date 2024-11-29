@@ -159,6 +159,7 @@ void blue_left(){
     chassis.waitUntil(15);
     //clamp->set_state(true);
     clamp_piston.extend();
+    pros::delay(50);
     chassis.waitUntilDone();
 
     chassis.moveToPoint(25.5, -38.5,3000, {.maxSpeed = 40});

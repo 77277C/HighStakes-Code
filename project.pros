@@ -121,7 +121,7 @@
                 "version": "4.1.0"
             },
             "libcommand": {
-                "location": "C:\\Users\\chawk\\AppData\\Roaming\\PROS\\templates\\libcommand@0.1.8",
+                "location": "C:\\Users\\arnav\\AppData\\Roaming\\PROS\\templates\\libcommand@0.1.8",
                 "metadata": {
                     "origin": "local"
                 },
@@ -331,7 +331,7 @@
                 "version": "8.3.8"
             },
             "libunit": {
-                "location": "C:\\Users\\chawk\\AppData\\Roaming\\PROS\\templates\\libunit@1.1.0",
+                "location": "C:\\Users\\arnav\\AppData\\Roaming\\PROS\\templates\\libunit@1.1.0",
                 "metadata": {
                     "origin": "local"
                 },

@@ -150,32 +150,37 @@ void solo_awp_red_right() {}
 
 
 void blue_left(){
+    console.print((intake ==nullptr)?"yes":"no");
     chassis.setPose(58.5, -35, 90);
     chassis.moveToPose(35, -30,135, 3000, {.forwards = false, .lead = 0.6} );
     chassis.waitUntilDone();
 
     chassis.moveToPoint(23, -21, 3000, {.forwards = false, .maxSpeed = 30});
     chassis.waitUntil(15);
-    clamp->set_state(true);
+    //clamp->set_state(true);
+    clamp_piston.extend();
     chassis.waitUntilDone();
 
     chassis.moveToPoint(25.5, -38.5,3000, {.maxSpeed = 40});
     chassis.waitUntil(8.5);
-    intake->move_percentage(100);
+    //intake->move_percentage(100);
+    intake_motor.move(127);
     chassis.waitUntilDone();
 
     chassis.moveToPoint(15, -47,3000, {.maxSpeed = 40});
     chassis.waitUntilDone();
     doinker->set_state(true);
 
-    chassis.moveToPoint(20, -47,3000, {.maxSpeed = 40, .forwards = false});
+    chassis.moveToPoint(20, -47,3000, { .forwards = false, .maxSpeed = 40});
     chassis.waitUntilDone();
 
     chassis.moveToPoint(23.5, -15, 4000, {.maxSpeed = 60});
     chassis.waitUntilDone();
     pros::delay(2000);
 
-    intake->move_percentage(0);
+    //intake->move_percentage(0);
+
+    intake_motor.move(0);
 
     chassis.moveToPoint(23.5, -9, 2500, {.maxSpeed = 40});
     chassis.waitUntilDone();
@@ -199,7 +204,7 @@ void blue_Left_Alliance()
     chassis.waitUntilDone();
     doinker->set_state(true);
 
-    chassis.moveToPoint(20, -47,3000, {.maxSpeed = 40, .forwards = false});
+    chassis.moveToPoint(20, -47,3000, { .forwards = false, .maxSpeed = 40});
     chassis.waitUntilDone();
 
     chassis.moveToPoint(23.5, -15, 4000, {.maxSpeed = 60});

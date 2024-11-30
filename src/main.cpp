@@ -173,10 +173,6 @@ void autonomous() {
         int right_x = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
         chassis.arcade(left_y, right_x, false, 0.6);
 
-        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
-            selector.run_auton();
-        }
-
         pros::delay(DELAY_TIME);  // delay to save resources
     }
 }

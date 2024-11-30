@@ -150,7 +150,14 @@ void solo_awp_red_right() {}
 
 
 void blue_left(){
-    console.print((intake ==nullptr)?"yes":"no");
+    if (intake == nullptr)
+    {
+        console.print("intake is nullptr");
+    }
+    else
+    {
+        console.print("intake isnt nullptr");
+    }
     chassis.setPose(58.5, -35, 90);
     chassis.moveToPose(35, -30,135, 3000, {.forwards = false, .lead = 0.6} );
     chassis.waitUntilDone();

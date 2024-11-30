@@ -73,27 +73,6 @@ Doinker* doinker;
 
 
 /**
- * @brief This function runs the update scheduler at each frame with a consistent schedule
- *
- * @warning This function or alternative similar to it must be running to ensure the \refitem CommandScheduler is run
- */
-[[noreturn]] void update_loop() {
-    // Loop forever
-    while (true) {
-        // Store the start time
-        auto start_time = pros::millis();
-
-        // Run the command scheduler
-        // This might be an expensive(Time wise) computation
-        CommandScheduler::run();
-
-        // Use delay until if this computation ends up being expensive, keeping loop time in check
-        pros::c::task_delay_until(&start_time, DELAY_TIME);
-    }
-}
-
-
-/**
  * Runs initialization code. This occurs as soon as the program is started.
  *
  * All other competition modes are blocked by initialize; it is recommended
@@ -103,9 +82,7 @@ void initialize() {
     // Calibrate the inertial sensor
     chassis.calibrate();
 
-    // Start the command scheduler task
-    pros::Task command_scheduler_task(update_loop);
-
+    // Register subsystems with the command scheduler
     intake = new Intake(intake_motor);
     CommandScheduler::registerSubsystem(intake, intake->move_percentage_command(0));
     controller.getTrigger(pros::E_CONTROLLER_DIGITAL_R1)->whileTrue(intake->move_percentage_command(100));
@@ -169,11 +146,20 @@ void autonomous() {
  */
 [[ noreturn ]] void opcontrol() {
     while (true) {
+        // Store the start time
+        auto start_time = pros::millis();
+
+        // Operate the drivetrain
         int left_y = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         int right_x = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
         chassis.arcade(left_y, right_x, false, 0.6);
 
-        pros::delay(DELAY_TIME);  // delay to save resources
+        // Run the command scheduler
+        // This might be an expensive(Time wise) computation
+        CommandScheduler::run();
+
+        // Use delay until if this computation ends up being expensive, keeping loop time in check
+        pros::Task::delay_until(&start_time, DELAY_TIME);
     }
 }
 

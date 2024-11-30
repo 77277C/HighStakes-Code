@@ -11,7 +11,6 @@ lemlib::Drivetrain drivetrain(
 );
 
 
-// All sensors all nullptr because we will use our custom odometry
 lemlib::OdomSensors sensors(
         nullptr,
         nullptr,

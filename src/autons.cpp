@@ -63,16 +63,16 @@ void solo_awp_red_left() {
 
 void blue_right_after_mogo() {
     intake->move_percentage(100);
-    chassis.moveToPose(6, 62, 0, 5000, {.lead = 0.5, .earlyExitRange = 1});
+    chassis.moveToPose(6, 62, 0, 5000, {.lead = 0.8, .earlyExitRange = 1});
     chassis.waitUntilDone();
 
-    chassis.moveToPoint(30, 44, 5000, {.maxSpeed = 50});
-    chassis.waitUntilDone();
-
-    chassis.moveToPose(23, 0, 225, 4200, {.lead = 0.8, .maxSpeed = 60});
+    chassis.moveToPoint(30, 44, 5000);
     chassis.waitUntilDone();
 
     intake->move_percentage(0);
+
+    chassis.moveToPose(23, 0, 225, 4200, {.lead = 0.8, .maxSpeed = 60});
+    chassis.waitUntilDone();
 }
 
 
@@ -81,6 +81,7 @@ void blue_right() {
     chassis.moveToPose(23.5, 25, 50, 5000, {.forwards = false, .lead = 0.5});
     chassis.waitUntil(15);
     chassis.cancelMotion();
+
     chassis.moveToPose(24, 24.5, 50, 5000, {.forwards = false, .maxSpeed=60});
     chassis.waitUntil(15);
     clamp->set_state(true);
@@ -92,9 +93,24 @@ void blue_right() {
 }
 
 
-void solo_awp_blue_right() {
-    // Do code for solo AWP  and grabbing the first mogo
+void blue_right_alliance_stake() {
+    chassis.setPose(58.5, 11.5, 135);
+    // score on alliance stake
+    pros::delay(1000);
+
+    chassis.moveToPose(24, 23.5, 135, 5000, {.forwards = false, .earlyExitRange = 3});
+    chassis.waitUntilDone();
+
+    chassis.moveToPose(24, 23.5, 135, 5000, {.forwards = false, .maxSpeed = 50});
+    chassis.waitUntilDone();
+
     blue_right_after_mogo();
+}
+
+
+void red_right_after_mogo()
+{
+
 }
 
 
@@ -123,18 +139,11 @@ void red_right(){
 }
 
 
-void solo_awp_red_right() {}
+void red_right_alliance_stake() {}
 
 
-void blue_left(){
-    chassis.setPose(53.6, -32, 90);
-    chassis.moveToPose(26, -25,135, 3000, {.forwards = false, .lead = 0.6, .earlyExitRange = 3} );
-
-    chassis.moveToPoint(26, -25, 1000, {.forwards = false, .maxSpeed = 50});
-    chassis.waitUntilDone();
-    clamp->set_state(true);
-    pros::delay(50);
-
+void blue_left_after_mogo()
+{
     chassis.moveToPoint(23.5, -36.5,3000, {.maxSpeed = 40});
     chassis.waitUntil(8.5);
     intake->move_percentage(100);
@@ -163,7 +172,22 @@ void blue_left(){
     intake->move_percentage(0);
     chassis.waitUntilDone();
 }
-void blue_Left_Alliance()
+
+
+void blue_left(){
+    chassis.setPose(53.6, -32, 90);
+
+    chassis.moveToPose(26, -25,135, 3000, {.forwards = false, .earlyExitRange = 3} );
+    chassis.moveToPoint(26, -25, 1000, {.forwards = false, .maxSpeed = 50});
+    chassis.waitUntilDone();
+
+    clamp->set_state(true);
+    pros::delay(50);
+
+    blue_left_after_mogo();
+}
+
+void blue_left_alliance()
 {
     chassis.setPose(58.5, -11.5, 45);
     // score on alliance stake
@@ -173,11 +197,8 @@ void blue_Left_Alliance()
     chassis.waitUntilDone();
     clamp->set_state(true);
 
-    blue_left();
+    blue_left_after_mogo();
 }
-
-
-void solo_awp_blue_left() {}
 
 
 void skills(){
@@ -242,10 +263,10 @@ std::vector<rd::Selector::routine_t> autons = {
     {"Red left", red_left},
     {"Solo AWP Red left", solo_awp_red_left},
     {"Blue right", blue_right},
-    {"Solo AWP Blue right", solo_awp_blue_right},
+    {"Blue Right Alliance Stake", blue_right_alliance_stake},
     {"Red right", red_right},
-    {"Solo AWP Red right", solo_awp_red_right},
+    {"Red Red Alliance Stake", red_right_alliance_stake},
     {"Blue left", blue_left},
-    {"Solo AWP Blue left", solo_awp_blue_left},
+    {"Blue Left Alliance Stake", blue_left_alliance},
     {"Skills", skills},
 };

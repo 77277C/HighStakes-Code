@@ -62,40 +62,17 @@ void solo_awp_red_left() {
 
 
 void blue_right_after_mogo() {
-    chassis.turnToPoint(23.5, 41, 5000, {.minSpeed = 127});
-    chassis.waitUntilDone();
-
-    chassis.moveToPoint(23.5, 41, 5000);
-    chassis.waitUntil(2);
-    chassis.cancelMotion();
-
-    pros::delay(500);
-
-    chassis.moveToPoint(23.5, 41, 5000, {.maxSpeed = 50});
     intake->move_percentage(100);
+    chassis.moveToPose(6, 62, 0, 5000, {.lead = 0.5, .earlyExitRange = 1});
     chassis.waitUntilDone();
 
-    chassis.moveToPoint(22.5, 36.5, 5000, {.forwards = false, .maxSpeed = 50});
+    chassis.moveToPoint(30, 44, 5000, {.maxSpeed = 50});
     chassis.waitUntilDone();
-
-    chassis.moveToPoint(12.5, 39, 5000, {.maxSpeed = 50});
-    chassis.waitUntilDone();
-
-    pros::delay(800);
-
-    chassis.moveToPoint(24, 48, 5000, {.forwards = false, .maxSpeed = 50});
-    chassis.waitUntilDone();
-
-    chassis.moveToPoint(13.5, 51, 5000, {.maxSpeed = 40});
-    chassis.waitUntilDone();
-
-    pros::delay(800);
-
 
     chassis.moveToPose(23, 0, 225, 4200, {.lead = 0.8, .maxSpeed = 60});
     chassis.waitUntilDone();
 
-    intake->move_percentage(100);
+    intake->move_percentage(0);
 }
 
 
@@ -104,12 +81,12 @@ void blue_right() {
     chassis.moveToPose(23.5, 25, 50, 5000, {.forwards = false, .lead = 0.5});
     chassis.waitUntil(15);
     chassis.cancelMotion();
-    chassis.moveToPose(24, 24.5, 50, 5000, {.forwards = false, .maxSpeed=30});    
+    chassis.moveToPose(24, 24.5, 50, 5000, {.forwards = false, .maxSpeed=60});
     chassis.waitUntil(15);
     clamp->set_state(true);
     chassis.waitUntilDone();
 
-    chassis.setPose(23.5, 23.5, chassis.getPose().theta + 5);
+    chassis.setPose(23.5, 23.5, chassis.getPose().theta);
 
     blue_right_after_mogo();
 }
@@ -150,47 +127,40 @@ void solo_awp_red_right() {}
 
 
 void blue_left(){
-    if (intake == nullptr)
-    {
-        console.print("intake is nullptr");
-    }
-    else
-    {
-        console.print("intake isnt nullptr");
-    }
-    chassis.setPose(58.5, -35, 90);
-    chassis.moveToPose(35, -30,135, 3000, {.forwards = false, .lead = 0.6} );
-    chassis.waitUntilDone();
+    chassis.setPose(53.6, -32, 90);
+    chassis.moveToPose(26, -25,135, 3000, {.forwards = false, .lead = 0.6, .earlyExitRange = 3} );
 
-    chassis.moveToPoint(23, -21, 3000, {.forwards = false, .maxSpeed = 30});
-    chassis.waitUntil(15);
-    //clamp->set_state(true);
-    clamp_piston.extend();
+    chassis.moveToPoint(26, -25, 1000, {.forwards = false, .maxSpeed = 50});
+    chassis.waitUntilDone();
+    clamp->set_state(true);
     pros::delay(50);
-    chassis.waitUntilDone();
 
-    chassis.moveToPoint(25.5, -38.5,3000, {.maxSpeed = 40});
+    chassis.moveToPoint(23.5, -36.5,3000, {.maxSpeed = 40});
     chassis.waitUntil(8.5);
-    //intake->move_percentage(100);
-    intake_motor.move(127);
+    intake->move_percentage(100);
     chassis.waitUntilDone();
 
-    chassis.moveToPoint(15, -47,3000, {.maxSpeed = 40});
+    chassis.moveToPoint(30.5, -40, 4000, {.forwards = false, .maxSpeed = 60});
     chassis.waitUntilDone();
+
+    chassis.moveToPoint(15, -45,3000, {.maxSpeed = 40});
+    chassis.waitUntilDone();
+    pros::delay(200);
+
     doinker->set_state(true);
+    pros::delay(400);
 
-    chassis.moveToPoint(20, -47,3000, { .forwards = false, .maxSpeed = 40});
+    chassis.moveToPoint(40, -43,4000, { .forwards = false, .maxSpeed = 60});
+    chassis.waitUntil(22);
+    chassis.cancelMotion();
+
+    chassis.turnToPoint(50, -62, 4000, {.maxSpeed = 90});
     chassis.waitUntilDone();
+    doinker->set_state(false);
 
-    chassis.moveToPoint(23.5, -15, 4000, {.maxSpeed = 60});
-    chassis.waitUntilDone();
-    pros::delay(2000);
-
-    //intake->move_percentage(0);
-
-    intake_motor.move(0);
-
-    chassis.moveToPoint(23.5, -9, 2500, {.maxSpeed = 40});
+    chassis.moveToPoint(23.5, -9, 4000, {.forwards = false, .maxSpeed = 40});
+    chassis.waitUntil(15);
+    intake->move_percentage(0);
     chassis.waitUntilDone();
 }
 void blue_Left_Alliance()
@@ -203,26 +173,7 @@ void blue_Left_Alliance()
     chassis.waitUntilDone();
     clamp->set_state(true);
 
-    chassis.moveToPoint(25.5, -38.5,3000, {.maxSpeed = 40});
-    chassis.waitUntil(8.5);
-    intake->move_percentage(100);
-    chassis.waitUntilDone();
-
-    chassis.moveToPoint(15, -47,3000, {.maxSpeed = 40});
-    chassis.waitUntilDone();
-    doinker->set_state(true);
-
-    chassis.moveToPoint(20, -47,3000, { .forwards = false, .maxSpeed = 40});
-    chassis.waitUntilDone();
-
-    chassis.moveToPoint(23.5, -15, 4000, {.maxSpeed = 60});
-    chassis.waitUntilDone();
-    pros::delay(2000);
-
-    intake->move_percentage(0);
-
-    chassis.moveToPoint(23.5, -9, 2500, {.maxSpeed = 40});
-    chassis.waitUntilDone();
+    blue_left();
 }
 
 

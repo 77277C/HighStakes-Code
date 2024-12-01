@@ -148,6 +148,11 @@ void autonomous() {
         // Store the start time
         auto start_time = pros::millis();
 
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN))
+        {
+            autonomous();
+        }
+
         // Operate the drivetrain
         int left_y = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         int right_x = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);

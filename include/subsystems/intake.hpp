@@ -42,6 +42,9 @@ public:
         );
     }
 
+    /**
+     * @brief This method runs every loop, for the intake, do nothing
+     */
     void periodic() override {
 
     }
@@ -49,6 +52,7 @@ public:
     ~Intake() override = default;
 
 private:
+    // Save the device as a private field
     pros::MotorGroup& motor;
 };
 

@@ -82,21 +82,27 @@ void solo_awp_red_left() {
 
 void blue_right_after_mogo() {
    intake -> move_percentage(100);
-   chassis.moveToPose(6, 62, 0, 5000, {
-      .lead = 0.8,
+   chassis.moveToPose(5, 57, 0, 5000, {
+      .lead = 0.7,
+      .maxSpeed = 110,
       .earlyExitRange = 1
    });
    chassis.waitUntilDone();
 
-   chassis.moveToPoint(30, 44, 5000);
+   pros::delay(1000);
+
+   chassis.moveToPoint(20, 51, 5000, {
+       .maxSpeed = 80
+   });
    chassis.waitUntilDone();
 
-   intake -> move_percentage(0);
+   pros::delay(500);
 
-   chassis.moveToPose(23, 0, 225, 4200, {
-      .lead = 0.8,
+   chassis.moveToPose(22, 6, 180, 4200, {
       .maxSpeed = 60
    });
+   chassis.waitUntil(10);
+   intake -> move_percentage(0);
    chassis.waitUntilDone();
 }
 

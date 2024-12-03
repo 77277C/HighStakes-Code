@@ -82,10 +82,11 @@ void initialize() {
     chassis.calibrate();
 
     // Register subsystems with the command scheduler
-    intake = new Intake(intake_motor);
+    intake = new Intake(intake_motor, redirect_distance);
     CommandScheduler::registerSubsystem(intake, intake->move_percentage_command(0));
     controller.getTrigger(pros::E_CONTROLLER_DIGITAL_R1)->whileTrue(intake->move_percentage_command(100));
     controller.getTrigger(pros::E_CONTROLLER_DIGITAL_R2)->whileTrue(intake->move_percentage_command(-100));
+    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_B)->toggleOnTrue(intake->redirect_next_ring_command());
 
     clamp = new Clamp(clamp_piston);
     CommandScheduler::registerSubsystem(clamp, clamp->set_state_command(false));

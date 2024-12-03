@@ -11,3 +11,4 @@ pros::MotorGroup intake_motor({-7, 8});
 
 
 pros::Imu imu(9);
+pros::Distance redirect_distance(10);

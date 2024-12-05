@@ -54,6 +54,7 @@
 #include "subsystems/intake.hpp"
 #include "subsystems/clamp.hpp"
 #include "subsystems/doinker.hpp"
+#include "subsystems/wall_stakes.hpp"
 
 #define DELAY_TIME 10
 
@@ -78,6 +79,7 @@ extern lemlib::Chassis chassis;
 extern Intake* intake;
 extern Clamp* clamp;
 extern Doinker* doinker;
+extern WallStakes* wall_stakes;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure

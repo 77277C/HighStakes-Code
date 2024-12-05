@@ -69,6 +69,7 @@ CommandController controller(pros::E_CONTROLLER_MASTER);
 Intake* intake;
 Clamp* clamp;
 Doinker* doinker;
+WallStakes* wall_stakes;
 
 
 /**
@@ -90,12 +91,15 @@ void initialize() {
 
     clamp = new Clamp(clamp_piston);
     CommandScheduler::registerSubsystem(clamp, clamp->set_state_command(false));
-    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_L2)->toggleOnTrue(clamp->set_state_command(true));
+    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_A)->toggleOnTrue(clamp->set_state_command(true));
 
     doinker = new Doinker(doinker_piston);
     CommandScheduler::registerSubsystem(doinker, doinker->set_state_command(false));
     controller.getTrigger(pros::E_CONTROLLER_DIGITAL_L1)->whileTrue(doinker->set_state_command(true));
 
+    wall_stakes = new WallStakes(wall_stakes_piston);
+    CommandScheduler::registerSubsystem(wall_stakes, wall_stakes->set_state_command(false));
+    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_L2)->toggleOnTrue(wall_stakes->set_state_command(true));
 }
 
 /**

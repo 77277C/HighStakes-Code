@@ -54,29 +54,28 @@ public:
      * @brief Queue the next ring to be redirected
      */
     void redirect_next_ring() {
-        // if the next ring is already queued for redirection
+        // dont start a new task if one already exists
         if (this->redirect_task == nullptr) {
-            return;
+            this->redirect_task = new pros::Task([this]() {
+                // Wait until a ring is detected
+                while (this->redirect_distance.get_distance() > 75) {
+                    pros::delay(DELAY_TIME);
+                }
+        
+                // Manual control needs to be disabled at this point
+                actively_redirecting = true;
+    
+                // Move the intake in reverse for a second
+                this->motor.move(-127);
+                pros::delay(1000);
+                this->motor.move(0);
+    
+                // Cleanup the task
+                pros::Task* task_to_delete = this->redirect_task;
+                this->redirect_task = nullptr;
+                delete task_to_delete; // Free task memory safely
+            });
         }
-
-        this->redirect_task = new pros::Task([this]() {
-            // Wait until a ring is detected
-            while (this->redirect_distance.get_distance() > 75) {
-                pros::delay(DELAY_TIME);
-            }
-
-            // Manual control needs to be disabled at this point
-            actively_redirecting = true;
-
-            // Move the intake in reverse for a second
-            this->motor.move(-127);
-            pros::delay(1000);
-            this->motor.move(0);
-
-            // Cleanup the task
-            actively_redirecting = false;
-            this->redirect_task = nullptr;
-        });
     }
 
     /**
@@ -91,6 +90,23 @@ public:
             },
             {this}
         );
+    }
+
+    /**
+     * @brief Wait until a ring has been redirected
+     * @param timeout the amount of time to exit after
+     *
+     * @return true if redirected, false if timeouted
+     */
+    bool wait_until_redirect(int timeout) {
+        int start_time = pros::millis();
+        while (this->redirect_task != nullptr) {
+            pros::delay(DELAY_TIME);
+            if (start_time + timeout > pros::millis()) {
+                return False
+            }        
+        }
+        return true;
     }
 
     /**

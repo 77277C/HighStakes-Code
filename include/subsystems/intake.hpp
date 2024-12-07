@@ -4,6 +4,7 @@
 #include "pros/distance.hpp"
 #include "command/subsystem.h"
 #include "command/runCommand.h"
+#include "console.hpp"
 
 #ifndef DELAY_TIME
 #define DELAY_TIME 10
@@ -58,9 +59,19 @@ public:
         if (this->redirect_task == nullptr) {
             this->redirect_task = new pros::Task([this]() {
                 // Wait until a ring is detected
-                while (this->redirect_distance.get_distance() > 75) {
+                while (this->redirect_distance.get() > 75) {
                     pros::delay(DELAY_TIME);
                 }
+
+                console.println("1");
+
+                // Wait until the ring has passed the senor
+                while (this->redirect_distance.get() < 75) {
+                    pros::delay(50);
+                    console.println(std::to_string(redirect_distance.get_distance()));
+                }
+
+                console.println("2");
         
                 // Manual control needs to be disabled at this point
                 actively_redirecting = true;
@@ -103,7 +114,7 @@ public:
         while (this->redirect_task != nullptr) {
             pros::delay(DELAY_TIME);
             if (start_time + timeout > pros::millis()) {
-                return False
+                return false;
             }        
         }
         return true;

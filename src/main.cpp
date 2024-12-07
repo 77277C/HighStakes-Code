@@ -70,8 +70,6 @@ Intake* intake;
 Clamp* clamp;
 Doinker* doinker;
 WallStakes* wall_stakes;
-
-
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *

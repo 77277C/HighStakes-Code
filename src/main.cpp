@@ -93,11 +93,11 @@ void initialize() {
 
     doinker = new Doinker(doinker_piston);
     CommandScheduler::registerSubsystem(doinker, doinker->set_state_command(false));
-    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_L1)->whileTrue(doinker->set_state_command(true));
+    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_L2)->whileTrue(doinker->set_state_command(true));
 
     wall_stakes = new WallStakes(wall_stakes_piston);
     CommandScheduler::registerSubsystem(wall_stakes, wall_stakes->set_state_command(false));
-    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_L2)->toggleOnTrue(wall_stakes->set_state_command(true));
+    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_L1)->toggleOnTrue(wall_stakes->set_state_command(true));
 }
 
 /**

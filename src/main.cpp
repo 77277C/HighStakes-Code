@@ -21,9 +21,9 @@ lemlib::OdomSensors sensors(
 
 
 lemlib::ControllerSettings lateral_controller(
-        20, // proportional gain (kP)
+        18, // proportional gain (kP)
         0, // integral gain (kI)
-        40, // derivative gain (kD)
+        45, // derivative gain (kD)
         3, // anti windup
         1, // small error range, in inches
         100, // small error range timeout, in milliseconds
@@ -44,6 +44,7 @@ lemlib::ControllerSettings angular_controller(
         500, // large error range timeout, in milliseconds
         0 // maximum acceleration (slew)
 );
+
 
 
 DoubleBandedExpoDriveCurve throttle_curve(3, // joystick deadband out of 127

@@ -2,7 +2,7 @@
 
 
 void red_left_after_mogo() {
-    intake -> move_percentage(100);
+    intake.move_percentage(100);
    chassis.moveToPose(0, 58, 0, 5000, {
       .lead = 0.7,
       .maxSpeed = 110,
@@ -34,7 +34,7 @@ void red_left_after_mogo() {
       .maxSpeed = 60
    });
    chassis.waitUntil(12);
-   intake -> move_percentage(0);
+   intake.move_percentage(0);
    chassis.waitUntilDone();
 }
 
@@ -51,7 +51,7 @@ void red_left() {
       .maxSpeed = 30
    });
    chassis.waitUntil(15);
-   clamp -> set_state(true);
+   clamp.set_state(true);
    chassis.waitUntilDone();
 
    chassis.setPose(-23.5, 22.5, chassis.getPose().theta);
@@ -85,7 +85,7 @@ void solo_awp_red_left() {
       .maxSpeed = 60
    });
    chassis.waitUntilDone();
-    clamp->set_state(true);
+    clamp.set_state(true);
     pros::delay(100);
     
     chassis.moveToPose(-17, 29, 285, 1500, {
@@ -101,7 +101,7 @@ void solo_awp_red_left() {
 }
 
 void blue_right_after_mogo() {
-   intake -> move_percentage(100);
+   intake.move_percentage(100);
    chassis.moveToPose(0, 58, 0, 5000, {
       .lead = 0.7,
       .maxSpeed = 110,
@@ -133,7 +133,7 @@ void blue_right_after_mogo() {
       .maxSpeed = 60
    });
    chassis.waitUntil(10);
-   intake -> move_percentage(0);
+   intake.move_percentage(0);
    chassis.waitUntilDone();
 }
 
@@ -151,7 +151,7 @@ void blue_right() {
       .maxSpeed = 60
    });
    chassis.waitUntil(15);
-   clamp -> set_state(true);
+   clamp.set_state(true);
    chassis.waitUntilDone();
 
    chassis.setPose(23.5, 22.5, chassis.getPose().theta);
@@ -181,7 +181,7 @@ void blue_right_alliance_stake() {
       .maxSpeed = 60
    });
    chassis.waitUntilDone();
-    clamp->set_state(true);
+    clamp.set_state(true);
     pros::delay(100);
     
     chassis.moveToPose(17, 29, 75, 1500, {
@@ -212,14 +212,14 @@ void red_right() {
       .maxSpeed = 30
    });
    chassis.waitUntil(15);
-   clamp -> set_state(true);
+   clamp.set_state(true);
    chassis.waitUntilDone();
 
    chassis.moveToPoint(-25.5, -42, 3000, {
       .maxSpeed = 40
    });
    chassis.waitUntil(5);
-   intake -> move_percentage(100);
+   intake.move_percentage(100);
    chassis.waitUntilDone();
 
    chassis.moveToPoint(-23.5, -13, 4000, {
@@ -227,7 +227,7 @@ void red_right() {
    });
    chassis.waitUntilDone();
    pros::delay(1000);
-   intake -> move_percentage(0);
+   intake.move_percentage(0);
 
    chassis.moveToPoint(-23.5, -8, 4000, {
       .maxSpeed = 40
@@ -242,7 +242,7 @@ void blue_left_after_mogo() {
       .maxSpeed = 40
    });
    chassis.waitUntil(8.5);
-   intake -> move_percentage(100);
+   intake.move_percentage(100);
    chassis.waitUntilDone();
 
    chassis.moveToPoint(30.5, -40, 4000, {
@@ -257,7 +257,7 @@ void blue_left_after_mogo() {
    chassis.waitUntilDone();
    pros::delay(200);
 
-   doinker -> set_state(true);
+   doinker.set_state(true);
    pros::delay(400);
 
    chassis.moveToPoint(40, -43, 4000, {
@@ -271,14 +271,14 @@ void blue_left_after_mogo() {
       .maxSpeed = 90
    });
    chassis.waitUntilDone();
-   doinker -> set_state(false);
+   doinker.set_state(false);
 
    chassis.moveToPoint(23.5, -9, 4000, {
       .forwards = false,
       .maxSpeed = 40
    });
    chassis.waitUntil(15);
-   intake -> move_percentage(0);
+   intake.move_percentage(0);
    chassis.waitUntilDone();
 }
 
@@ -295,7 +295,7 @@ void blue_left() {
    });
    chassis.waitUntilDone();
 
-   clamp -> set_state(true);
+   clamp.set_state(true);
    pros::delay(50);
 
    blue_left_after_mogo();
@@ -312,7 +312,7 @@ void blue_left_alliance() {
       .maxSpeed = 70
    });
    chassis.waitUntilDone();
-   clamp -> set_state(true);
+   clamp.set_state(true);
 
    blue_left_after_mogo();
 }
@@ -330,14 +330,14 @@ void skills() {
       .maxSpeed = 30
    });
    chassis.waitUntil(15);
-   clamp -> set_state(true);
+   clamp.set_state(true);
    chassis.waitUntilDone();
 
    chassis.moveToPoint(-25, -23, 3000, {
       .maxSpeed = 50
    });
    chassis.waitUntil(3);
-   intake -> move_percentage(100);
+   intake.move_percentage(100);
    chassis.waitUntilDone();
 
    chassis.moveToPoint(-24, -47, 3000, {
@@ -361,8 +361,8 @@ void skills() {
       .maxSpeed = 60
    });
    chassis.waitUntilDone();
-   clamp -> set_state(false);
-   intake -> move_percentage(0);
+   clamp.set_state(false);
+   intake.move_percentage(0);
 
    chassis.moveToPoint(-74, -74, 500, {
       .forwards = false
@@ -380,7 +380,7 @@ void skills() {
 
    chassis.moveToPoint(-22.6, 22.6, 3000);
    chassis.waitUntil(3);
-   intake -> move_percentage(100);
+   intake.move_percentage(100);
    chassis.waitUntilDone();
 
    chassis.moveToPoint(-22.3, 42.8, 4000, {

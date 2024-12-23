@@ -64,12 +64,13 @@ lemlib::Chassis chassis(drivetrain, lateral_controller, angular_controller, sens
 rd::Selector selector(autons);
 
 
-CommandController controller(pros::E_CONTROLLER_MASTER);
+pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
-Intake* intake;
-Clamp* clamp;
-Doinker* doinker;
-WallStakes* wall_stakes;
+Intake intake(intake_motor, intake_optical);
+Clamp clamp(clamp_piston);
+Doinker doinker(doinker_piston);
+LadyBrown ladybrown(ladybrown_motor, ladybrown_rotation);
+
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -80,24 +81,11 @@ void initialize() {
     // Calibrate the inertial sensor
     chassis.calibrate();
 
-    // Register subsystems with the command scheduler
-    intake = new Intake(intake_motor, redirect_distance);
-    CommandScheduler::registerSubsystem(intake, intake->move_percentage_command(0));
-    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_R1)->whileTrue(intake->move_percentage_command(100));
-    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_R2)->whileTrue(intake->move_percentage_command(-100));
-    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_B)->onTrue(intake->redirect_next_ring_command());
+    // Start the color sorting task
+    intake.start_color_sort_task(BLUE);
 
-    clamp = new Clamp(clamp_piston);
-    CommandScheduler::registerSubsystem(clamp, clamp->set_state_command(false));
-    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_A)->toggleOnTrue(clamp->set_state_command(true));
-
-    doinker = new Doinker(doinker_piston);
-    CommandScheduler::registerSubsystem(doinker, doinker->set_state_command(false));
-    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_L2)->whileTrue(doinker->set_state_command(true));
-
-    wall_stakes = new WallStakes(wall_stakes_piston);
-    CommandScheduler::registerSubsystem(wall_stakes, wall_stakes->set_state_command(false));
-    controller.getTrigger(pros::E_CONTROLLER_DIGITAL_L1)->toggleOnTrue(wall_stakes->set_state_command(true));
+    // Start the ladybrown PID task
+    ladybrown.start_pid_task();
 }
 
 /**
@@ -151,8 +139,7 @@ void autonomous() {
         // Store the start time
         auto start_time = pros::millis();
 
-        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN))
-        {
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
             autonomous();
         }
 
@@ -161,9 +148,35 @@ void autonomous() {
         int right_x = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
         chassis.arcade(left_y, right_x, false, 0.6);
 
-        // Run the command scheduler
+        // Run the commands
         // This might be an expensive(Time wise) computation
-        CommandScheduler::run();
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+            intake.move_percentage(100);
+        }
+        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+            intake.move_percentage(-100);
+        }
+        else {
+            intake.move_percentage(0);
+        }
+
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
+            ladybrown.cycle_target();
+        }
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+            ladybrown.set_current_target(LadyBrown::UTIL);
+        }
+
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+            clamp.toggle();
+        }
+
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+            doinker.set_state(true);
+        }
+        else {
+            doinker.set_state(false);
+        }
 
         // Use delay until if this computation ends up being expensive, keeping loop time in check
         pros::Task::delay_until(&start_time, DELAY_TIME);

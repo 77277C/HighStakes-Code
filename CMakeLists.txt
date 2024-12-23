@@ -42,6 +42,7 @@ add_executable(PROS_Project ${SOURCES}
         include/subsystems/intake.hpp
         include/subsystems/clamp.hpp
         include/subsystems/doinker.hpp
+        include/subsystems/ladybrown.hpp
 )
 
 # Optionally, link to external libraries if necessary

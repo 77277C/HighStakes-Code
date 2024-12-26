@@ -7,10 +7,10 @@
 #endif
 
 
-typedef enum {
+enum class RingColor {
     RED,
     BLUE
-} RingColor;
+};
 
 
 class Intake {
@@ -38,10 +38,10 @@ public:
             while (true) {
                 if (this->color_sort_on) {
                     pros::c::optical_rgb_s_t rgb = this->optical.get_rgb();
-                    if (color == BLUE && rgb.red >= 200) {
+                    if (color == RingColor::BLUE && rgb.red >= 200) {
                         this->pause(100);
                     }
-                    if (color == RED && rgb.blue >= 200) {
+                    if (color == RingColor::RED && rgb.blue >= 200) {
                         this->pause(100);
                     }
                 }

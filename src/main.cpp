@@ -82,7 +82,7 @@ void initialize() {
     chassis.calibrate();
 
     // Start the color sorting task
-    intake.start_color_sort_task(BLUE);
+    intake.start_color_sort_task(RingColor::BLUE);
 
     // Start the ladybrown PID task
     ladybrown.start_pid_task();

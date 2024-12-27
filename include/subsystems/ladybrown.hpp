@@ -81,6 +81,10 @@ public:
      */
     void toggle_pid_control() {
         this->pid_control_on = !this->pid_control_on;
+        // If the pid was turned on make the positions the away position
+        if (this->pid_control_on) {
+            this->set_current_target(AWAY);
+        }
     }
 
     /**
@@ -102,7 +106,7 @@ private:
     // Save the devices as a private field
     pros::MotorGroup& motor;
     pros::Rotation& rotation;
-    lemlib::PID pid = lemlib::PID(2.5, 0, 8);
+    lemlib::PID pid = lemlib::PID(2.5, 0, 0);
     double current_target = AWAY;
     pros::Task* pid_task = nullptr;
     bool pid_control_on = true;

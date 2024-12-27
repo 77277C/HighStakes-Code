@@ -164,7 +164,19 @@ void autonomous() {
             ladybrown.cycle_target();
         }
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-            ladybrown.set_current_target(LadyBrown::UTIL);
+            ladybrown.set_current_target(LadyBrown::BOTTOM);
+        }
+
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+            ladybrown.toggle_pid_control();
+        }
+        if (!ladybrown.get_pid_control_status()) {
+            if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
+                ladybrown.move_percentage(100);
+            }
+            else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+                ladybrown.move_percentage(-100);
+            }
         }
 
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {

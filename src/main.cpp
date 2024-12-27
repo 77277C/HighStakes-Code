@@ -174,20 +174,21 @@ void autonomous() {
             if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
                 ladybrown.move_percentage(100);
             }
-            else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+            else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
                 ladybrown.move_percentage(-100);
+            }
+        }
+        else {
+            if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+                doinker.set_state(true);
+            }
+            else {
+                doinker.set_state(false);
             }
         }
 
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
             clamp.toggle();
-        }
-
-        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-            doinker.set_state(true);
-        }
-        else {
-            doinker.set_state(false);
         }
 
         // Use delay until if this computation ends up being expensive, keeping loop time in check

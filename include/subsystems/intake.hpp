@@ -23,9 +23,9 @@ public:
      */
     explicit Intake(pros::MotorGroup& motor, pros::Optical& optical)
         : motor(motor), optical(optical) {
-        optical.set_led_pwm(100);
-        optical.disable_gesture();
-        optical.set_integration_time(10);
+        this->optical.set_led_pwm(100);
+        this->optical.disable_gesture();
+        this->optical.set_integration_time(10);
     }
 
     /**

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <atomic>
 #include "intake.hpp"
 #include "pros/motor_group.hpp"
 #include "pros/rotation.hpp"
@@ -47,8 +48,8 @@ public:
      * @param target The target
      */
     void set_current_target(double target) {
-        if (target != this->current_target) {
-            this->current_target = target;
+        if (target != this->current_target.load()) {
+            this->current_target.store(target);
             pid.reset();
         }
     }
@@ -61,7 +62,7 @@ public:
             while (true) {
                 if (this->pid_control_on) {
                     double current_angle = rotation.get_angle() / 100.0;
-                    double error = this->current_target - current_angle;
+                    double error = this->current_target.load() - current_angle;
 
                     double output = this->pid.update(error);
                     double feedforward_output = FEEDFORWARD_K * std::sin((180.0 - current_angle));
@@ -90,7 +91,7 @@ public:
     /**
      * @return Whether the PID task is on or off
      */
-    bool get_pid_control_status() {
+    [[nodiscard]] bool get_pid_control_status() const {
         return this->pid_control_on;
     }
 
@@ -107,7 +108,7 @@ private:
     pros::MotorGroup& motor;
     pros::Rotation& rotation;
     lemlib::PID pid = lemlib::PID(2.5, 0, 0);
-    double current_target = AWAY;
+    std::atomic<double> current_target = AWAY;
     pros::Task* pid_task = nullptr;
     bool pid_control_on = true;
 };

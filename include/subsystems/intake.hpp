@@ -38,11 +38,12 @@ public:
             while (true) {
                 if (this->color_sort_on) {
                     pros::c::optical_rgb_s_t rgb = this->optical.get_rgb();
-                    if (color == RingColor::BLUE && rgb.red >= 200) {
+                    if ((color == RingColor::BLUE && rgb.red >= 200) ||
+                        (color == RingColor::RED && rgb.blue >= 200)) {
+                        // Ensure that no opcontrol commands happen during this time
+                        mutex.take(TIMEOUT_MAX);
                         this->pause(100);
-                    }
-                    if (color == RingColor::RED && rgb.blue >= 200) {
-                        this->pause(100);
+                        mutex.give();
                     }
                 }
                 pros::delay(DELAY_TIME);
@@ -64,7 +65,7 @@ public:
      */
     void pause(const int delay) {
         int old_voltage = this->motor.get_voltage();
-        this->move_percentage(0);
+        this->motor.move_voltage(0);
         pros::delay(delay);
         this->motor.move_voltage(old_voltage);
     }
@@ -74,7 +75,10 @@ public:
      * @param percentage The percentage to use [-100, 100]
      */
     void move_percentage(const int percentage) {
+        // Do not interfere with colorsorting
+        mutex.take(TIMEOUT_MAX);
         this->motor.move(percentage * 1.27);
+        mutex.give();
     }
 
 private:
@@ -83,5 +87,6 @@ private:
     pros::Optical& optical;
     pros::Task* color_sort_task = nullptr;
     bool color_sort_on = true;
+    pros::Mutex mutex;
 };
 

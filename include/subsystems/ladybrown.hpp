@@ -11,15 +11,15 @@ class LadyBrown {
 public:
     // Define the constants that hold the values of different ladybrown positions
     // Cycle positions
-    static constexpr int AWAY = 65;
-    static constexpr int LOAD = 85;
-    static constexpr int READY_TO_SCORE = 170;
+    static constexpr int AWAY = 70;
+    static constexpr int LOAD = 103;
+    static constexpr int READY_TO_SCORE = 200;
     static constexpr int SCORE = 235;
     // Util positions
     static constexpr int BOTTOM = 290;
 
     // Feedforward constant
-    static constexpr int FEEDFORWARD_K = 10;
+    static constexpr int FEEDFORWARD_K = 15;
 
     /**
      * @brief Construct the ladybrown subsystem object
@@ -63,12 +63,8 @@ public:
                 if (this->pid_control_on) {
                     double current_angle = rotation.get_angle() / 100.0;
                     double error = this->current_target.load() - current_angle;
-
                     double output = this->pid.update(error);
-                    double feedforward_output = FEEDFORWARD_K * std::sin((180.0 - current_angle));
-                    if (output < 0) {
-                        feedforward_output = 0;
-                    }
+                    double feedforward_output = FEEDFORWARD_K * std::sin(180 - current_angle * (M_PI / 180));
                     this->motor.move(output + feedforward_output);
                 }
 
@@ -84,7 +80,11 @@ public:
         this->pid_control_on = !this->pid_control_on;
         // If the pid was turned on make the positions the away position
         if (this->pid_control_on) {
+            ladybrown_motor.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
             this->set_current_target(AWAY);
+        }
+        else {
+            ladybrown_motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
         }
     }
 
@@ -100,6 +100,13 @@ public:
      * @param percentage The percentage to use [-100, 100]
      */
     void move_percentage(const int percentage) {
+        double angle = rotation.get_angle() / 100.0;
+        if (percentage < 0 && angle < AWAY) {
+            return;
+        }
+        if (percentage > 0 && angle > BOTTOM) {
+            return;
+        }
         this->motor.move(percentage * 1.27);
     }
 
@@ -107,7 +114,7 @@ private:
     // Save the devices as a private field
     pros::MotorGroup& motor;
     pros::Rotation& rotation;
-    lemlib::PID pid = lemlib::PID(2.5, 0, 0);
+    lemlib::PID pid = lemlib::PID(1.4, 0, 0);
     std::atomic<double> current_target = AWAY;
     pros::Task* pid_task = nullptr;
     bool pid_control_on = true;

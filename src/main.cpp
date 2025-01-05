@@ -170,6 +170,9 @@ void autonomous() {
             else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
                 ladybrown.move_percentage(-100);
             }
+            else {
+                ladybrown.move_percentage(0);
+            }
         }
         else {
             if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {

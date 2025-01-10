@@ -16,6 +16,5 @@ temp.errors
 *.ini
 .d/
 
-.idea/
-venv/
-cmake-build-debug/
+.idea
+cmake-build-debug

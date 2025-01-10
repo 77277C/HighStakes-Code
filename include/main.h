@@ -44,7 +44,6 @@
 
 #include "robodash/api.h"
 #include "lemlib/api.hpp"
-#include "command/includes.h"
 
 #include "console.hpp"
 #include "autons.hpp"
@@ -54,7 +53,7 @@
 #include "subsystems/intake.hpp"
 #include "subsystems/clamp.hpp"
 #include "subsystems/doinker.hpp"
-#include "subsystems/wall_stakes.hpp"
+#include "subsystems/ladybrown.hpp"
 
 #define DELAY_TIME 10
 
@@ -76,10 +75,10 @@
  */
 
 extern lemlib::Chassis chassis;
-extern Intake* intake;
-extern Clamp* clamp;
-extern Doinker* doinker;
-extern WallStakes* wall_stakes;
+extern Intake intake;
+extern Clamp clamp;
+extern Doinker doinker;
+extern LadyBrown ladybrown;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure

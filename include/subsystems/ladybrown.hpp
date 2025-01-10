@@ -42,6 +42,15 @@ public:
             this->set_current_target(AWAY);
         }
     }
+    void cycle_target(int num){
+        if (this->current_target == AWAY) this->set_current_target(LOAD);
+        else if (this->current_target == LOAD) this->set_current_target(READY_TO_SCORE);
+        else if (this->current_target == READY_TO_SCORE) this->set_current_target(SCORE);
+        else if (this->current_target == SCORE) this->set_current_target(BOTTOM);
+        else {
+            this->set_current_target(AWAY);
+        }
+    }
 
     /**
      * @brief Set the PID Target

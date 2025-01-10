@@ -2,7 +2,7 @@
 
 
 void red_left_after_mogo() {
-    intake -> move_percentage(100);
+    intake.move_percentage(100);
    chassis.moveToPose(0, 56, 0, 5000, {
       .lead = 0.7,
       .maxSpeed = 110,
@@ -34,7 +34,7 @@ void red_left_after_mogo() {
       .maxSpeed = 60
    });
    chassis.waitUntil(25);
-   intake -> move_percentage(0);
+   intake.move_percentage(0);
    chassis.waitUntilDone();
 }
 
@@ -67,13 +67,13 @@ void solo_awp_red_left() {
    chassis.setPose(-53.5, 17, 270);
    // score on alliance stake
    chassis.moveToPoint(-51.5, 17, 1000, {.earlyExitRange = 0.5});
-   wall_stakes->set_state(true);
+   
    pros::delay(200);
    chassis.turnToHeading(223, 1000);
    chassis.waitUntilDone();
    chassis.moveToPoint(-59.5, 8.8, 2000, {.maxSpeed = 80});
    chassis.waitUntilDone();
-   wall_stakes->set_state(false);
+   
    pros::delay(500);
    chassis.moveToPoint(-48, 22, 2000, {.forwards = false});
    chassis.waitUntilDone();
@@ -101,7 +101,7 @@ void solo_awp_red_left() {
 }
 
 void blue_right_after_mogo() {
-   intake -> move_percentage(100);
+   intake.move_percentage(100);
    chassis.moveToPose(0, 57, 0, 5000, {
       .lead = 0.7,
       .maxSpeed = 110,
@@ -131,11 +131,11 @@ void blue_right_after_mogo() {
    });
    chassis.waitUntilDone();
 
-   chassis.moveToPose(20, 8, 180, 3500, {
-      .maxSpeed = 60
+   chassis.moveToPoint(47, 0, 3500, {
+      .maxSpeed = 80
    });
    chassis.waitUntil(10);
-   intake.move_percentage(0);
+   doinker.set_state(true);
    chassis.waitUntilDone();
 }
 
@@ -162,36 +162,45 @@ void blue_right() {
 }
 
 void blue_right_alliance_stake() {
-   chassis.setPose(53.5, 17, 90);
+   chassis.setPose(53.4, 16, 180);
    // score on alliance stake
-   chassis.moveToPoint(51.5, 17, 1000, {.earlyExitRange = 0.5});
-   wall_stakes->set_state(true);
-   pros::delay(200);
-   chassis.turnToHeading(137, 1000);
+   chassis.moveToPoint(53.4, 10, 1500);
+   chassis.turnToPoint(70, -3, 2000);
    chassis.waitUntilDone();
-   chassis.moveToPoint(60, 10.4, 2000, {.maxSpeed = 80});
-   chassis.waitUntilDone();
-   wall_stakes->set_state(false);
+   pros::delay(100);
+   ladybrown.cycle_target(1);
+   ladybrown.cycle_target(1);
+   ladybrown.cycle_target(1);
+   ladybrown.cycle_target(1);
    pros::delay(500);
-   chassis.moveToPoint(48, 22, 2000, {.forwards = false});
-   chassis.waitUntilDone();
-   chassis.moveToPose(18, 26, 105, 4000, {
+   chassis.moveToPoint(25, 24, 5000, {
    
       .forwards = false,
       .maxSpeed = 100,
-      .earlyExitRange = 3
    });
-
-   chassis.waitUntilDone();
-    clamp.set_state(true);
-    pros::delay(100);
-    
-    chassis.moveToPose(17, 29, 75, 1500, {
-      .forwards = false,
-      .maxSpeed = 50
-   });
+   chassis.waitUntil(3);
+   chassis.cancelMotion();
+   chassis.moveToPose(25, 24, 115, 5000, {
    
+      .forwards = false,
+      .maxSpeed = 100,
+      .earlyExitRange = 4.5
+   });
+   chassis.waitUntil(5);
+   ladybrown.cycle_target();
    chassis.waitUntilDone();
+    
+    pros::delay(1000);
+    
+    chassis.moveToPoint(25, 24, 1500, {
+      .forwards = false,
+      .maxSpeed = 50,
+      .earlyExitRange = 1
+   });
+   chassis.waitUntilDone();
+   clamp.set_state(true);
+   pros::delay(100);
+   
    chassis.setPose(15, 29, chassis.getPose().theta);
 
    blue_right_after_mogo();
@@ -324,13 +333,13 @@ void skills() {
    chassis.moveToPoint(-50, 0, 2000, {.forwards = false});
    chassis.waitUntilDone();
 
-   wall_stakes->set_state(true);
+   
    pros::delay(500);
    chassis.moveToPoint(-56, 0, 2000);
    chassis.waitUntilDone();
 
    
-   wall_stakes->set_state(false);
+   
    pros::delay(700);
    chassis.moveToPoint(-50, 0, 2000, {.forwards = false});
    chassis.waitUntilDone();
@@ -339,10 +348,10 @@ void skills() {
    chassis.moveToPoint(-50, 25, 2000, {.forwards = false, .maxSpeed = 40, .earlyExitRange = 2});
    chassis.waitUntilDone();
    pros::delay(100);
-   clamp->set_state(true);
+   clamp.set_state(true);
    pros::delay(200);
 
-   intake->move_percentage(100);
+   intake.move_percentage(100);
    chassis.moveToPoint(-24, 23, 2000,{.minSpeed = 30, .earlyExitRange = 2});
    
    chassis.moveToPoint(-24, 48.5, 3000, {.minSpeed = 30, .earlyExitRange = 2});
@@ -351,11 +360,10 @@ void skills() {
 
    chassis.moveToPoint(0, 47, 3000, { .forwards = false, .minSpeed = 30, .earlyExitRange = 1});
 
-   intake->redirect_next_ring();
-   wall_stakes->set_state(true);
+   
    chassis.moveToPoint(-1, 58, 3000);
    chassis.waitUntilDone();
-   wall_stakes->set_state(false);
+   
    pros::delay(700);
 
    chassis.moveToPoint(0, 47, 3000, {.forwards = false, .earlyExitRange = 3});
@@ -365,7 +373,7 @@ void skills() {
    chassis.moveToPoint(-44, 60, 3000, {.earlyExitRange = 2});
    
    chassis.moveToPose(-65, 65, 135, 3000, {.forwards = false, .earlyExitRange = 2});
-   clamp->set_state(false);
+   clamp.set_state(false);
 
    chassis.moveToPoint(-70, 70, 200);
    chassis.waitUntilDone();
@@ -376,13 +384,12 @@ void skills() {
    chassis.waitUntilDone();
 
    chassis.moveToPoint(-46, -24, 2500, {.forwards = false, .earlyExitRange = 1});
-   clamp->set_state(true);
+   clamp.set_state(true);
    pros::delay(200);
 
    chassis.moveToPoint(-23, -24, 3000, {.earlyExitRange =2});
 
    chassis.moveToPoint(-23, -47, 3000, {.earlyExitRange =2});
-   intake->redirect_next_ring();
    chassis.moveToPoint(23, -47, 3000, {.earlyExitRange =2});
 
    chassis.moveToPoint(0, -47, 3000, {.forwards = false, .earlyExitRange =2});

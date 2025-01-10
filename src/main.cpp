@@ -21,7 +21,7 @@ lemlib::OdomSensors sensors(
 
 
 lemlib::ControllerSettings lateral_controller(
-        18, // proportional gain (kP)
+        10, // proportional gain (kP)
         0, // integral gain (kI)
         45, // derivative gain (kD)
         3, // anti windup
@@ -34,9 +34,9 @@ lemlib::ControllerSettings lateral_controller(
 
 
 lemlib::ControllerSettings angular_controller(
-        5, // proportional gain (kP)
+        3, // proportional gain (kP)
         0, // integral gain (kI)
-        35, // derivative gain (kD)
+        15, // derivative gain (kD)
         3, // anti windup
         1, // small error range, in degrees
         100, // small error range timeout, in milliseconds
@@ -66,7 +66,6 @@ rd::Selector selector(autons);
 
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
-
 Intake intake(intake_motor, intake_optical);
 Clamp clamp(clamp_piston);
 Doinker doinker(doinker_piston);

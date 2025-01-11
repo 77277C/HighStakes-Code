@@ -79,6 +79,7 @@ extern Intake intake;
 extern Clamp clamp;
 extern Doinker doinker;
 extern LadyBrown ladybrown;
+extern Doinker intake_raise;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure

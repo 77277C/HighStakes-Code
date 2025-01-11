@@ -21,7 +21,7 @@ lemlib::OdomSensors sensors(
 
 
 lemlib::ControllerSettings lateral_controller(
-        10, // proportional gain (kP)
+        12, // proportional gain (kP)
         0, // integral gain (kI)
         45, // derivative gain (kD)
         3, // anti windup
@@ -34,9 +34,9 @@ lemlib::ControllerSettings lateral_controller(
 
 
 lemlib::ControllerSettings angular_controller(
-        3, // proportional gain (kP)
+        5, // proportional gain (kP)
         0, // integral gain (kI)
-        15, // derivative gain (kD)
+        35, // derivative gain (kD)
         3, // anti windup
         1, // small error range, in degrees
         100, // small error range timeout, in milliseconds
@@ -69,6 +69,7 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 Intake intake(intake_motor, intake_optical);
 Clamp clamp(clamp_piston);
 Doinker doinker(doinker_piston);
+Doinker intake_raise(intake_piston);
 LadyBrown ladybrown(ladybrown_motor, ladybrown_rotation);
 
 /**
@@ -181,17 +182,12 @@ void autonomous() {
             if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
                 ladybrown.set_current_target(LadyBrown::BOTTOM);
             }
-
-            if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-                doinker.set_state(true);
-            }
-            else {
-                doinker.set_state(false);
-            }
+            if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+                clamp.toggle();
+            }   
         }
-
-        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-            clamp.toggle();
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
+                doinker.toggle();
         }
 
         // Use delay until if this computation ends up being expensive, keeping loop time in check

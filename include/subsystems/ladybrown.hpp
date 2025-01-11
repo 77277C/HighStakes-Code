@@ -12,7 +12,7 @@ public:
     // Define the constants that hold the values of different ladybrown positions
     // Cycle positions
     static constexpr int AWAY = 70;
-    static constexpr int LOAD = 103;
+    static constexpr int LOAD = 99;
     static constexpr int READY_TO_SCORE = 200;
     static constexpr int SCORE = 235;
     // Util positions
@@ -38,15 +38,6 @@ public:
         if (this->current_target == AWAY) this->set_current_target(LOAD);
         else if (this->current_target == LOAD) this->set_current_target(READY_TO_SCORE);
         else if (this->current_target == READY_TO_SCORE) this->set_current_target(SCORE);
-        else {
-            this->set_current_target(AWAY);
-        }
-    }
-    void cycle_target(int num){
-        if (this->current_target == AWAY) this->set_current_target(LOAD);
-        else if (this->current_target == LOAD) this->set_current_target(READY_TO_SCORE);
-        else if (this->current_target == READY_TO_SCORE) this->set_current_target(SCORE);
-        else if (this->current_target == SCORE) this->set_current_target(BOTTOM);
         else {
             this->set_current_target(AWAY);
         }

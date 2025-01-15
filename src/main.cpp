@@ -184,9 +184,12 @@ void autonomous() {
             }
             if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
                 clamp.toggle();
-            }   
+            } 
+            if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+                intake_raise.toggle();
+            }     
         }
-        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
                 doinker.toggle();
         }
 

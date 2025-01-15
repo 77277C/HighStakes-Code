@@ -6,9 +6,9 @@ pros::adi::Pneumatics intake_piston('B', false);
 pros::adi::Pneumatics doinker_piston('C', false);
 
 pros::MotorGroup left_motors({-13, -5, -6}, pros::MotorGears::blue);
-pros::MotorGroup right_motors({1, 15, 3}, pros::MotorGears::blue);
+pros::MotorGroup right_motors({1, 15, 4}, pros::MotorGears::blue);
 
-pros::MotorGroup intake_motor({-7});
+pros::MotorGroup intake_motor({-7}, pros::MotorGears::blue);
 
 
 pros::Imu imu(16);

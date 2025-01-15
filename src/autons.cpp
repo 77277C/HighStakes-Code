@@ -4,12 +4,12 @@
 
 void red_left_after_mogo() {
    intake.move_percentage(100);
-   chassis.moveToPoint(-14, 33, 5000, {
+   chassis.moveToPoint(-22, 33, 5000, {
       .maxSpeed = 90,
       .earlyExitRange = 4
    });
 
-   chassis.moveToPose(-3.5, 55, 0, 5000, {
+   chassis.moveToPose(-10, 55, 0, 5000, {
       .lead = 0.6,
       .maxSpeed = 60,   
       .earlyExitRange = 1
@@ -86,12 +86,8 @@ void red_left() {
 }
 
 void solo_awp_red_left() {
-   chassis.setPose(-55.4, 17.5, 180);
+   chassis.setPose(-61.5, 9.5, 215);
    // score on alliance stake
-   chassis.moveToPoint(-54, 10.5, 1500);
-   chassis.waitUntilDone();
-   chassis.turnToPoint(-70, 0, 2000);
-   chassis.waitUntilDone();
    pros::delay(100);
    ladybrown.set_current_target(LadyBrown::BOTTOM);
    pros::delay(500);
@@ -102,7 +98,7 @@ void solo_awp_red_left() {
    });
    chassis.waitUntil(3);
    chassis.cancelMotion();
-   chassis.moveToPose(-25, 21.5, 245, 4000, {
+   chassis.moveToPose(-25, 15.5, 245, 4000, {
    
       .forwards = false,
 
@@ -114,16 +110,14 @@ void solo_awp_red_left() {
    ladybrown.set_current_target(LadyBrown::AWAY);
    chassis.waitUntilDone();
     
-   chassis.moveToPoint(-22, 22.5, 1500, {
+   chassis.moveToPoint(-22, 16.5, 1500, {
       .forwards = false,
       .maxSpeed = 90,
       .minSpeed = 60
    });
-   chassis.waitUntil(2);
-   clamp.set_state(true);
    chassis.waitUntilDone();
    pros::delay(200);
-   
+   clamp.set_state(true);
 
 
    // Do code for the solo awp and grabbing the first mogo
@@ -145,13 +139,14 @@ void blue_right_after_mogo() {
 
    chassis.waitUntilDone();
    pros::delay(100);
+   intake.move_percentage(100);
 
    chassis.moveToPoint(16, 50, 3000, {
        .maxSpeed = 80,
        .earlyExitRange = 3
    });
    chassis.waitUntilDone();
-
+   intake.move_percentage(100);
    pros::delay(500);
 
     chassis.moveToPoint(10, 35, 3000, {
@@ -165,7 +160,7 @@ void blue_right_after_mogo() {
       .maxSpeed = 100,
    });
 
-   chassis.waitUntil(20);
+   chassis.waitUntil(15);
    intake_raise.set_state(true);
    chassis.cancelMotion();
    
@@ -227,7 +222,7 @@ void blue_right_alliance_stake() {
    });
    chassis.waitUntil(3);
    chassis.cancelMotion();
-   chassis.moveToPose(25, 23, 115, 4000, {
+   chassis.moveToPose(25, 23.5, 115, 4000, {
    
       .forwards = false,
 
@@ -239,7 +234,7 @@ void blue_right_alliance_stake() {
    ladybrown.set_current_target(LadyBrown::AWAY);
    chassis.waitUntilDone();
     
-   chassis.moveToPoint(22, 24, 1500, {
+   chassis.moveToPoint(22, 24.5, 1500, {
       .forwards = false,
       .maxSpeed = 70,
       .minSpeed = 60
@@ -260,24 +255,24 @@ void red_right_after_mogo() {
 void red_rush() {
    chassis.setPose(-62, -35, 90);
 
-   chassis.moveToPoint(-12.5, -35.5, 3000);
+   chassis.moveToPoint(-10.25, -35.75, 3000);
    chassis.waitUntilDone();
 
-   chassis.turnToPoint(3, -47, 1000);
+   chassis.turnToPoint(5, -47, 1000);
    chassis.waitUntilDone();
 
-   ladybrown.set_current_target(310);
-   pros::delay(1300);
+   ladybrown.set_current_target(312);
+   pros::delay(2000);
 
    chassis.turnToPoint(-10, -48, 1000);
    chassis.waitUntilDone();
 
-   chassis.moveToPose(-19, -23, 120, 2500, {
+   chassis.moveToPose(-22, -15, 120, 2500, {
       .forwards = false,
    });
    chassis.waitUntilDone();
 
-   chassis.moveToPoint(-24, -22, 1500, {
+   chassis.moveToPoint(-24, -14, 1500, {
       .forwards = false,
       .maxSpeed = 70,
       .minSpeed = 60
@@ -286,8 +281,18 @@ void red_rush() {
 
    clamp.set_state(true);
    pros::delay(500);
+   intake.move_percentage(100);
+   chassis.moveToPoint(-16, -49, 3000);
+   chassis.waitUntilDone();
+   pros::delay(1000);
 
-   chassis.moveToPoint(-23, -47, 3000);
+   intake.move_percentage(100);
+   chassis.moveToPoint(-51, -57, 3000);
+   chassis.waitUntil(5);
+   intake.move_percentage(100);
+   chassis.waitUntilDone();
+
+   
 }
 
 void red_right_alliance_stake() {}
@@ -338,22 +343,41 @@ void blue_left_after_mogo() {
 }
 
 void blue_left() {
-   chassis.setPose(53.6, -32, 90);
+   chassis.setPose(62, -35, 270);
 
-   chassis.moveToPose(26, -25, 135, 3000, {
+   chassis.moveToPoint(10.75, -35.5, 3000);
+   chassis.waitUntilDone();
+
+   chassis.turnToPoint(0, -47, 1000);
+   chassis.waitUntilDone();
+
+   ladybrown.set_current_target(320);
+   pros::delay(1000);
+
+   chassis.turnToPoint(10, -48, 1000);
+   chassis.waitUntilDone();
+
+   chassis.moveToPose(19, -23, 230, 2500, {
       .forwards = false,
-      .earlyExitRange = 3
    });
-   chassis.moveToPoint(26, -25, 1000, {
+   chassis.waitUntilDone();
+
+   chassis.moveToPoint(26, -22.3, 1500, {
       .forwards = false,
-      .maxSpeed = 50
+      .maxSpeed = 70,
+      .minSpeed = 60
    });
    chassis.waitUntilDone();
 
    clamp.set_state(true);
-   pros::delay(50);
+   pros::delay(500);
+   intake.move_percentage(100);
+   chassis.moveToPoint(23, -49, 3000);
+   chassis.waitUntilDone();
+   intake.move_percentage(100);
+   pros::delay(1000);
 
-   blue_left_after_mogo();
+   chassis.moveToPoint(51, -62, 3000);
 }
 
 void blue_left_alliance() {

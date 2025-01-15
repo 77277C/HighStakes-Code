@@ -65,6 +65,7 @@ public:
                     double error = this->current_target.load() - current_angle;
                     double output = this->pid.update(error);
                     double feedforward_output = FEEDFORWARD_K * std::sin(180 - current_angle * (M_PI / 180));
+                    if (output < 0) feedforward_output = 0;
                     this->motor.move(output + feedforward_output);
                 }
 

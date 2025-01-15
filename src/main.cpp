@@ -11,8 +11,15 @@ lemlib::Drivetrain drivetrain(
 );
 
 
+lemlib::TrackingWheel vertical_tracking_wheel(
+        &vert_tracking_wheel_rotation,
+        2,
+        -3
+);
+
+
 lemlib::OdomSensors sensors(
-        nullptr,
+        &vertical_tracking_wheel,
         nullptr,
         nullptr,
         nullptr,
@@ -154,43 +161,26 @@ void autonomous() {
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
             intake.move_percentage(100);
         }
-        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
             intake.move_percentage(-100);
         }
         else {
             intake.move_percentage(0);
         }
-
-        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
-            ladybrown.toggle_pid_control();
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
+            ladybrown.cycle_target();
         }
-        if (!ladybrown.get_pid_control_status()) {
-            if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-                ladybrown.move_percentage(100);
-            }
-            else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-                ladybrown.move_percentage(-100);
-            }
-            else {
-                ladybrown.move_percentage(0);
-            }
-        }
-        else {
-            if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
-                ladybrown.cycle_target();
-            }
-            if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-                ladybrown.set_current_target(LadyBrown::BOTTOM);
-            }
-            if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
-                clamp.toggle();
-            } 
-            if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
-                intake_raise.toggle();
-            }     
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+            ladybrown.set_current_target(LadyBrown::BOTTOM);
         }
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-                doinker.toggle();
+            doinker.toggle();
+        }
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+            intake_raise.toggle();
+        }
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+            clamp.toggle();
         }
 
         // Use delay until if this computation ends up being expensive, keeping loop time in check

@@ -13,8 +13,8 @@ lemlib::Drivetrain drivetrain(
 
 lemlib::TrackingWheel vertical_tracking_wheel(
         &vert_tracking_wheel_rotation,
-        2,
-        -3
+        2.085,
+        0
 );
 
 
@@ -28,7 +28,7 @@ lemlib::OdomSensors sensors(
 
 
 lemlib::ControllerSettings lateral_controller(
-        12, // proportional gain (kP)
+        10, // proportional gain (kP)
         0, // integral gain (kI)
         45, // derivative gain (kD)
         3, // anti windup
@@ -36,7 +36,7 @@ lemlib::ControllerSettings lateral_controller(
         100, // small error range timeout, in milliseconds
         3, // large error range, in inches
         500, // large error range timeout, in milliseconds
-        20 // maximum acceleration (slew)
+        10 // maximum acceleration (slew)
 );
 
 
@@ -90,7 +90,7 @@ void initialize() {
     chassis.calibrate();
 
     // Start the color sorting task
-    intake.start_color_sort_task(RingColor::BLUE);
+    //intake.start_color_sort_task(RingColor::BLUE);
 
     // Start the ladybrown PID task
     ladybrown.start_pid_task();

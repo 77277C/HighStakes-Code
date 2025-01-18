@@ -12,7 +12,7 @@ public:
     // Define the constants that hold the values of different ladybrown positions
     // Cycle positions
     static constexpr int AWAY = 70;
-    static constexpr int LOAD = 100;
+    static constexpr int LOAD = 99;
     static constexpr int READY_TO_SCORE = 200;
     static constexpr int SCORE = 235;
     // Util positions

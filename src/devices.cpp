@@ -17,4 +17,4 @@ pros::Optical intake_optical(10);
 pros::Rotation ladybrown_rotation(10);
 pros::MotorGroup ladybrown_motor({-8});
 
-pros::Rotation vert_tracking_wheel_rotation(17);
+pros::Rotation vert_tracking_wheel_rotation(-17);

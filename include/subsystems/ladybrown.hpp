@@ -16,6 +16,7 @@ public:
     static constexpr int READY_TO_SCORE = 200;
     static constexpr int SCORE = 235;
     // Util positions
+    static constexpr int BOTTOM_READY = 260;
     static constexpr int BOTTOM = 290;
 
     // Feedforward constant
@@ -40,6 +41,16 @@ public:
         else if (this->current_target == READY_TO_SCORE) this->set_current_target(SCORE);
         else {
             this->set_current_target(AWAY);
+        }
+    }
+
+    /**
+     * @brief Cycle between bottom positions, if not on one, reset to BOTTOM_READY
+     */
+    void cycle_bottom_target() {
+        if (this->current_target == BOTTOM_READY) this->set_current_target(BOTTOM);
+        else {
+            this->set_current_target(BOTTOM_READY);
         }
     }
 

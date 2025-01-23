@@ -170,8 +170,8 @@ void autonomous() {
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
             ladybrown.cycle_target();
         }
-        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-            ladybrown.set_current_target(LadyBrown::BOTTOM);
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+            ladybrown.cycle_bottom_target();
         }
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
             doinker.toggle();

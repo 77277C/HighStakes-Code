@@ -12,15 +12,15 @@ public:
     // Define the constants that hold the values of different ladybrown positions
     // Cycle positions
     static constexpr int AWAY = 70;
-    static constexpr int LOAD = 99;
-    static constexpr int READY_TO_SCORE = 200;
+    static constexpr int LOAD = 105;
+    static constexpr int READY_TO_SCORE = 190;
     static constexpr int SCORE = 235;
     // Util positions
     static constexpr int BOTTOM_READY = 260;
     static constexpr int BOTTOM = 290;
 
     // Feedforward constant
-    static constexpr int FEEDFORWARD_K = 15;
+    static constexpr int FEEDFORWARD_K = 2;
 
     /**
      * @brief Construct the ladybrown subsystem object
@@ -77,6 +77,8 @@ public:
                     double output = this->pid.update(error);
                     double feedforward_output = FEEDFORWARD_K * std::sin(180 - current_angle * (M_PI / 180));
                     if (output < 0) feedforward_output = 0;
+                    static pros::Controller controller(pros::E_CONTROLLER_MASTER);
+                    controller.print(0, 0, "%.2f", output);
                     this->motor.move(output + feedforward_output);
                 }
 
@@ -126,7 +128,7 @@ private:
     // Save the devices as a private field
     pros::MotorGroup& motor;
     pros::Rotation& rotation;
-    lemlib::PID pid = lemlib::PID(1.4, 0, 0);
+    lemlib::PID pid = lemlib::PID(1.42, 0, 0);
     std::atomic<double> current_target = AWAY;
     pros::Task* pid_task = nullptr;
     bool pid_control_on = true;

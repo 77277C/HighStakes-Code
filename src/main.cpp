@@ -54,16 +54,16 @@ lemlib::ControllerSettings angular_controller(
 
 
 
-DoubleBandedExpoDriveCurve throttle_curve(3, // joystick deadband out of 127
+DoubleBandedExpoDriveCurve throttle_curve(10, // joystick deadband out of 127
                                           120, // joystick maxband out of 127
                                           10, // minimum output where drivetrain will move out of 127
                                           1.019 // expo curve gain
 );
 
 
-lemlib::ExpoDriveCurve steer_curve(3, // joystick deadband out of 127
+lemlib::ExpoDriveCurve steer_curve(10, // joystick deadband out of 127
                                    10, // minimum output where drivetrain will move out of 127
-                                   1.019 // expo curve gain
+                                   1.03 // expo curve gain
 );
 
 lemlib::Chassis chassis(drivetrain, lateral_controller, angular_controller, sensors, &throttle_curve, &steer_curve);
@@ -154,7 +154,7 @@ void autonomous() {
         // Operate the drivetrain
         int left_y = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         int right_x = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
-        chassis.arcade(left_y, right_x, false, 0.6);
+        chassis.arcade(left_y, right_x, false, 0.5);
 
         // Run the commands
         // This might be an expensive(Time wise) computation

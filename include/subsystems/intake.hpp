@@ -13,6 +13,12 @@ enum class RingColor {
 };
 
 
+enum class IntakeMotors {
+    BOTH,
+    FRONT,
+    HOOKS
+};
+
 class Intake {
 public:
     /**
@@ -21,8 +27,8 @@ public:
      * @param motor The motor object to use
      * @param optical the optical sensor object to use
      */
-    explicit Intake(pros::MotorGroup& motor, pros::Optical& optical)
-        : motor(motor), optical(optical) {
+    explicit Intake(pros::MotorGroup& hooks, pros::MotorGroup& front, pros::Optical& optical)
+        : hooks(hooks), front(front), optical(optical) {
         this->optical.set_led_pwm(100);
         this->optical.disable_gesture();
         this->optical.set_integration_time(10);
@@ -64,26 +70,37 @@ public:
      * @param delay the amount of time in ms to pause the intake for
      */
     void pause(const int delay) {
-        int old_voltage = this->motor.get_voltage();
-        this->motor.move_voltage(0);
+        int old_voltage = this->hooks.get_voltage();
+        this->hooks.move_voltage(0);
         pros::delay(delay);
-        this->motor.move_voltage(old_voltage);
+        this->hooks.move_voltage(old_voltage);
     }
 
     /**
      * @brief This function moves the intake from a percentage -100% - 100%
      * @param percentage The percentage to use [-100, 100]
      */
-    void move_percentage(const int percentage) {
+    void move_percentage(const int percentage, IntakeMotors motors = IntakeMotors::BOTH) {
         // Do not interfere with colorsorting
         mutex.take(TIMEOUT_MAX);
-        this->motor.move(percentage * 1.27);
+        if (motors == IntakeMotors::BOTH) {
+            this->front.move(percentage * 1.27);
+            this->hooks.move(percentage * 1.27);
+        }
+        if (motors == IntakeMotors::HOOKS) {
+            this->hooks.move(percentage * 1.27);
+        }
+        if (motors == IntakeMotors::FRONT) {
+            this->front.move(percentage * 1.27);
+        }
+
         mutex.give();
     }
 
 private:
     // Save the device as a private field
-    pros::MotorGroup& motor;
+    pros::MotorGroup& hooks;
+    pros::MotorGroup& front;
     pros::Optical& optical;
     pros::Task* color_sort_task = nullptr;
     bool color_sort_on = true;

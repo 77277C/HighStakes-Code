@@ -73,7 +73,7 @@ rd::Selector selector(autons);
 
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
-Intake intake(intake_motor, intake_optical);
+Intake intake(intake_hooks, intake_front, intake_optical);
 Clamp clamp(clamp_piston);
 Doinker doinker(doinker_piston);
 Doinker intake_raise(intake_piston);

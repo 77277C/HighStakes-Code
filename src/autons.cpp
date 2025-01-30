@@ -481,13 +481,13 @@ void skills() {
 
 
 
-   chassis.moveToPoint(3, -5, 4000, {.minSpeed = 70});
+   chassis.moveToPoint(6, -3, 4000, {.minSpeed = 70});
    intake.move_percentage(100, IntakeMotors::FRONT);
    chassis.waitUntilDone();
    pros::delay(500);
 
-   chassis.moveToPoint(-40, -22.5,  2500, {.forwards = false,  .earlyExitRange = 1});
-   chassis.moveToPoint(-42, -23.7, 800, {.forwards = false});
+   chassis.moveToPoint(-39, -25.5,  2500, {.forwards = false,  .earlyExitRange = 1});
+   chassis.moveToPoint(-43, -28, 800, {.forwards = false});
    chassis.waitUntilDone();
    clamp.set_state(true);
    
@@ -500,20 +500,21 @@ void skills() {
    ladybrown.cycle_target();
 
    intake.move_percentage(100);
-   chassis.moveToPoint(8.5, -65, 2000);
+   chassis.moveToPoint(8.5, -68, 2000);
    intake.move_percentage(100, IntakeMotors::FRONT);
    chassis.waitUntilDone();
    
    intake.move_percentage(0, IntakeMotors::HOOKS);
    ladybrown.cycle_target();
    ladybrown.cycle_target();
-   pros::delay(700);
+   pros::delay(1000);
 
 
 
    chassis.moveToPoint(6, -47, 3000, {.forwards = false, .earlyExitRange = 3});
    ladybrown.cycle_target();
    intake.move_percentage(100);
+   intake.move_percentage(100, IntakeMotors::FRONT);
 
 
 
@@ -548,10 +549,15 @@ void skills() {
    intake.move_percentage(100, IntakeMotors::FRONT);
    chassis.waitUntilDone();
 
-   chassis.moveToPose(42, -4, 230, 15000, {.forwards = false, .minSpeed = 80});
+   chassis.moveToPoint(42, -8, 15000, {.forwards = false, .minSpeed = 80});
    chassis.waitUntilDone();
 
    clamp.set_state(true);
+   pros::delay(200);
+
+   chassis.moveToPoint(49, -57, 4000);
+   intake.move_percentage(100);
+   chassis.waitUntilDone();
 
 
 

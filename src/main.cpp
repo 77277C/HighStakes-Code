@@ -126,7 +126,9 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
     selector.run_auton();
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 }
 
 /**
@@ -143,6 +145,7 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 [[ noreturn ]] void opcontrol() {
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
     while (true) {
         // Store the start time
         auto start_time = pros::millis();

@@ -158,7 +158,11 @@ void autonomous() {
 
         // Run the commands
         // This might be an expensive(Time wise) computation
-        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) && controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+            intake.move_percentage(100, IntakeMotors::FRONT);
+            intake.move_percentage(0, IntakeMotors::HOOKS);
+        }
+        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
             intake.move_percentage(100);
         }
         else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
@@ -179,7 +183,7 @@ void autonomous() {
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
             intake_raise.toggle();
         }
-        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+        if (!controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) && controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
             clamp.toggle();
         }
 

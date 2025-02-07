@@ -33,7 +33,7 @@ void red_left_after_mogo() {
    });
    chassis.waitUntilDone();
 
-   chassis.moveToPoint(-45, 2, 3500, {
+   chassis.moveToPoint(-56, 2, 3500, {
       .maxSpeed = 100,
    });
 
@@ -41,21 +41,22 @@ void red_left_after_mogo() {
    intake_raise.set_state(true);
    chassis.cancelMotion();
    
-   chassis.moveToPoint(-43, 7, 3500, {
+   chassis.moveToPoint(-56, 7, 3500, {
       .maxSpeed = 50,
    });
    chassis.waitUntilDone();
 
    intake_raise.set_state(false);
    
-   pros::delay(300);
+   pros::delay(1000);
    
-   chassis.moveToPoint(-41, 10, 3500, {
+   chassis.moveToPoint(-56, 15, 3500, {
       .forwards = false,
-      .maxSpeed = 100,
+      .maxSpeed = 50,
    });
    chassis.waitUntilDone();
 
+   pros::delay(1000);
    chassis.moveToPoint(-29, 0, 800);
    intake.move_percentage(100);
    chassis.waitUntilDone();
@@ -64,27 +65,20 @@ void red_left_after_mogo() {
 }
 
 void red_left() {
-   chassis.setPose(-55, 43.5, 270);
-   chassis.moveToPose(-23.5, 25, 310, 5000, {
-      .forwards = false,
-      .lead = 0.5
+   chassis.setPose(-51, 36, 310);
+   chassis.moveToPoint(-23.5, 14,5000, {
+      .forwards = false
    });
    chassis.waitUntil(15);
    chassis.cancelMotion();
-   chassis.moveToPose(-24, 24.5, 310, 5000, {
-      .forwards = false,
-      .maxSpeed = 30
+   chassis.moveToPoint(-23.5, 14,5000, {
+      .forwards = false
    });
-   chassis.waitUntil(15);
-   clamp.set_state(true);
    chassis.waitUntilDone();
+   clamp.set_state(true);
 
-   chassis.setPose(-23.5, 22.5, chassis.getPose().theta);
-    chassis.turnToHeading(360, 2000);
-    chassis.waitUntilDone();
-    chassis.moveToPoint(-23.5, 28, 2000, {.maxSpeed = 80});
-    chassis.waitUntilDone();
-    chassis.setPose(-16.5, 30, chassis.getPose().theta);
+
+   chassis.setPose(-35, 27.5, chassis.getPose().theta);
    red_left_after_mogo();
 }
 
@@ -146,7 +140,7 @@ void blue_right_after_mogo() {
    intake.move_percentage(100);
    chassis.waitUntilDone();
 
-   chassis.moveToPose(20, 32, 335, 2500, {
+   chassis.moveToPose(20, 32, 335, 2000, {
        .forwards = false,
        .maxSpeed = 100,
        .minSpeed = 80,
@@ -161,14 +155,14 @@ void blue_right_after_mogo() {
    });
 
    chassis.waitUntilDone();
-   chassis.moveToPoint(68, 67, 2500);
-   chassis.waitUntilDone();
+   //chassis.moveToPoint(68, 67, 2500);
+   //chassis.waitUntilDone();
    intake.move_percentage(100);
    
 
-   chassis.moveToPoint(50, 50, 3000, {.forwards = false, .minSpeed = 70, .earlyExitRange = 3});
+   //chassis.moveToPoint(50, 50, 3000, {.forwards = false, .minSpeed = 70, .earlyExitRange = 3});
 
-   chassis.moveToPoint(47.5, 2, 3500, {
+   chassis.moveToPoint(55, 5, 3500, {
       .minSpeed = 110,
    });
 
@@ -176,7 +170,7 @@ void blue_right_after_mogo() {
    intake_raise.set_state(true);
    chassis.cancelMotion();
    
-   chassis.moveToPoint(47.2, 3, 3500, {
+   chassis.moveToPoint(57, 7.5, 3500, {
       .maxSpeed = 60,
    });
    chassis.waitUntilDone();
@@ -185,44 +179,53 @@ void blue_right_after_mogo() {
    
    pros::delay(300);
    
-   chassis.moveToPoint(46, 5, 3500, {
+   chassis.moveToPoint(57, 7.5, 3500, {
       .forwards = false,
       .maxSpeed = 100,
    });
    chassis.waitUntilDone();
    intake.move_percentage(100);
-   chassis.moveToPoint(28, 0, 800);
+   chassis.moveToPoint(74, 69, 3500);
    chassis.waitUntilDone();
+   intake.move_percentage(100);
+   pros::delay(400);
+   chassis.moveToPoint(50, 50, 3500, {.forwards = false});
+   intake.move_percentage(100);
+   
+   chassis.moveToPoint(63, -44, 5000);
+   chassis.waitUntilDone();
+   pros::delay(2000);
 }
 
 void blue_right() {
-   chassis.setPose(55, 43.5, 90);
-   chassis.moveToPose(23.5, 25, 50, 5000, {
-      .forwards = false,
-      .lead = 0.5
+   chassis.setPose(51, 36, 50);
+   chassis.moveToPoint(23.5, 14,5000, {
+      .forwards = false
    });
    chassis.waitUntil(15);
    chassis.cancelMotion();
-
-   chassis.moveToPose(24, 24.5, 50, 5000, {
-      .forwards = false,
-      .maxSpeed = 60
+   chassis.moveToPoint(23.5, 14,5000, {
+      .forwards = false
    });
-   chassis.waitUntil(15);
-   clamp.set_state(true);
    chassis.waitUntilDone();
+   clamp.set_state(true);
 
-   chassis.setPose(23.5, 22.5, chassis.getPose().theta);
+
+   chassis.setPose(34, 27.5, chassis.getPose().theta);  
 
    blue_right_after_mogo();
 }
 
 void blue_right_alliance_stake() {
-   chassis.setPose(61.5, 9.5, 145);
+   chassis.setPose(58, 12, 145);
    // score on alliance stake
    pros::delay(100);
+
+   chassis.moveToPoint(61, 9, 700);
    ladybrown.set_current_target(LadyBrown::BOTTOM);
-   pros::delay(700);
+   chassis.waitUntilDone();
+
+   pros::delay(300);
    chassis.moveToPoint(30, 34, 5000, {
    
       .forwards = false,

@@ -21,6 +21,7 @@ public:
      */
     void set_state(const bool state) {
         piston.set_value(state);
+        this->check_status();
     }
 
     /**
@@ -28,6 +29,17 @@ public:
      */
     void toggle() {
         piston.toggle();
+        this->check_status();
+    }
+
+    /**
+     * @brief Rumble the controller if the piston was extended
+     */
+    void check_status() {
+        static pros::Controller controller(pros::E_CONTROLLER_MASTER);
+        if (piston.is_extended()) {
+            controller.rumble(".");
+        }
     }
 
 

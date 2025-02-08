@@ -257,8 +257,184 @@ void blue_right_alliance_stake() {
 
    blue_right_after_mogo();
 }
+void blue_safe(){
+   chassis.setPose(54.5, 16.5, 130);
+   // score on alliance stake
+   pros::delay(100);
+   chassis.moveToPoint(56.5, 10, 2000);
+   chassis.waitUntilDone();
+   pros::delay(200);
+   ladybrown.set_current_target(LadyBrown::BOTTOM);
+   pros::delay(1300);
+   chassis.moveToPoint(30, 27, 5000, {
+   
+      .forwards = false,
+      .maxSpeed = 100,
+   });
+   chassis.waitUntil(5);
+   
+   ladybrown.set_current_target(LadyBrown::AWAY);
+   chassis.waitUntilDone();
+    
+   chassis.waitUntil(25);
+   chassis.cancelMotion();
+   
 
-void red_right_after_mogo() {
+   chassis.moveToPoint(24, 30, 5000, {
+   
+      .forwards = false,
+      .maxSpeed = 50,
+   });
+   chassis.waitUntilDone();
+   clamp.set_state(true);
+   intake.move_percentage(100);
+   // Do code for the solo awp and grabbing the first mogo
+   chassis.moveToPoint(22, 54, 5000, {
+   
+      .maxSpeed = 80,
+   });
+
+   chassis.waitUntilDone();
+
+   chassis.moveToPoint(30, 50, 5000, {
+   
+      .forwards = false,
+      .maxSpeed = 50,
+   });
+
+   chassis.waitUntilDone();
+
+   chassis.moveToPoint(9, 54, 5000, {
+   
+      .maxSpeed = 50,
+   });
+
+   chassis.waitUntilDone();
+   pros::delay(1000);
+
+   chassis.moveToPoint(30, 50, 5000, {
+   
+      .forwards = false,
+      .maxSpeed = 50,
+   });
+
+   chassis.waitUntilDone();
+   chassis.moveToPoint(45, 0, 5000, {
+   
+      .maxSpeed = 75,
+   });
+   chassis.waitUntil(10);
+
+   intake_raise.set_state(true);
+   chassis.waitUntilDone();
+   intake_raise.set_state(false);
+
+   chassis.moveToPoint(28, 22, 5000, {
+   
+      .forwards = false,
+      .maxSpeed = 50,
+   });
+   chassis.waitUntilDone();
+
+   chassis.moveToPoint(15, 15, 5000, {
+   
+      .maxSpeed = 50,
+   });
+
+   chassis.waitUntilDone();
+
+   ladybrown.cycle_target();
+   ladybrown.cycle_target();
+   pros::delay(2000);
+}
+void red_safe() {
+   chassis.setPose(-54.5, 16.5, 225);
+   // score on alliance stake
+   pros::delay(100);
+   chassis.moveToPoint(-58, 13, 2000);
+   chassis.waitUntilDone();
+   ladybrown.set_current_target(LadyBrown::BOTTOM);
+   pros::delay(1000);
+   chassis.moveToPoint(-30, 30, 5000, {
+   
+      .forwards = false,
+      .maxSpeed = 100,
+   });
+   chassis.waitUntil(5);
+   
+   ladybrown.set_current_target(LadyBrown::AWAY);
+   chassis.waitUntilDone();
+    
+   chassis.waitUntil(25);
+   chassis.cancelMotion();
+   
+
+   chassis.moveToPoint(-26, 34, 5000, {
+   
+      .forwards = false,
+      .maxSpeed = 50,
+   });
+   chassis.waitUntilDone();
+   clamp.set_state(true);
+   intake.move_percentage(100);
+   // Do code for the solo awp and grabbing the first mogo
+   chassis.moveToPoint(-30, 54, 5000, {
+   
+      .maxSpeed = 80,
+   });
+
+   chassis.waitUntilDone();
+
+   chassis.moveToPoint(-30, 50, 5000, {
+   
+      .forwards = false,
+      .maxSpeed = 50,
+   });
+
+   chassis.waitUntilDone();
+
+   chassis.moveToPoint(-12, 55, 5000, {
+   
+      .maxSpeed = 50,
+   });
+
+   chassis.waitUntilDone();
+   pros::delay(1000);
+
+   chassis.moveToPoint(-30, 50, 5000, {
+   
+      .forwards = false,
+      .maxSpeed = 50,
+   });
+
+   chassis.waitUntilDone();
+   chassis.moveToPoint(-45, 0, 5000, {
+   
+      .maxSpeed = 50,
+   });
+   chassis.waitUntil(10);
+
+   intake_raise.set_state(true);
+   chassis.waitUntilDone();
+   intake_raise.set_state(false);
+
+   chassis.moveToPoint(-28, 22, 5000, {
+   
+      .forwards = false,
+      .maxSpeed = 50,
+   });
+   chassis.waitUntilDone();
+
+   chassis.moveToPoint(-15, 15, 5000, {
+   
+      .maxSpeed = 50,
+   });
+
+   chassis.waitUntilDone();
+
+   ladybrown.cycle_target();
+   ladybrown.cycle_target();
+   pros::delay(2000);
 
 }
 
@@ -661,7 +837,8 @@ void pid_tuning2(){
 
 
 std::vector<rd::Selector::routine_t> autons = {
-   {"Test", score_alliance},
+   {"Red Safe", red_safe},
+   {"Blue Safe", blue_safe},
    {"Red right", red_rush},
    {"Skills", skills},
    {"PID", pid_tuning},

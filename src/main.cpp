@@ -180,8 +180,11 @@ void autonomous() {
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
             ladybrown.cycle_bottom_target();
         }
-        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-            doinker.toggle();
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+            doinker.set_state(true);
+        }
+        else {
+            doinker.set_state(false);
         }
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
             intake_raise.toggle();

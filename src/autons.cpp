@@ -2,6 +2,40 @@
 #include "subsystems/ladybrown.hpp"
 
 
+/**
+ * Call this function to set the PID constants to no mogo constants
+ * DO NOT MODIFY THIS FUNCTION. IT EXTRACTS THE CONSTANTS FROM main.cpp
+ */
+void no_mogo_pid_constants() {
+   // Set the lateral pid constants of the original PID controller settings
+   // the original PID controllers settings is tuned for no mogo
+   chassis.lateralPID.kP = lateral_controller.kP;
+   chassis.lateralPID.kI = lateral_controller.kI;
+   chassis.lateralPID.kD = lateral_controller.kD;
+
+   // Set the angular consants
+   chassis.angularPID.kP = angular_controller.kP;
+   chassis.angularPID.kI = angular_controller.kI;
+   chassis.angularPID.kD = angular_controller.kD;
+}
+
+
+/**
+ * Call this function to set PID constants to empty mogo constants
+ */
+void empty_mogo_pid_constants() {
+   // Set the lateral constants (modify when tuning)
+   chassis.lateralPID.kP = 1;
+   chassis.lateralPID.kI = 1;
+   chassis.lateralPID.kD = 1;
+
+   // Set the angular constants (modify when tuning)
+   chassis.angularPID.kP = 1;
+   chassis.angularPID.kI = 1;
+   chassis.angularPID.kD = 1;
+}
+
+
 void red_left_after_mogo() {
    intake.move_percentage(100);
    chassis.moveToPoint(-22, 33, 5000, {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pros/motor_group.hpp"
+#include <atomic>
 
 #ifndef DELAY_TIME
 #define DELAY_TIME 10
@@ -13,12 +14,6 @@ enum class RingColor {
 };
 
 
-enum class IntakeMotors {
-    BOTH,
-    FRONT,
-    HOOKS
-};
-
 class Intake {
 public:
     /**
@@ -26,30 +21,70 @@ public:
      *
      * @param motor The motor object to use
      * @param optical the optical sensor object to use
+     * @param color the alliance color
      */
-    explicit Intake(pros::MotorGroup& hooks, pros::MotorGroup& front, pros::Optical& optical)
+    explicit Intake(pros::MotorGroup& hooks, pros::MotorGroup& front, pros::Optical& optical, RingColor color)
         : hooks(hooks), front(front), optical(optical) {
         this->optical.set_led_pwm(100);
         this->optical.disable_gesture();
         this->optical.set_integration_time(10);
+        this->set_color(color);
+    }
+
+    /**
+     * @brief Set the alliance color
+     * @param color The new color
+     */
+    void set_color(RingColor color) {
+        this->color = color;
+    }
+
+    /**
+     * @brief Swap the alliance color
+     */
+    void swap_color() {
+        if (this->color == RingColor::BLUE) {
+            this->color = RingColor::RED;
+        }
+        else {
+            this->color = RingColor::BLUE;
+        }
+    }
+
+    /**
+     * @brief print the alliance color to the given controller
+     * @param controller the given controller
+     */
+    void print_color(pros::Controller& controller) {
+        if (this->color == RingColor::BLUE) {
+            controller.print(0, 0, "blue");
+        }
+        else {
+            controller.print(0, 0, "red");
+        }
     }
 
     /**
      * @brief start the task for color sorting
-     *
-     * @param color The alliance color
      */
-    void start_color_sort_task(RingColor* color) {
+    void start_color_sort_task() {
         this->color_sort_task = new pros::Task([&]() {
             while (true) {
                 if (this->color_sort_on) {
-                    pros::c::optical_rgb_s_t rgb = this->optical.get_rgb();
-                    if ((*color == RingColor::BLUE && rgb.red >= 200) ||
-                        (*color == RingColor::RED && rgb.blue >= 200)) {
-                        // Ensure that no opcontrol commands happen during this time
-                        mutex.take(TIMEOUT_MAX);
-                        this->pause(100);
-                        mutex.give();
+                    double hue = optical.get_hue();
+                    double proximity = optical.get_proximity();
+                    if (
+                        proximity < 0 &&
+                        ((color == RingColor::BLUE && hue > 200 && hue < 260) ||
+                        (color == RingColor::RED && (hue > 330 || hue < 30)))
+                    ) {
+                        this->mutex.take();
+                        double initial_position = hooks.get_position();
+                        while (hooks.get_position() - initial_position < 100) {
+                            this->hooks.move(-127);
+                        }
+                        this->hooks.move(0);
+                        this->mutex.give();
                     }
                 }
                 pros::delay(DELAY_TIME);
@@ -65,35 +100,56 @@ public:
     }
 
     /**
-     * @brief Pause the intake for a certain time
-     *
-     * @param delay the amount of time in ms to pause the intake for
+     * @brief Stop the next ring when it reaches the optical sensor
+     * @param shouldPause whether to pause the intake until a new press or not
+     *                    should be false in auton and true in opcontrol
+     * @return The created task
      */
-    void pause(const int delay) {
-        int old_voltage = this->hooks.get_voltage();
-        this->hooks.move_voltage(0);
-        pros::delay(delay);
-        this->hooks.move_voltage(old_voltage);
+    pros::Task* queue_ring(bool shouldPause) {
+        return new pros::Task([&]() {
+            while (true) {
+                if (this->optical.get_proximity() < 80) {
+                    // Attempt to stop the intake for a second before aborting
+                    this->move_percentage(0, 1000);
+
+                    if (shouldPause) {
+                        // Intake is paused, needs new button press to restart
+                        this->pause();
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * Make the next input require a new press
+     */
+    void pause() {
+        this->paused.store(true);
+    }
+
+    /**
+     * Unpause the intake
+     */
+    void resume() {
+        this->paused.store(false);
     }
 
     /**
      * @brief This function moves the intake from a percentage -100% - 100%
+     *        Ignore all inputs if intake is paused
      * @param percentage The percentage to use [-100, 100]
+     * @param timeout The timeout to wait before bailing the move command
+     *                This should be TIMEOUT_MAX in autons but should be DELAY_TIME
+     *                in opcontrol because move commands are repeatedly fired
      */
-    void move_percentage(const int percentage, IntakeMotors motors = IntakeMotors::BOTH) {
-        // Do not interfere with colorsorting
-        mutex.take(TIMEOUT_MAX);
-        if (motors == IntakeMotors::BOTH) {
-            this->front.move(percentage * 1.27);
-            this->hooks.move(percentage * 1.27);
+    void move_percentage(const int percentage, const int timeout) {
+        if (this->paused.load()) {
+            return;
         }
-        if (motors == IntakeMotors::HOOKS) {
-            this->hooks.move(percentage * 1.27);
-        }
-        if (motors == IntakeMotors::FRONT) {
-            this->front.move(percentage * 1.27);
-        }
-
+        mutex.take(timeout);
+        this->front.move(percentage * 1.27);
+        this->hooks.move(percentage * 1.27);
         mutex.give();
     }
 
@@ -104,6 +160,8 @@ private:
     pros::Optical& optical;
     pros::Task* color_sort_task = nullptr;
     bool color_sort_on = true;
+    std::atomic<bool> paused = false;
     pros::Mutex mutex;
+    RingColor color;
 };
 

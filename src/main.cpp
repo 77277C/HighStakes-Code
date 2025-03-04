@@ -73,7 +73,7 @@ rd::Selector selector(autons);
 
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
-Intake intake(intake_hooks, intake_front, intake_optical);
+Intake intake(intake_hooks, intake_front, intake_optical, RingColor::BLUE);
 Clamp clamp(clamp_piston);
 Doinker doinker(doinker_piston);
 Doinker intake_raise(intake_piston);
@@ -90,7 +90,7 @@ void initialize() {
     chassis.calibrate();
 
     // Start the color sorting task
-    //intake.start_color_sort_task(RingColor::BLUE);
+    intake.start_color_sort_task();
 
     // Start the ladybrown PID task
     ladybrown.start_pid_task();
@@ -161,34 +161,46 @@ void autonomous() {
 
         // Run the commands
         // This might be an expensive(Time wise) computation
-        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) && controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-            intake.move_percentage(100, IntakeMotors::FRONT);
-            intake.move_percentage(0, IntakeMotors::HOOKS);
+
+        // Intake
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
+            intake.resume();
         }
-        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-            intake.move_percentage(100);
+
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+            intake.move_percentage(100, DELAY_TIME);
         }
         else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-            intake.move_percentage(-100);
+            intake.move_percentage(-100, DELAY_TIME);
         }
         else {
-            intake.move_percentage(0);
+            intake.move_percentage(0, DELAY_TIME);
         }
+
+        // Intake Colorsort
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+            intake.swap_color();
+            intake.print_color(controller);
+        }
+
+
+        // Ladybrown
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
             ladybrown.cycle_target();
         }
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
             ladybrown.cycle_bottom_target();
         }
+
+        // Doinker
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
             doinker.set_state(true);
         }
         else {
             doinker.set_state(false);
         }
-        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
-            intake_raise.toggle();
-        }
+
+        // Clamp
         if (!controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) && controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
             clamp.toggle();
         }

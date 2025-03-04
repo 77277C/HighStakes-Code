@@ -2,7 +2,6 @@
 
 
 pros::adi::Pneumatics clamp_piston('A', false);
-pros::adi::Pneumatics intake_piston('B', false);
 pros::adi::Pneumatics doinker_piston('C', false);
 
 pros::MotorGroup left_motors({-13, -12, -9}, pros::MotorGears::blue);

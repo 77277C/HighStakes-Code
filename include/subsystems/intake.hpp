@@ -39,13 +39,13 @@ public:
      *
      * @param color The alliance color
      */
-    void start_color_sort_task(const RingColor color) {
+    void start_color_sort_task(RingColor* color) {
         this->color_sort_task = new pros::Task([&]() {
             while (true) {
                 if (this->color_sort_on) {
                     pros::c::optical_rgb_s_t rgb = this->optical.get_rgb();
-                    if ((color == RingColor::BLUE && rgb.red >= 200) ||
-                        (color == RingColor::RED && rgb.blue >= 200)) {
+                    if ((*color == RingColor::BLUE && rgb.red >= 200) ||
+                        (*color == RingColor::RED && rgb.blue >= 200)) {
                         // Ensure that no opcontrol commands happen during this time
                         mutex.take(TIMEOUT_MAX);
                         this->pause(100);

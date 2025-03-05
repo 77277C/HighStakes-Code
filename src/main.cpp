@@ -75,8 +75,8 @@ rd::Selector selector(autons);
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 Intake intake(intake_hooks, intake_front, intake_optical, RingColor::BLUE);
 Clamp clamp(clamp_piston);
-Doinker doinker(doinker_piston);
-Doinker intake_raise(intake_piston);
+Doinker left_doinker(left_doinker_piston);
+Doinker right_doinker(right_doinker_piston);
 LadyBrown ladybrown(ladybrown_motor, ladybrown_rotation);
 
 /**
@@ -161,20 +161,22 @@ void autonomous() {
 
         // Run the commands
         // This might be an expensive(Time wise) computation
-
-        // Intake
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
             intake.resume();
         }
 
+        // Intake
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
             intake.move_percentage(100, DELAY_TIME);
         }
-        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)) {
             intake.move_percentage(-100, DELAY_TIME);
         }
         else {
             intake.move_percentage(0, DELAY_TIME);
+        }
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+            intake.queue_ring(true);
         }
 
         // Intake Colorsort
@@ -182,26 +184,29 @@ void autonomous() {
             intake.swap_color();
             intake.print_color(controller);
         }
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+            intake.toggle_color_sort();
+        }
 
 
         // Ladybrown
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
             ladybrown.cycle_target();
         }
-        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
             ladybrown.cycle_bottom_target();
         }
 
         // Doinker
-        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
-            doinker.set_state(true);
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+            right_doinker.toggle();
         }
-        else {
-            doinker.set_state(false);
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+            left_doinker.toggle();
         }
 
         // Clamp
-        if (!controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) && controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+        if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
             clamp.toggle();
         }
 

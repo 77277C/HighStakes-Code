@@ -12,7 +12,7 @@ public:
     // Define the constants that hold the values of different ladybrown positions
     // Cycle positions
     static constexpr int AWAY = 70;
-    static constexpr int LOAD = 112;
+    static constexpr int LOAD = 122;
     static constexpr int READY_TO_SCORE = 170;
     static constexpr int SCORE = 235;
     // Util positions
@@ -78,7 +78,6 @@ public:
                     double feedforward_output = FEEDFORWARD_K * std::sin(180 - current_angle * (M_PI / 180));
                     if (output < 0) feedforward_output = 0;
                     static pros::Controller controller(pros::E_CONTROLLER_MASTER);
-                    controller.print(0, 0, "%.2f", output);
                     this->motor.move(output + feedforward_output);
                 }
 

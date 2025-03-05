@@ -2,6 +2,8 @@
 #include "subsystems/ladybrown.hpp"
 
 
+
+
 /**
  * Call this function to set the PID constants to no mogo constants
  * DO NOT MODIFY THIS FUNCTION. IT EXTRACTS THE CONSTANTS FROM main.cpp
@@ -35,7 +37,7 @@ void empty_mogo_pid_constants() {
    chassis.angularPID.kD = 1;
 }
 
-
+/*
 void red_left_after_mogo() {
    intake.move_percentage(100);
    chassis.moveToPoint(-22, 33, 5000, {
@@ -869,8 +871,9 @@ void pid_tuning2(){
     controller.print(0, 0, "%.2f", chassis.getPose().y);
 }
 
-
+*/
 std::vector<rd::Selector::routine_t> autons = {
+   /*
    {"Red Safe", red_safe},
    {"Blue Safe", blue_safe},
    {"Red right", red_rush},
@@ -885,5 +888,5 @@ std::vector<rd::Selector::routine_t> autons = {
    {"Red Red Alliance Stake", red_right_alliance_stake},
    {"Blue left", blue_left},
    {"Blue Left Alliance Stake", blue_left_alliance},
-   
+   */
 };

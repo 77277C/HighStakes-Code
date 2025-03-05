@@ -72,17 +72,21 @@ public:
             while (true) {
                 if (this->color_sort_on) {
                     double hue = optical.get_hue();
+                    static pros::Controller controller(pros::E_CONTROLLER_MASTER);
                     double proximity = optical.get_proximity();
                     if (
-                        proximity < 0 &&
+                        proximity > 200 &&
                         ((color == RingColor::BLUE && hue > 200 && hue < 260) ||
                         (color == RingColor::RED && (hue > 330 || hue < 30)))
                     ) {
+                        pros::delay(100);
                         this->mutex.take();
                         double initial_position = hooks.get_position();
-                        while (hooks.get_position() - initial_position < 100) {
+                        while (initial_position - hooks.get_position() < 100) {
+                            this->front.move(-127);
                             this->hooks.move(-127);
                         }
+                        this->front.move(0);
                         this->hooks.move(0);
                         this->mutex.give();
                     }
@@ -108,7 +112,7 @@ public:
     pros::Task* queue_ring(bool shouldPause) {
         return new pros::Task([&]() {
             while (true) {
-                if (this->optical.get_proximity() < 80) {
+                if (this->optical.get_proximity() > 200) {
                     // Attempt to stop the intake for a second before aborting
                     this->move_percentage(0, 1000);
 
@@ -116,7 +120,10 @@ public:
                         // Intake is paused, needs new button press to restart
                         this->pause();
                     }
+                    break;
                 }
+
+                pros::delay(DELAY_TIME);
             }
         });
     }
@@ -159,7 +166,7 @@ private:
     pros::MotorGroup& front;
     pros::Optical& optical;
     pros::Task* color_sort_task = nullptr;
-    bool color_sort_on = true;
+    bool color_sort_on = false;
     std::atomic<bool> paused = false;
     pros::Mutex mutex;
     RingColor color;

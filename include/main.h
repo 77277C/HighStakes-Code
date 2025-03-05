@@ -77,7 +77,8 @@
 extern lemlib::Chassis chassis;
 extern Intake intake;
 extern Clamp clamp;
-extern Doinker doinker;
+extern Doinker left_doinker;
+extern Doinker right_doinker;
 extern LadyBrown ladybrown;
 extern Doinker intake_raise;
 

@@ -7,8 +7,8 @@
 #include "pros/imu.hpp"
 
 extern pros::adi::Pneumatics clamp_piston;
-extern pros::adi::Pneumatics doinker_piston;
-extern pros::adi::Pneumatics intake_piston;
+extern pros::adi::Pneumatics left_doinker_piston;
+extern pros::adi::Pneumatics right_doinker_piston;
 extern pros::MotorGroup left_motors;
 extern pros::MotorGroup right_motors;
 extern pros::MotorGroup intake_hooks;

@@ -126,9 +126,11 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
+    intake.set_colorsort(true);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
     selector.run_auton();
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+    intake.set_colorsort(false);
 }
 
 /**
@@ -186,6 +188,7 @@ void autonomous() {
         }
         if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
             intake.toggle_color_sort();
+            intake.print_color(controller);
         }
 
 

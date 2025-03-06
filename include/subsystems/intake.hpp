@@ -2,7 +2,7 @@
 
 #include "pros/motor_group.hpp"
 #include <atomic>
-
+//test
 #ifndef DELAY_TIME
 #define DELAY_TIME 10
 #endif
@@ -56,12 +56,22 @@ public:
      * @param controller the given controller
      */
     void print_color(pros::Controller& controller) {
-        if (this->color == RingColor::BLUE) {
-            controller.print(0, 0, "blue");
+        std::string text = "";
+        if (this->color_sort_on) {
+            text += "on ";
         }
         else {
-            controller.print(0, 0, "red");
+            text += "off ";
         }
+
+
+        if (this->color == RingColor::BLUE) {
+            text += "blue"
+        }
+        else {
+            text += "red";
+        }
+        controller.print(0, 0, text);
     }
 
     /**
@@ -75,11 +85,16 @@ public:
                     static pros::Controller controller(pros::E_CONTROLLER_MASTER);
                     double proximity = optical.get_proximity();
                     if (
-                        proximity > 200 &&
+                        proximity > 240 &&
                         ((color == RingColor::BLUE && hue > 200 && hue < 260) ||
                         (color == RingColor::RED && (hue > 330 || hue < 30)))
                     ) {
-                        pros::delay(100);
+                        pros::delay(200);
+                        if (!(proximity > 240 &&
+                            ((color == RingColor::BLUE && hue > 200 && hue < 260) ||
+                            (color == RingColor::RED && (hue > 330 || hue < 30))))) {
+                                continue;
+                            }
                         this->mutex.take();
                         double initial_position = hooks.get_position();
                         while (initial_position - hooks.get_position() < 100) {
@@ -99,6 +114,13 @@ public:
     /**
      * @brief Turn color sorting on or off
      */
+    void set_colorsort(bool colorsort) {
+        this->color_sort_on = colorsort;
+    }
+
+    /**
+     * @brief Turn color sorting on or off
+     */
     void toggle_color_sort() {
         this->color_sort_on = !this->color_sort_on;
     }
@@ -111,16 +133,23 @@ public:
      */
     pros::Task* queue_ring(bool shouldPause) {
         return new pros::Task([&]() {
+            int times = 0;
             while (true) {
-                if (this->optical.get_proximity() > 200) {
-                    // Attempt to stop the intake for a second before aborting
-                    this->move_percentage(0, 1000);
-
-                    if (shouldPause) {
-                        // Intake is paused, needs new button press to restart
-                        this->pause();
+                double hue = this->optical.get_hue();
+                if (this->optical.get_proximity() > 240 && ((hue > 200 && hue < 260) ||
+                ((hue > 330 || hue < 30)))) {
+                    if (++times > 2) {                       
+                        // Attempt to stop the intake for a second before aborting
+                        this->move_percentage(0, 1000);
+                        if (shouldPause) {
+                            // Intake is paused, needs new button press to restart
+                            this->pause();
+                        }
+                        break;
                     }
-                    break;
+
+                } else {
+                    times = 0;
                 }
 
                 pros::delay(DELAY_TIME);

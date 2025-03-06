@@ -14,9 +14,10 @@ public:
     static constexpr int AWAY = 70;
     static constexpr int LOAD = 122;
     static constexpr int READY_TO_SCORE = 170;
-    static constexpr int SCORE = 235;
+    static constexpr int SCORE = 270;
     // Util positions
-    static constexpr int BOTTOM_READY = 260;
+    static constexpr int DESCORE = 250;
+    static constexpr int BOTTOM_READY = 270;
     static constexpr int BOTTOM = 330;
 
     // Feedforward constant
@@ -45,12 +46,13 @@ public:
     }
 
     /**
-     * @brief Cycle between bottom positions, if not on one, reset to BOTTOM_READY
+     * @brief Cycle between bottom positions, if not on one, reset to DESCORE
      */
     void cycle_bottom_target() {
-        if (this->current_target == BOTTOM_READY) this->set_current_target(BOTTOM);
+        if (this->current_target == DESCORE) this->set_current_target(BOTTOM_READY);
+        else if (this->current_target == BOTTOM_READY) this->set_current_target(BOTTOM);
         else {
-            this->set_current_target(BOTTOM_READY);
+            this->set_current_target(DESCORE);
         }
     }
 

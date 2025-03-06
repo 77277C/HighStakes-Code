@@ -71,7 +71,7 @@ public:
         else {
             text += "red";
         }
-        controller.print(0, 0, text);
+        controller.print(0, 0, text.c_str());
     }
 
     /**

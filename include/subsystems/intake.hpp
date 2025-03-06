@@ -66,7 +66,7 @@ public:
 
 
         if (this->color == RingColor::BLUE) {
-            text += "blue"
+            text += "blue";
         }
         else {
             text += "red";

@@ -8,7 +8,8 @@ namespace lemlib {
  */
 class DriveCurve {
     public:
-        /**
+    virtual ~DriveCurve() = default;
+    /**
          * @brief Processes an input and returns an output
          *
          * This is a pure virtual function that needs to be overriden by child classes

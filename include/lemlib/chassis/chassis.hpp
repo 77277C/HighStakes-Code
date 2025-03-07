@@ -910,6 +910,9 @@ class Chassis {
          * @warning Do not interact with these unless you know what you are doing
          */
         PID angularPID;
+
+        DriveCurve* throttleCurve;
+        DriveCurve* steerCurve;
     protected:
         /**
          * @brief Indicates that this motion is queued and blocks current task until this motion reaches front of queue
@@ -929,8 +932,6 @@ class Chassis {
         ControllerSettings angularSettings;
         Drivetrain drivetrain;
         OdomSensors sensors;
-        DriveCurve* throttleCurve;
-        DriveCurve* steerCurve;
 
         ExitCondition lateralLargeExit;
         ExitCondition lateralSmallExit;

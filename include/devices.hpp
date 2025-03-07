@@ -17,4 +17,5 @@ extern pros::Imu imu;
 extern pros::Rotation ladybrown_rotation;
 extern pros::MotorGroup ladybrown_motor;
 extern pros::Rotation vert_tracking_wheel_rotation;
+extern pros::Rotation horz_tracking_wheel_rotation;
 extern pros::MotorGroup intake_front;

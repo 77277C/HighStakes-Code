@@ -10,7 +10,7 @@
  */
 void no_mogo_pid_constants() {
    // Set the lateral pid constants of the original PID controller settings
-   // the original PID controllers settings is tuned for no mogo
+   // the original PID controllers settings is tuned for no mogohey
    chassis.lateralPID.kP = lateral_controller.kP;
    chassis.lateralPID.kI = lateral_controller.kI;
    chassis.lateralPID.kD = lateral_controller.kD;

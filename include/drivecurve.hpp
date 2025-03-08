@@ -2,10 +2,14 @@
 #include "lemlib/api.hpp"
 
 
-class DoubleBandedExpoDriveCurve : public lemlib::ExpoDriveCurve {
-    private:
-        const float maxband = 127;
+class PilonsDriveCurve : public lemlib::DriveCurve {
     public:
-        DoubleBandedExpoDriveCurve(float deadband, float maxband, float minOutput, float curve);
+        explicit PilonsDriveCurve(double t, double scale);
         float curve(float input) override;
+    private:
+        const double t;
+        const double scale;
 };
+
+
+void arcade(lemlib::Chassis& chassis, double left, double right);

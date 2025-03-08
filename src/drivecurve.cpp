@@ -1,4 +1,6 @@
 #include "drivecurve.hpp"
+#include <iostream>
+using namespace std;
 
 
 PilonsDriveCurve::PilonsDriveCurve(double t, double scale)

@@ -11,10 +11,11 @@ pros::MotorGroup right_motors({-8, 15, 4}, pros::MotorGears::blue);
 pros::MotorGroup intake_hooks({19}, pros::MotorGears::blue);
 pros::MotorGroup intake_front({18}, pros::MotorGears::blue);
 
-pros::Imu imu(17);
+pros::Imu imu(7);
 pros::Optical intake_optical(13 );
 
 pros::Rotation ladybrown_rotation(10);
 pros::MotorGroup ladybrown_motor({-14});
 
+pros::Rotation hor_tracking_wheel_rotation(11);
 pros::Rotation vert_tracking_wheel_rotation(-16);

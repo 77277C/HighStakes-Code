@@ -17,11 +17,17 @@ lemlib::TrackingWheel vertical_tracking_wheel(
         0
 );
 
+lemlib::TrackingWheel horiz_tracking_wheel(
+        &hor_tracking_wheel_rotation,
+        2.085,
+        0
+);
+
 
 lemlib::OdomSensors sensors(
         &vertical_tracking_wheel,
         nullptr,
-        nullptr,
+        &horiz_tracking_wheel,
         nullptr,
         &imu
 );

@@ -157,7 +157,7 @@ void autonomous() {
         int turn = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
         throttle = throttle_curve.curve(throttle);
         turn = steer_curve.curve(turn);
-        chassis.tank(throttle + turn,. throttle - turn, true);
+        chassis.tank(throttle + turn, throttle - turn, true);
 
 
         // Run the commands

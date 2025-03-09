@@ -60,11 +60,11 @@ lemlib::ControllerSettings angular_controller(
 );
 
 
-PilonsDriveCurve* throttle_curve;
-PilonsDriveCurve* steer_curve;
+PilonsDriveCurve throttle_curve(1, 1);
+PilonsDriveCurve steer_curve(1, 0.85);
 
 
-lemlib::Chassis chassis(drivetrain, lateral_controller, angular_controller, sensors, throttle_curve,steer_curve);
+lemlib::Chassis chassis(drivetrain, lateral_controller, angular_controller, sensors, &throttle_curve, &steer_curve);
 
 
 rd::Selector selector(autons);
@@ -84,9 +84,6 @@ LadyBrown ladybrown(ladybrown_motor, ladybrown_rotation);
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-    throttle_curve = new PilonsDriveCurve(1, 1);
-    steer_curve = new PilonsDriveCurve(1, 1);
-
     // Calibrate the inertial sensor
     chassis.calibrate();
 
@@ -158,7 +155,9 @@ void autonomous() {
         // Operate the drivetrain
         int throttle = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         int turn = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
-        arcade(chassis, throttle, turn);
+        throttle = throttle_curve.curve(throttle);
+        turn = steer_curve.curve(turn);
+        chassis.tank(throttle + turn,. throttle - turn, true);
 
 
         // Run the commands

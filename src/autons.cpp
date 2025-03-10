@@ -839,14 +839,14 @@ void pid_tuning(){
     // turn to face heading 90 with a very long timeout
 
     pros::Controller controller(pros::E_CONTROLLER_MASTER);
-    controller.print(0, 0, "%.2f", chassis.getPose().y);
+    controller.print(0, 0, "%.2f", chassis.getPose().theta);
     pros::delay(100);
-    chassis.moveToPoint(0, 24, 5000);
+    chassis.turnToHeading(90, 5000);
     chassis.waitUntilDone();
     pros::delay(850);
-    controller.print(0, 0, "%.2f", chassis.getPose().y);
+    controller.print(0, 0, "%.2f", chassis.getPose().theta);
     pros::delay(4000);
-    controller.print(0, 0, "%.2f", chassis.getPose().x);
+    controller.print(0, 0, "%.2f", chassis.getPose().theta);
 }
 void pid_tuning2(){
     chassis.setPose(-18, 41, 90);
@@ -868,8 +868,86 @@ void pid_tuning2(){
 }
 
 
-std::vector<rd::Selector::routine_t> autons = {
+void middle_ring_rush() {
+   pros::Task task{[]() {
+      pros::Controller controller(pros::E_CONTROLLER_MASTER);
+      while (true) {
+         controller.print(0, 0, "%.2f %.2f %.2f", chassis.getPose().theta, chassis.getPose().x, chassis.getPose().y);
+         pros::delay(50);
+      }
+      }
+   };
 
+   chassis.setPose(-52, -24, 270);
+
+   chassis.moveToPoint(-20, -24, 3000, {.forwards = false, .maxSpeed = 80});
+   chassis.waitUntil(25);
+   clamp.set_state(true);
+   chassis.waitUntilDone();
+
+   intake.move_percentage(100, TIMEOUT_MAX);
+
+
+   chassis.moveToPoint(-13, -9, 5000);
+   chassis.waitUntil(5);
+   intake.move_percentage(0, TIMEOUT_MAX);
+   chassis.waitUntilDone();
+
+
+
+   chassis.turnToHeading(53, 2000);
+   chassis.waitUntilDone();
+
+   right_doinker.set_state(true);
+
+   pros::delay(500);
+
+   chassis.turnToHeading(70, 500);
+   chassis.waitUntilDone();
+
+   chassis.moveToPoint(-10, -6, 1000, {
+   .minSpeed = 50});
+   chassis.waitUntilDone();
+
+   left_doinker.set_state(true);
+
+   pros::delay(500);
+
+   chassis.moveToPose(-45, -25, 90, 5000, {
+   .forwards = false, .minSpeed = 100});
+   chassis.waitUntilDone();
+
+   left_doinker.set_state(false);
+   right_doinker.set_state(false);
+
+   pros::delay(500);
+
+   chassis.moveToPose(-24, -25, 180, 1000, {.earlyExitRange = 3});
+   chassis.waitUntilDone();
+
+   intake.move_percentage(100, TIMEOUT_MAX);
+
+   chassis.moveToPoint(-24, -54, 5000, {.maxSpeed = 90});
+   chassis.waitUntilDone();
+
+   chassis.moveToPoint(-54, -59, 3000, {.minSpeed = 100});
+   chassis.waitUntilDone();
+
+   chassis.turnToHeading(225, 1000);
+   chassis.waitUntilDone();
+
+   intake.move_percentage(100, TIMEOUT_MAX);
+
+   chassis.tank(127, 127, true);
+   pros::delay(3000);
+   chassis.tank(0, 0, true);
+
+   intake.move_percentage(0, TIMEOUT_MAX);
+}
+
+
+std::vector<rd::Selector::routine_t> autons = {
+   { "middle ring rush", middle_ring_rush},
    {"Red Safe", red_safe},
    {"Blue Safe", blue_safe},
    {"Red right", red_rush},

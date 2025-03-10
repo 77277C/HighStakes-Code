@@ -81,8 +81,10 @@ public:
                     ) {
                         pros::delay(100);
                         this->mutex.take();
+
+                        lemlib::Timer timeout(1000);
                         double initial_position = hooks.get_position();
-                        while (initial_position - hooks.get_position() < 100) {
+                        while (initial_position - hooks.get_position() < 100 && !timeout.isDone()) {
                             this->front.move(-127);
                             this->hooks.move(-127);
                         }
@@ -112,7 +114,11 @@ public:
     pros::Task* queue_ring(bool shouldPause) {
         return new pros::Task([&]() {
             while (true) {
-                if (this->optical.get_proximity() > 200) {
+                if (
+                        proximity > 200 &&
+                        ((color == RingColor::BLUE && hue > 200 && hue < 260) ||
+                        (color == RingColor::RED && (hue > 330 || hue < 30)))
+                    ) {
                     // Attempt to stop the intake for a second before aborting
                     this->move_percentage(0, 1000);
 

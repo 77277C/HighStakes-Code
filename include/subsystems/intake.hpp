@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pros/motor_group.hpp"
+#include "lemlib/timer.hpp"
 #include <atomic>
 
 #ifndef DELAY_TIME
@@ -81,7 +82,7 @@ public:
                         pros::delay(100);
                         this->mutex.take();
 
-                        Timer timeout(1000);
+                        lemlib::Timer timeout(1000);
                         double initial_position = hooks.get_position();
                         while (initial_position - hooks.get_position() < 100 && !timeout.isDone()) {
                             this->front.move(-127);

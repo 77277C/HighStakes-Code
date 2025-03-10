@@ -72,7 +72,6 @@ public:
             while (true) {
                 if (this->color_sort_on) {
                     double hue = optical.get_hue();
-                    static pros::Controller controller(pros::E_CONTROLLER_MASTER);
                     double proximity = optical.get_proximity();
                     if (
                         proximity > 200 &&
@@ -82,7 +81,7 @@ public:
                         pros::delay(100);
                         this->mutex.take();
 
-                        lemlib::Timer timeout(1000);
+                        Timer timeout(1000);
                         double initial_position = hooks.get_position();
                         while (initial_position - hooks.get_position() < 100 && !timeout.isDone()) {
                             this->front.move(-127);
@@ -114,6 +113,8 @@ public:
     pros::Task* queue_ring(bool shouldPause) {
         return new pros::Task([&]() {
             while (true) {
+                double hue = optical.get_hue();
+                double proximity = optical.get_proximity();
                 if (
                         proximity > 200 &&
                         ((color == RingColor::BLUE && hue > 200 && hue < 260) ||

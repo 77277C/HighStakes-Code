@@ -11,7 +11,7 @@ class LadyBrown {
 public:
     // Define the constants that hold the values of different ladybrown positions
     // Cycle positions
-    static constexpr int AWAY = 70;
+    static constexpr int AWAY = 71.5;
     static constexpr int LOAD = 122;
     static constexpr int READY_TO_SCORE = 170;
     static constexpr int SCORE = 235;

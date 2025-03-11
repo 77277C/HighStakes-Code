@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pros/rotation.hpp"
+#include "pros/distance.hpp"
 #include "pros/optical.hpp"
 #include "pros/motor_group.hpp"
 #include "pros/adi.hpp"

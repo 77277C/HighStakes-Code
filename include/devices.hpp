@@ -19,3 +19,5 @@ extern pros::MotorGroup ladybrown_motor;
 extern pros::Rotation vert_tracking_wheel_rotation;
 extern pros::Rotation horz_tracking_wheel_rotation;
 extern pros::MotorGroup intake_front;
+extern pros::Distance left_distance_sensor;
+extern pros::Distance right_distance_sensor;

@@ -11,7 +11,8 @@ MCLLocalizer::MCLLocalizer(
     imu(imu),
     forwardTracker(forwardTracker),
     horizontalTracker(horizontalTracker),
-    distanceSensor(distanceSensor),
+    distanceSensorLeft(distanceSensorLeft),
+    distanceSensorRight(distanceSensorRight),
     gen(rd()),
     noise_pos(0.0, 0.5),
     noise_heading(0.0, 0.02)
@@ -66,7 +67,7 @@ void MCLLocalizer::update() {
 
     // Weight update using distance sensor
     double totalWeight = 0;
-    double measured_distance = distanceSensor->get() / 25.4;  // Convert mm to inches
+    double measured_distance = distanceSensorLeft->get() / 25.4;  // Convert mm to inches
     
     if (measured_distance < MAX_VALID_DISTANCE) {
         for(auto& p : particles) {
@@ -140,7 +141,7 @@ double MCLLocalizer::calculateWeight(const Particle& p) {
     double weight = 1.0;
     
     // Distance sensor weight
-    double measured_distance = distanceSensor->get() / 25.4; // Convert to inches
+    double measured_distance = distanceSensorLeft->get() / 25.4; // Convert to inches
     
     if (measured_distance < MAX_VALID_DISTANCE) {
         double predicted_distance = predictDistanceReading(p);

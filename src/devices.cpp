@@ -19,3 +19,6 @@ pros::MotorGroup ladybrown_motor({-14});
 
 pros::Rotation vert_tracking_wheel_rotation(-16);
 pros::Rotation horz_tracking_wheel_rotation(13);
+
+pros::Distance left_distance_sensor(4);
+pros::Distance right_distance_sensor(3);

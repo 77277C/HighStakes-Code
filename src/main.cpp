@@ -71,10 +71,10 @@ rd::Selector selector(autons);
 
 MCLLocalizer mcl(
     &imu,           // First IMU
-    &forwardTracker, // Forward tracking wheel
-    &horizontalTracker, // Horizontal tracking wheel
-    &distanceSensor, // Distance sensor
-    &distanceSensor, // Distance sensor
+    &vertical_tracking_wheel, // Forward tracking wheel
+    &horizontal_tracking_wheel, // Horizontal tracking wheel
+    &left_distance_sensor, // Distance sensor
+    &right_distance_sensor, // Distance sensor
     1000           // Number of particles (optional, defaults to 1000)
 );
 

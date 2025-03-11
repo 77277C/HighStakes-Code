@@ -8,8 +8,7 @@ MCLLocalizer::MCLLocalizer(
     pros::Distance* distanceSensorRight,
     int numParticles
 ) : 
-    imu1(imu1),
-    imu2(imu2),
+    imu(imu),
     forwardTracker(forwardTracker),
     horizontalTracker(horizontalTracker),
     distanceSensor(distanceSensor),
@@ -60,7 +59,7 @@ void MCLLocalizer::update() {
     // Calculate movement deltas
     double deltaForward = currentForward - prevForwardPos;
     double deltaHorizontal = currentHorizontal - prevHorizontalPos;
-    double deltaHeading = normalizeAngle(currentImu1 - prevImu1Heading);
+    double deltaHeading = normalizeAngle(currentImu - prevImuHeading);
 
     // Motion update for particles
     motionUpdate(deltaForward, deltaHorizontal, deltaHeading);
@@ -86,8 +85,7 @@ void MCLLocalizer::update() {
     // Store current readings for next update
     prevForwardPos = currentForward;
     prevHorizontalPos = currentHorizontal;
-    prevImu1Heading = currentImu1;
-    prevImu2Heading = currentImu2;
+    prevImuHeading = currentImu;
 
     // Resample particles
     resample();

@@ -50,8 +50,7 @@ private:
     // Previous sensor readings
     double prevForwardPos = 0;
     double prevHorizontalPos = 0;
-    double prevImu1Heading = 0;
-    double prevImu2Heading = 0;
+    double prevImuHeading = 0;
 
     // Random number generation
     std::random_device rd;

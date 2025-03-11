@@ -74,6 +74,7 @@ MCLLocalizer mcl(
     &forwardTracker, // Forward tracking wheel
     &horizontalTracker, // Horizontal tracking wheel
     &distanceSensor, // Distance sensor
+    &distanceSensor, // Distance sensor
     1000           // Number of particles (optional, defaults to 1000)
 );
 

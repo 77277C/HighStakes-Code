@@ -5,7 +5,7 @@ lemlib::Drivetrain drivetrain(
         &left_motors,
         &right_motors,
         12.5,
-        lemlib::Omniwheel::NEW_275,
+        lemlib::Omniwheel::NEW_325,
         450,
         2
 );

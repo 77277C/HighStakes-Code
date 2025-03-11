@@ -71,7 +71,7 @@ private:
     void motionUpdate(double deltaForward, double deltaHorizontal, double deltaHeading);
     double calculateWeight(const Particle& p);
     double normalizeAngle(double angle);
-    double predictDistanceReading(const Particle& p);
+    double predictDistanceReading(const Particle& p, double sensorAngle);
     double raycast(double x, double y, double angle);
     bool lineIntersection(double x1, double y1, double x2, double y2,
                          double x3, double y3, double x4, double y4,

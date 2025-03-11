@@ -154,7 +154,7 @@ double MCLLocalizer::calculateWeight(const Particle& p) {
         double diff_left = left_measured_distance - predicted_distance; 
         weight *= exp(-(diff_left * diff_left) / (2 * DISTANCE_NOISE_SD * DISTANCE_NOISE_SD));
     }
-    if (measured_right < MAX_VALID_DISTANCE) {
+    if (right_measured_distance < MAX_VALID_DISTANCE) {
         double predicted_right = predictDistanceReading(p, M_PI_2); // Right sensor at -90 degrees
         double diff_right = right_measured_distance - predicted_right;
         weight *= exp(-(diff_right * diff_right) / (2 * DISTANCE_NOISE_SD * DISTANCE_NOISE_SD));

@@ -49,6 +49,7 @@
 #include "autons.hpp"
 #include "drivecurve.hpp"
 #include "devices.hpp"
+#include "MCLLocalizer.hpp"
 
 #include "subsystems/intake.hpp"
 #include "subsystems/clamp.hpp"

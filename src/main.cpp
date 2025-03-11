@@ -102,7 +102,7 @@ void initialize() {
         while (true) {
             mcl.update();
         }
-    }}
+    }};
 
     // Start the color sorting task
     intake.start_color_sort_task();

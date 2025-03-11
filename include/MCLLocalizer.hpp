@@ -9,6 +9,7 @@
 #include "lemlib/api.hpp"
 #include "KalmanFilter.hpp"
 
+
 class MCLLocalizer {
 public:
     struct Particle {
@@ -28,7 +29,9 @@ public:
         lemlib::TrackingWheel* forwardTracker,
         lemlib::TrackingWheel* horizontalTracker,
         pros::Distance* distanceSensorLeft,
+        double leftOffset,
         pros::Distance* distanceSensorRight,
+        double rightOffset;
         int numParticles = 1000
     );
 
@@ -43,6 +46,7 @@ private:
     lemlib::TrackingWheel* horizontalTracker;
     pros::Distance* distanceSensorLeft;
     pros::Distance* distanceSensorRight;
+    double leftOffset, rightOffset;
     std::vector<Particle> particles;
     std::vector<FieldWall> fieldWalls;
     // Initialize Kalman Filter

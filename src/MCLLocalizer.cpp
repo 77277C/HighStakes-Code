@@ -5,14 +5,18 @@ MCLLocalizer::MCLLocalizer(
     lemlib::TrackingWheel* forwardTracker,
     lemlib::TrackingWheel* horizontalTracker,
     pros::Distance* distanceSensorLeft,
+    double leftOffset,
     pros::Distance* distanceSensorRight,
+    double rightOffset;
     int numParticles
 ) : 
     imu(imu),
     forwardTracker(forwardTracker),
     horizontalTracker(horizontalTracker),
     distanceSensorLeft(distanceSensorLeft),
+    leftOffset(leftOffset),
     distanceSensorRight(distanceSensorRight),
+    rightOffset(rightOffset),
     gen(rd()),
     noise_pos(0.0, 0.5),
     noise_heading(0.0, 0.02)
@@ -65,11 +69,12 @@ void MCLLocalizer::update() {
     // Motion update for particles
     motionUpdate(deltaForward, deltaHorizontal, deltaHeading);
 
-    // Weight update using distance sensor
+    // Weight update using distance sensors
     double totalWeight = 0;
-    double measured_distance = distanceSensorLeft->get() / 25.4;  // Convert mm to inches
+    double left_measured_distance = distanceSensorLeft->get() / 25.4;  // Convert mm to inches
+    double right_measured_distance = distanceSensorRight->get() / 25.4;
     
-    if (measured_distance < MAX_VALID_DISTANCE) {
+    if (left_measured_distance < MAX_VALID_DISTANCE || right_measured_distance < MAX_VALID_DISTANCE) {
         for(auto& p : particles) {
             p.weight *= calculateWeight(p);
             totalWeight += p.weight;
@@ -118,7 +123,7 @@ void MCLLocalizer::update() {
 
     lastUpdateTime_ = currentTime;
 
-    chassis.setPose(x, y, theta * (180 / M_PI));
+    chassis.setPose(x, y, theta, true);
     pros::delay(10);
 }
 
@@ -141,12 +146,18 @@ double MCLLocalizer::calculateWeight(const Particle& p) {
     double weight = 1.0;
     
     // Distance sensor weight
-    double measured_distance = distanceSensorLeft->get() / 25.4; // Convert to inches
+    double left_measured_distance = distanceSensorLeft->get() / 25.4 + leftOffset; // Convert to inches
+    double right_measured_distance = distanceSensorRight->get() / 25.4 + rightOffset; // Convert to inches
     
-    if (measured_distance < MAX_VALID_DISTANCE) {
-        double predicted_distance = predictDistanceReading(p);
-        double distance_diff = measured_distance - predicted_distance;
-        weight *= exp(-(distance_diff * distance_diff) / (2 * DISTANCE_NOISE_SD * DISTANCE_NOISE_SD));
+    if (left_measured_distance < MAX_VALID_DISTANCE) {
+        double predicted_distance = predictDistanceReading(p, -M_PI_2);  // Left sensor at 90 degrees
+        double diff_left = left_measured_distance - predicted_distance; 
+        weight *= exp(-(diff_left * diff_left) / (2 * DISTANCE_NOISE_SD * DISTANCE_NOISE_SD));
+    }
+    if (measured_right < MAX_VALID_DISTANCE) {
+        double predicted_right = predictDistanceReading(p, M_PI_2); // Right sensor at -90 degrees
+        double diff_right = right_measured_distance - predicted_right;
+        weight *= exp(-(diff_right * diff_right) / (2 * DISTANCE_NOISE_SD * DISTANCE_NOISE_SD));
     }
     
     // Add boundary penalties
@@ -157,8 +168,8 @@ double MCLLocalizer::calculateWeight(const Particle& p) {
     return weight;
 }
 
-double MCLLocalizer::predictDistanceReading(const Particle& p) {
-    return raycast(p.x, p.y, p.theta);
+double MCLLocalizer::predictDistanceReading(const Particle& p, double sensorAngle) {
+    return raycast(p.x, p.y, normalizeAngle(p.theta + sensorAngle));
 }
 
 double MCLLocalizer::raycast(double x, double y, double angle) {

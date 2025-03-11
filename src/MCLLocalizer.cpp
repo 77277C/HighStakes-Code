@@ -7,7 +7,7 @@ MCLLocalizer::MCLLocalizer(
     pros::Distance* distanceSensorLeft,
     double leftOffset,
     pros::Distance* distanceSensorRight,
-    double rightOffset;
+    double rightOffset,
     int numParticles
 ) : 
     imu(imu),

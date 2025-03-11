@@ -69,6 +69,15 @@ lemlib::Chassis chassis(drivetrain, lateral_controller, angular_controller, sens
 
 rd::Selector selector(autons);
 
+MCLLocalizer mcl(
+    imu1,           // First IMU
+    imu2,           // Second IMU
+    forwardTracker, // Forward tracking wheel
+    horizontalTracker, // Horizontal tracking wheel
+    distanceSensor, // Distance sensor
+    1000           // Number of particles (optional, defaults to 1000)
+);
+
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 Intake intake(intake_hooks, intake_front, intake_optical, RingColor::BLUE);
@@ -85,7 +94,15 @@ LadyBrown ladybrown(ladybrown_motor, ladybrown_rotation);
  */
 void initialize() {
     // Calibrate the inertial sensor
-    chassis.calibrate();
+    chassis.calibrateIMU(sensors);
+    vertical_tracking_wheel.reset();
+    horizontal_tracking_wheel.reset();
+
+    pros::Task{[&]() {
+        while (true) {
+            mcl.update();
+        }
+    }}
 
     // Start the color sorting task
     intake.start_color_sort_task();

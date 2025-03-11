@@ -7,7 +7,7 @@
 #include <memory>
 #include <cmath>
 #include "lemlib/api.hpp"
-#include "kalmanFilter.hpp"
+#include "KalmanFilter.hpp"
 
 class MCLLocalizer {
 public:

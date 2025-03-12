@@ -1,5 +1,5 @@
 #include "autons.hpp"
-#include "subsystems///ladybrown.hpp"
+#include "subsystems/ladybrown.hpp"
 
 
 
@@ -121,7 +121,7 @@ void solo_awp_red_left() {
    chassis.setPose(-61.5, 9.5, 215);
    // score on alliance stake
    pros::delay(100);
-   //ladybrown.set_current_target(//ladybrown::BOTTOM);
+   ladybrown.set_current_target(330);
    pros::delay(500);
    chassis.moveToPoint(-25, 34, 5000, {
 
@@ -139,7 +139,7 @@ void solo_awp_red_left() {
       .earlyExitRange = 4.5
    });
    chassis.waitUntil(5);
-   //ladybrown.set_current_target(//ladybrown::AWAY);
+   ladybrown.set_current_target(71.5);
    chassis.waitUntilDone();
 
    chassis.moveToPoint(-24, 23.5, 1500, {
@@ -256,7 +256,7 @@ void blue_right_alliance_stake() {
    pros::delay(100);
 
    chassis.moveToPoint(61, 9, 700);
-   //ladybrown.set_current_target(//ladybrown::BOTTOM);
+   ladybrown.set_current_target(330);
    chassis.waitUntilDone();
 
    pros::delay(300);
@@ -276,7 +276,7 @@ void blue_right_alliance_stake() {
       .earlyExitRange = 4.5
    });
    chassis.waitUntil(5);
-   //ladybrown.set_current_target(//ladybrown::AWAY);
+   ladybrown.set_current_target(71.5);
 
    chassis.moveToPoint(26.5, 22.5, 1500, {
       .forwards = false,
@@ -298,7 +298,7 @@ void blue_safe(){
    chassis.moveToPoint(56.5, 10, 2000);
    chassis.waitUntilDone();
    pros::delay(200);
-   //ladybrown.set_current_target(//ladybrown::BOTTOM);
+   ladybrown.set_current_target(330);
    pros::delay(1300);
    chassis.moveToPoint(30, 27, 5000, {
 
@@ -307,7 +307,7 @@ void blue_safe(){
    });
    chassis.waitUntil(5);
 
-   //ladybrown.set_current_target(//ladybrown::AWAY);
+   ladybrown.set_current_target(71.5);
    chassis.waitUntilDone();
 
    chassis.waitUntil(25);
@@ -375,8 +375,8 @@ void blue_safe(){
 
    chassis.waitUntilDone();
 
-   //ladybrown.cycle_target();
-   //ladybrown.cycle_target();
+   ladybrown.cycle_target();
+   ladybrown.cycle_target();
    pros::delay(2000);
 }
 void red_safe() {
@@ -385,7 +385,7 @@ void red_safe() {
    pros::delay(100);
    chassis.moveToPoint(-58, 13, 2000);
    chassis.waitUntilDone();
-   //ladybrown.set_current_target(//ladybrown::BOTTOM);
+   ladybrown.set_current_target(330);
    pros::delay(1000);
    chassis.moveToPoint(-30, 30, 5000, {
 
@@ -394,7 +394,7 @@ void red_safe() {
    });
    chassis.waitUntil(5);
 
-   //ladybrown.set_current_target(//ladybrown::AWAY);
+   ladybrown.cycle_target();
    chassis.waitUntilDone();
 
    chassis.waitUntil(25);
@@ -462,8 +462,8 @@ void red_safe() {
 
    chassis.waitUntilDone();
 
-   //ladybrown.cycle_target();
-   //ladybrown.cycle_target();
+   ladybrown.cycle_target();
+   ladybrown.cycle_target();
    pros::delay(2000);
 
 }
@@ -477,12 +477,12 @@ void red_rush() {
    chassis.turnToPoint(2, -47, 1000);
    chassis.waitUntilDone();
 
-   //ladybrown.set_current_target(312);
+   ladybrown.set_current_target(312);
    pros::delay(3000);
 
    chassis.turnToPoint(-17, -48, 1000);
    chassis.waitUntilDone();
-   //ladybrown.cycle_target();
+   ladybrown.cycle_target();
    pros::delay(200);
 
    intake.move_percentage(100, TIMEOUT_MAX);
@@ -565,12 +565,12 @@ void blue_left() {
    chassis.turnToPoint(-4, -47, 1000);
    chassis.waitUntilDone();
 
-   //ladybrown.set_current_target(315);
+   ladybrown.set_current_target(315);
    pros::delay(2000);
 
    chassis.turnToPoint(17, -48, 1000);
    chassis.waitUntilDone();
-   //ladybrown.cycle_target();
+   ladybrown.cycle_target();
    pros::delay(200);
 
    intake.move_percentage(100, TIMEOUT_MAX);
@@ -614,11 +614,11 @@ void score_alliance(){
    //chassis.setPose(65, 0, 90);
    chassis.moveToPoint(51, 0, 2000, {.forwards = false, .maxSpeed = 36, .earlyExitRange = 4});
 
-   //ladybrown.cycle_bottom_target();
-   //ladybrown.cycle_bottom_target();
+   ladybrown.cycle_bottom_target();
+   ladybrown.cycle_bottom_target();
    chassis.moveToPoint(65, 55, 3000);
 
-   //ladybrown.cycle_target();
+   ladybrown.cycle_target();
    chassis.waitUntilDone();
 }
 void skills() {
@@ -643,7 +643,7 @@ void skills() {
    chassis.moveToPoint(24, 48.5, 3000, {.minSpeed = 70});
    chassis.waitUntil(45);
    intake.move_percentage(100, TIMEOUT_MAX);
-   //ladybrown.cycle_target();
+   ladybrown.cycle_target();
    chassis.waitUntilDone();
 
    pros::delay(700);
@@ -663,26 +663,26 @@ void skills() {
    chassis.waitUntilDone();
    
    // score
-   //ladybrown.cycle_target();
-   //ladybrown.cycle_target();
+   ladybrown.cycle_target();
+   ladybrown.cycle_target();
    pros::delay(500);
 
    chassis.moveToPoint(6, 47, 3000, {.forwards = false, .earlyExitRange = 3});
    chassis.waitUntil(10);
-   //ladybrown.cycle_target();
+   ladybrown.cycle_target();
    intake.move_percentage(100, TIMEOUT_MAX);
 
 
 
 
-   chassis.moveToPoint(-51, 50, 5000, {.maxSpeed = 80, .earlyExitRange = 5});
+   chassis.moveToPoint(-51, 50, 5000, {.maxSpeed = 70, .earlyExitRange = 5});
    intake.move_percentage(100, TIMEOUT_MAX);
    chassis.waitUntil(5);
    intake.move_percentage(100, TIMEOUT_MAX);
    chassis.waitUntilDone();
    pros::delay(1000);
 
-   chassis.moveToPoint(-42, 60, 3000, {.maxSpeed = 80, .earlyExitRange = 2});
+   chassis.moveToPoint(-42, 60, 3000, {.maxSpeed = 70, .earlyExitRange = 2});
    intake.move_percentage(100, TIMEOUT_MAX);
    chassis.waitUntil(5);
    intake.move_percentage(100, TIMEOUT_MAX);
@@ -715,23 +715,23 @@ void skills() {
 
    chassis.moveToPoint(-20, -24, 1500, {.earlyExitRange = 2});
 
-   chassis.moveToPoint(-4, -50, 2000);
+   chassis.moveToPoint(0, -50, 2000);
    chassis.waitUntil(15);
-   //ladybrown.cycle_target();
+   ladybrown.cycle_target();
 
    intake.move_percentage(100, TIMEOUT_MAX);
-   chassis.moveToPoint(-4, -65, 2000);
+   chassis.moveToPoint(2, -65, 2000);
    intake.move_percentage(100, TIMEOUT_MAX);
    pros::delay(500);
    
    intake.move_percentage(0, TIMEOUT_MAX);
-   //ladybrown.set_current_target(235);
+   ladybrown.set_current_target(235);
    pros::delay(1500);
 
 
 
    chassis.moveToPoint(5, -47, 3000, {.forwards = false, .earlyExitRange = 3});
-   //ladybrown.cycle_target();
+   ladybrown.cycle_target();
    intake.move_percentage(100, TIMEOUT_MAX);
    intake.move_percentage(100, TIMEOUT_MAX);
 
@@ -768,6 +768,7 @@ void skills() {
    intake.move_percentage(100, TIMEOUT_MAX);
    
    chassis.moveToPoint(50, -48, 15000, { .minSpeed = 80, .earlyExitRange = 1});
+   ladybrown.cycle_target();
    chassis.waitUntilDone();
 
    chassis.moveToPoint(51, -4, 3000, {.forwards = false, .maxSpeed = 40});
@@ -775,49 +776,46 @@ void skills() {
    clamp.set_state(true);
    pros::delay(500);
 
-   chassis.moveToPoint(49, -55, 4000);
+   chassis.moveToPoint(62, 0, 1000);
+   chassis.waitUntilDone();
+
+   
+   chassis.moveToPoint(51, 0, 2000, {.forwards = false, .maxSpeed = 36, .earlyExitRange = 3});
+   ladybrown.set_current_target(LadyBrown::BOTTOM);
+
+   chassis.moveToPoint(24, 24, 1500, {.minSpeed = 60, .earlyExitRange = 2});
+
+   chassis.moveToPoint(58, 41, 2000, {.maxSpeed = 70, .minSpeed = 50});
+   chassis.waitUntilDone();
+   pros::delay(500);
+
+   chassis.moveToPoint(52, 44, 800, {.maxSpeed = 70, .minSpeed = 50});
+   chassis.waitUntilDone();
+   pros::delay(500);
+
+   chassis.moveToPoint(50, 55, 800, {.maxSpeed = 70, .minSpeed = 50});
+   
+   chassis.moveToPoint(57, 59, 1200, {.forwards = false});
+   chassis.waitUntilDone();
+   intake.move_percentage(-50, TIMEOUT_MAX);
+   pros::delay(100);
+
    intake.move_percentage(100, TIMEOUT_MAX);
-   chassis.waitUntilDone();
 
-   chassis.moveToPoint(49, -47, 4000, {.forwards = false, .earlyExitRange = 1});
+   chassis.moveToPoint(38, 10, 2000, {.minSpeed = 90, .earlyExitRange = 5});
 
-   chassis.moveToPoint(60, -47, 4000);
-   intake.move_percentage(100, TIMEOUT_MAX);
-   chassis.waitUntilDone();
-   pros::delay(300);
+   chassis.moveToPoint(58, -10, 2000, {.minSpeed = 90, .earlyExitRange = 5});
 
-   chassis.moveToPoint(62, -60, 4000, {.forwards = false});
-   chassis.waitUntilDone();
-
-   clamp.set_state(false);
-   intake.move_percentage(-100, TIMEOUT_MAX);
-   pros::delay(200);
+   chassis.moveToPoint(65, -55, 2000, {.maxSpeed = 70, .minSpeed = 50, .earlyExitRange = 5});
    
 
-   chassis.moveToPose(25, 22.5,330, 5000);
-   intake.move_percentage(100, TIMEOUT_MAX); 
-   chassis.waitUntil(20);
-   //ladybrown.cycle_target();
-   chassis.waitUntilDone();
-
-   pros::delay(500);
-   chassis.turnToPoint(42, 0, 2000, {.earlyExitRange = 2});
-
-   chassis.moveToPose(60, -4, 90, 3500, {.earlyExitRange = 1});
-
-   chassis.moveToPoint(68, -4, 1000);
-
-   chassis.waitUntilDone();
-
-   score_alliance();
-
-   chassis.moveToPoint(20, 20, 4000, {.forwards = false, .minSpeed = 75, .earlyExitRange = 5});
+   chassis.moveToPoint(20, -20, 4000, {.forwards = false, .minSpeed = 75, .earlyExitRange = 5});
    chassis.waitUntil(10);
-   //ladybrown.set_current_target(235);
+   ladybrown.set_current_target(235);
    chassis.moveToPoint(0, 0, 2000, {.forwards = false, .maxSpeed = 40});
 
    chassis.waitUntilDone();
-   //ladybrown.set_current_target(70);
+   ladybrown.set_current_target(70);
 
 
 

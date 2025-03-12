@@ -38,7 +38,8 @@ public:
     void update();
     void resample();
     void getPose(double& x, double& y, double& theta);
-    void initializeParticles(double x, double y, double theta, double spread = 1.0);
+    void initializeParticles(double x, double y, double theta, double spread = 1.0, int numParticles = 1000);
+    std::vector<Particle> particles;
 
 private:
     pros::Imu* imu;
@@ -47,7 +48,7 @@ private:
     pros::Distance* distanceSensorLeft;
     pros::Distance* distanceSensorRight;
     double leftOffset, rightOffset;
-    std::vector<Particle> particles;
+
     std::vector<FieldWall> fieldWalls;
     // Initialize Kalman Filter
     std::shared_ptr<KalmanFilter> kf_;
@@ -66,7 +67,7 @@ private:
     const double FIELD_SIZE_X = 144.0;  // Field size in inches
     const double FIELD_SIZE_Y = 144.0;
     const double DISTANCE_NOISE_SD = 1.0;
-    const double MAX_VALID_DISTANCE = 7.87402;
+    const double MAX_VALID_DISTANCE = 30;
 
     void motionUpdate(double deltaForward, double deltaHorizontal, double deltaHeading);
     double calculateWeight(const Particle& p);

@@ -96,14 +96,12 @@ LadyBrown ladybrown(ladybrown_motor, ladybrown_rotation);
  */
 void initialize() {
     // Calibrate the inertial sensor
-    imu.reset();
-    controller.rumble(".");
-    vertical_tracking_wheel.reset();
-    horizontal_tracking_wheel.reset();
-
+    chassis.calibrate();
     pros::Task{[&]() {
         while (true) {
-            mcl.update();
+            lemlib::Pose pose = chassis.getPose();
+            controller.print(0, 0, "%.2f %.2f %.2f", pose.x, pose.y, pose.theta);
+            pros::delay(50);
         }
     }};
 

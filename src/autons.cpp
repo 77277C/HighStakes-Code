@@ -741,11 +741,11 @@ void skills() {
    chassis.moveToPoint(10, -67, 1500, {.maxSpeed = 40});
    intake.move_percentage(100, TIMEOUT_MAX);
    chassis.waitUntilDone();
-   pros::delay(1500);
+   pros::delay(750);
    
    intake.move_percentage(0, TIMEOUT_MAX);
    chassis.tank(15,15,true);
-   ladybrown.set_current_target(242);
+   ladybrown.set_current_target(265);
    pros::delay(1500);
 
    chassis.tank(0,0,true);

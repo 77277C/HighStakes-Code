@@ -144,7 +144,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-    intake.enable_antijam();
+    //intake.enable_antijam();
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
     //pid_tuning();
     //selector.run_auton();

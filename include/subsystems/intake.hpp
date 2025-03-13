@@ -110,7 +110,7 @@ public:
         if (this->anti_jam_task == nullptr) {
             anti_jam_task = new pros::Task([&]() {
                 while (true) {
-                    if (this->hooks.get_efficiency() < 10 && this->front.get_efficiency() < 10) {
+                    if (this->hooks.get_efficiency() < 2 && this->front.get_efficiency() < 2) {
                         int hooks_voltage = this->hooks.get_voltage();
                         int front_voltage = this->front.get_voltage();
 

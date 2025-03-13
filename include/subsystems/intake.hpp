@@ -110,12 +110,13 @@ public:
         if (this->anti_jam_task == nullptr) {
             anti_jam_task = new pros::Task([&]() {
                 while (true) {
-                    if (this->hooks.efficiency() < 10 && this->front.efficiency() < 10) {
+                    if (this->hooks.get_efficiency() < 10 && this->front.get_efficiency() < 10) {
                         int hooks_voltage = this->hooks.get_voltage();
                         int front_voltage = this->front.get_voltage();
 
                         this->mutex.take();
                         lemlib::Timer timeout(1000);
+                        double initial_position = hooks.get_position();
                         while (initial_position - hooks.get_position() < 200 && !timeout.isDone()) {
                             this->front.move(-127);
                             this->hooks.move(-127);

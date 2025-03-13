@@ -5,7 +5,7 @@
         "target": "v5",
         "templates": {
             "Eigen": {
-                "location": "C:\\Users\\arnav\\AppData\\Roaming\\PROS\\templates\\Eigen@3.4.90",
+                "location": "C:\\Users\\chawk\\AppData\\Roaming\\PROS\\templates\\Eigen@3.4.90",
                 "metadata": {
                     "origin": "local"
                 },

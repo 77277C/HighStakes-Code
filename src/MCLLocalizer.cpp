@@ -22,7 +22,10 @@ MCLLocalizer::MCLLocalizer(
     noise_heading(0.0, 0.02)
 {
     setupFieldWalls();
-    initializeParticles(FIELD_SIZE_X/2, FIELD_SIZE_Y/2, 0);
+
+    initializeParticles(FIELD_SIZE_X/2, FIELD_SIZE_Y/2, 0, 1, 1000);
+
+
     // Initialize Kalman Filter
     kf_ = std::make_shared<KalmanFilter>();
 }
@@ -37,8 +40,9 @@ void MCLLocalizer::setupFieldWalls() {
     //more field elements such as walls?
 }
 
-void MCLLocalizer::initializeParticles(double x, double y, double theta, double spread) {
-    particles.resize(particles.size());
+void MCLLocalizer::initializeParticles(double x, double y, double theta, double spread, int numParticles) {
+    particles.resize(numParticles);
+
     std::normal_distribution<> init_pos(0.0, spread);
     std::normal_distribution<> init_heading(0.0, spread * 0.1);
 
@@ -48,6 +52,8 @@ void MCLLocalizer::initializeParticles(double x, double y, double theta, double 
         p.theta = normalizeAngle(theta + init_heading(gen));
         p.weight = 1.0 / particles.size();
     }
+
+    pros::Controller controller(pros::E_CONTROLLER_MASTER);
 }
 
 double lastUpdateTime_;
@@ -73,8 +79,9 @@ void MCLLocalizer::update() {
     double totalWeight = 0;
     double left_measured_distance = distanceSensorLeft->get() / 25.4;  // Convert mm to inches
     double right_measured_distance = distanceSensorRight->get() / 25.4;
-    
+
     if (left_measured_distance < MAX_VALID_DISTANCE || right_measured_distance < MAX_VALID_DISTANCE) {
+        static pros::Controller controller(pros::E_CONTROLLER_MASTER);
         for(auto& p : particles) {
             p.weight *= calculateWeight(p);
             totalWeight += p.weight;
@@ -92,8 +99,7 @@ void MCLLocalizer::update() {
     prevForwardPos = currentForward;
     prevHorizontalPos = currentHorizontal;
     prevImuHeading = currentImu;
-
-    // Resample particles
+ // Resample particles
     resample();
 
     // Get MCL position estimate
@@ -123,6 +129,7 @@ void MCLLocalizer::update() {
 
     lastUpdateTime_ = currentTime;
 
+
     chassis.setPose(x, y, theta, true);
     pros::delay(10);
 }
@@ -148,6 +155,7 @@ double MCLLocalizer::calculateWeight(const Particle& p) {
     // Distance sensor weight
     double left_measured_distance = distanceSensorLeft->get() / 25.4 + leftOffset; // Convert to inches
     double right_measured_distance = distanceSensorRight->get() / 25.4 + rightOffset; // Convert to inches
+    left_measured_distance = 9999999999;
     
     if (left_measured_distance < MAX_VALID_DISTANCE) {
         double predicted_distance = predictDistanceReading(p, -M_PI_2);  // Left sensor at 90 degrees
@@ -210,7 +218,7 @@ bool MCLLocalizer::lineIntersection(double x1, double y1, double x2, double y2,
 void MCLLocalizer::resample() {
     std::vector<Particle> newParticles;
     newParticles.reserve(particles.size());
-    
+
     std::uniform_real_distribution<> dist(0, 1.0/particles.size());
     double beta = dist(gen);
     int index = 0;

@@ -98,6 +98,15 @@ void initialize() {
     // Calibrate the inertial sensor
     chassis.calibrate();
 
+    pros::Task task{ [&]() {
+            while (true) {
+                lemlib::Pose p = chassis.getPose();
+                controller.print(0, 0, "%.2f %.2f %.2f", p.x, p.y, p.theta);
+                pros::delay(DELAY_TIME);
+            }
+        }
+    };
+
     // Start the color sorting task
     intake.start_color_sort_task();
 

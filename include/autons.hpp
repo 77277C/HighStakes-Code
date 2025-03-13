@@ -6,3 +6,5 @@
 #include "devices.hpp"
 
 extern std::vector<rd::Selector::routine_t> autons;
+extern void skills();
+extern void pid_tuning();

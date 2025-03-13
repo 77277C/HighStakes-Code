@@ -96,16 +96,7 @@ LadyBrown ladybrown(ladybrown_motor, ladybrown_rotation);
  */
 void initialize() {
     // Calibrate the inertial sensor
-    imu.reset();
-    controller.rumble(".");
-    vertical_tracking_wheel.reset();
-    horizontal_tracking_wheel.reset();
-
-    pros::Task{[&]() {
-        while (true) {
-            mcl.update();
-        }
-    }};
+    chassis.calibrate();
 
     // Start the color sorting task
     intake.start_color_sort_task();
@@ -144,8 +135,11 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
+    
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
-    selector.run_auton();
+    //pid_tuning();
+    //selector.run_auton();
+    skills();
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 }
 

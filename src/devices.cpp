@@ -9,7 +9,7 @@ pros::MotorGroup left_motors({17, -12, -9}, pros::MotorGears::blue);
 pros::MotorGroup right_motors({-8, 15, 11}, pros::MotorGears::blue);
 
 pros::MotorGroup intake_hooks({19}, pros::MotorGears::blue);
-pros::MotorGroup intake_front({18}, pros::MotorGears::blue);
+pros::MotorGroup intake_front({18}, pros::MotorGears::green);
 
 pros::Imu imu(7);
 pros::Optical intake_optical(5 );

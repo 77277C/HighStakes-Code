@@ -87,6 +87,7 @@ public:
                         while (initial_position - hooks.get_position() < 100 && !timeout.isDone()) {
                             this->front.move(-127);
                             this->hooks.move(-127);
+                            pros::delay(DELAY_TIME);
                         }
                         this->front.move(0);
                         this->hooks.move(0);
@@ -103,6 +104,37 @@ public:
      */
     void toggle_color_sort() {
         this->color_sort_on = !this->color_sort_on;
+    }
+
+    void enable_antijam() {
+        if (this->anti_jam_task == nullptr) {
+            anti_jam_task = new pros::Task([&]() {
+                while (true) {
+                    if (this->hooks.efficiency() < 10 && this->front.efficiency() < 10) {
+                        int hooks_voltage = this->hooks.get_voltage();
+                        int front_voltage = this->front.get_voltage();
+
+                        this->mutex.take();
+                        lemlib::Timer timeout(1000);
+                        while (initial_position - hooks.get_position() < 200 && !timeout.isDone()) {
+                            this->front.move(-127);
+                            this->hooks.move(-127);
+                            pros::delay(DELAY_TIME);
+                        }
+                        
+                        this->hooks.move_voltage(hooks_voltage);
+                        this->front.move_voltage(front_voltage);
+
+                        this->mutex.give();
+                    }
+                }
+            });
+        }
+        this->anti_jam_task.resume();
+    }
+
+    void disable_antijam() {
+        this->anti_jam_task.suspend();
     }
 
     /**
@@ -175,6 +207,7 @@ private:
     pros::Optical& optical;
     pros::Task* color_sort_task = nullptr;
     bool color_sort_on = false;
+    pros::Task* anti_jam_task = nullptr;
     std::atomic<bool> paused = false;
     pros::Mutex mutex;
     RingColor color;

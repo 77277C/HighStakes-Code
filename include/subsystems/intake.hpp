@@ -130,11 +130,11 @@ public:
                 }
             });
         }
-        this->anti_jam_task.resume();
+        this->anti_jam_task->resume();
     }
 
     void disable_antijam() {
-        this->anti_jam_task.suspend();
+        this->anti_jam_task->suspend();
     }
 
     /**

@@ -14,7 +14,7 @@ public:
     static constexpr int AWAY = 88;
     static constexpr int LOAD = 122;
     static constexpr int READY_TO_SCORE = 170;
-    static constexpr int SCORE = 240;
+    static constexpr int SCORE = 250;
     // Util positions
     static constexpr int BOTTOM_READY = 260;
     static constexpr int BOTTOM = 330;

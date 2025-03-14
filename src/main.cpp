@@ -20,7 +20,7 @@ lemlib::TrackingWheel vertical_tracking_wheel(
 
 lemlib::TrackingWheel horizontal_tracking_wheel(
         &horz_tracking_wheel_rotation,
-        2.085,
+        2.03,
         0
 );
 

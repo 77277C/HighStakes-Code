@@ -169,6 +169,8 @@ void autonomous() {
 [[ noreturn ]] void opcontrol() {
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
     while (true) {
+
+        //intake.enable_antijam();
         // Store the start time
         auto start_time = pros::millis();
 

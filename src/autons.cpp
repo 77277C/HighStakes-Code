@@ -631,7 +631,7 @@ void skills() {
    chassis.moveToPoint(-39, 0, 2000, {.earlyExitRange = 0.5});
 
 
-   chassis.moveToPoint(-38, 26, 2000, {.forwards = false,.maxSpeed = 85, .earlyExitRange = 8});
+   chassis.moveToPoint(-38, 25, 2000, {.forwards = false,.maxSpeed = 85, .earlyExitRange = 8});
    chassis.moveToPoint(-38, 29, 2000, {.forwards = false,.maxSpeed = 50});
    chassis.waitUntilDone();
    pros::delay(100);
@@ -691,7 +691,7 @@ void skills() {
    chassis.waitUntilDone();
    pros::delay(1000);
 
-   chassis.moveToPoint(-42, 62, 3000, {.maxSpeed = 70, .earlyExitRange = 2});
+   chassis.moveToPoint(-42, 62, 3000, {.maxSpeed = 75, .earlyExitRange = 2});
    intake.move_percentage(100, TIMEOUT_MAX);
    chassis.waitUntil(5);
    intake.move_percentage(100, TIMEOUT_MAX);
@@ -708,7 +708,7 @@ void skills() {
 
 
    pros::delay(200);
-   chassis.moveToPoint(10,-1, 4000, {.maxSpeed = 80, .minSpeed = 70});
+   chassis.moveToPoint(9,-3, 4000, {.maxSpeed = 80, .minSpeed = 70});
    intake.move_percentage(0, TIMEOUT_MAX);
    intake.queue_ring(false);  
    
@@ -718,7 +718,7 @@ void skills() {
    intake.move_percentage(0, TIMEOUT_MAX);
 
    chassis.moveToPoint(-25, -15,  2500, {.forwards = false,.maxSpeed = 80, .earlyExitRange = 8});
-   chassis.moveToPoint(-53, -26, 1400, {.forwards = false, .maxSpeed = 40});
+   chassis.moveToPoint(-54, -26, 1400, {.forwards = false, .maxSpeed = 40});
    chassis.waitUntilDone();
    pros::delay(200);
    clamp.set_state(true);
@@ -727,15 +727,16 @@ void skills() {
 
    intake.move_percentage(100, TIMEOUT_MAX);
 
-   chassis.moveToPoint(-16, -24, 1500, {.earlyExitRange = 2});
+   chassis.moveToPoint(-16, -23, 1500, {.earlyExitRange = 2});
 
    
    chassis.moveToPoint(5, -40, 2000);
    intake.move_percentage(100, TIMEOUT_MAX);
    chassis.waitUntil(25);
+   pros::delay(300);
    ladybrown.cycle_target();
 
-   chassis.moveToPoint(8, -57, 1500, {.maxSpeed = 70});
+   chassis.moveToPoint(10, -57, 1500, {.maxSpeed = 70});
    chassis.waitUntilDone();
    pros::delay(800);
 
@@ -761,8 +762,8 @@ void skills() {
 
 
 
-   chassis.moveToPoint(-35, -41, 5000, {.maxSpeed = 95, .minSpeed = 50, .earlyExitRange = 3});
-   chassis.moveToPoint(-51, -41, 5000, {.maxSpeed = 55, .earlyExitRange = 3});
+   chassis.moveToPoint(-35, -44, 5000, {.maxSpeed = 95, .minSpeed = 50, .earlyExitRange = 3});
+   chassis.moveToPoint(-51, -44, 5000, {.maxSpeed = 55, .earlyExitRange = 3});
    ladybrown.cycle_target();
    intake.move_percentage(100, TIMEOUT_MAX);
    chassis.waitUntil(5);
@@ -778,7 +779,7 @@ void skills() {
    pros::delay(500);
 
    clamp.set_state(false);
-   chassis.moveToPoint(-60, -65, 1000, {.forwards = false});
+   chassis.moveToPoint(-58, -65, 1000, {.forwards = false});
    chassis.waitUntilDone();
    intake.move_percentage(-100, TIMEOUT_MAX);
    pros::delay(100);
@@ -796,13 +797,13 @@ void skills() {
    intake.move_percentage(100, TIMEOUT_MAX);
    ladybrown.cycle_target();
 
-   chassis.moveToPoint(56, 6, 3000, {.forwards = false, .maxSpeed = 50});
+   chassis.moveToPoint(55, 4, 3000, {.forwards = false, .maxSpeed = 50});
    chassis.waitUntilDone();
    pros::delay(100);
    clamp.set_state(true);
    pros::delay(1500);
 
-   chassis.moveToPoint(69, -3.5, 1800);
+   chassis.moveToPoint(69, 0, 1800);
    chassis.waitUntilDone();
 
    

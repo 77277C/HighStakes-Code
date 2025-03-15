@@ -683,21 +683,21 @@ void skills() {
 
 
 
-   chassis.moveToPoint(-23, 54, 5000, {.maxSpeed = 75,.minSpeed = 60, .earlyExitRange = 5});
+   chassis.moveToPoint(-23, 54, 5000, {.maxSpeed = 80,.minSpeed = 60, .earlyExitRange = 5});
 
-   chassis.moveToPoint(-52, 54, 5000, {.maxSpeed = 40, .earlyExitRange = 5});
+   chassis.moveToPoint(-52, 54, 5000, {.maxSpeed = 50, .earlyExitRange = 5});
    intake.move_percentage(100, TIMEOUT_MAX);
    chassis.waitUntil(5);
    intake.move_percentage(100, TIMEOUT_MAX);
    chassis.waitUntilDone();
-   pros::delay(1000);
+   pros::delay(800);
 
-   chassis.moveToPoint(-40, 67, 3000, {.maxSpeed = 75, .earlyExitRange = 2});
+   chassis.moveToPoint(-40, 67, 3000, {.maxSpeed = 80, .earlyExitRange = 2});
    intake.move_percentage(100, TIMEOUT_MAX);
    chassis.waitUntil(5);
    intake.move_percentage(100, TIMEOUT_MAX);
    chassis.waitUntilDone();
-   pros::delay(850);
+   pros::delay(700);
 
 
    chassis.moveToPoint(-59, 71, 1100, {.forwards = false});
@@ -722,7 +722,7 @@ void skills() {
    intake.move_percentage(0, TIMEOUT_MAX);
 
    chassis.moveToPoint(-25, -11.5,  2500, {.forwards = false,.maxSpeed = 80, .earlyExitRange = 8});
-   chassis.moveToPoint(-50, -19, 1400, {.forwards = false, .maxSpeed = 40});
+   chassis.moveToPoint(-53, -20, 1650, {.forwards = false, .maxSpeed = 40});
    chassis.waitUntilDone();
    clamp.set_state(true);
    
@@ -802,23 +802,23 @@ void skills() {
    intake.move_percentage(100, TIMEOUT_MAX);
    ladybrown.cycle_target();
 
-   chassis.moveToPoint(60, 14, 3000, {.forwards = false, .maxSpeed = 50, .minSpeed = 40});
+   chassis.moveToPoint(59.25, 14, 3000, {.forwards = false, .maxSpeed = 50, .minSpeed = 40, .earlyExitRange = 2});
    chassis.waitUntilDone();
    pros::delay(100);
    clamp.set_state(true);
    pros::delay(400);
 
 
-   chassis.moveToPoint(63, 5, 3000, {.maxSpeed = 80, .minSpeed = 70, .earlyExitRange = 1});
+   chassis.moveToPoint(63, 4.5, 3000, {.maxSpeed = 80, .minSpeed = 70, .earlyExitRange = 1});
 
-   chassis.moveToPoint(80, 4, 2000, {.minSpeed = 50});
+   chassis.moveToPoint(80, 3.5, 2000, {.minSpeed = 50});
    chassis.waitUntilDone();
 
    
    //chassis.moveToPoint(chassis.getPose().x - 20*std::cos(chassis.getPose().theta), chassis.getPose().y - 20*std::sin(chassis.getPose().theta), 2000, {.forwards = false, .maxSpeed = 36});
    
    intake.move_percentage(0, TIMEOUT_MAX);
-   chassis.tank(-30, -30, true);
+   chassis.tank(-28, -28, true);
    ladybrown.set_current_target(LadyBrown::BOTTOM + 10);
    pros::delay(1200);
    chassis.tank(-0, -0, true);
@@ -829,7 +829,7 @@ void skills() {
 
    chassis.moveToPoint(58, 48 , 2000, {.maxSpeed = 60, .minSpeed = 50, .earlyExitRange = 3});
 
-   chassis.moveToPoint(75, 50 , 2000, {.maxSpeed = 60, .minSpeed = 50});
+   chassis.moveToPoint(64, 49 , 1000, {.maxSpeed = 60, .minSpeed = 50});
    
    chassis.waitUntilDone();
    pros::delay(600);
@@ -844,7 +844,7 @@ void skills() {
    
    
    chassis.moveToPoint(70, 64, 1200, {.forwards = false});
-   pros::delay(550);
+   pros::delay(350);
    clamp.set_state(false);
    chassis.waitUntilDone();
    intake.move_percentage(-50, TIMEOUT_MAX);
@@ -854,18 +854,19 @@ void skills() {
 
    intake.move_percentage(100, TIMEOUT_MAX);
 
-   chassis.moveToPoint(45, 20, 2000, {.minSpeed = 90, .earlyExitRange = 5});
+   chassis.moveToPoint(56, 25, 2000, {.minSpeed = 90, .earlyExitRange = 5});
 
-   chassis.moveToPoint(56, -5, 2000, {.minSpeed = 90, .earlyExitRange = 5});
+   //chassis.moveToPoint(56, -5, 2000, {.minSpeed = 90, .earlyExitRange = 5});
 
    intake.move_percentage(0, TIMEOUT_MAX);
-   chassis.moveToPoint(65, -60, 2000, {.minSpeed = 125, .earlyExitRange = 5});
+   chassis.moveToPoint(67, -60, 2000, {.minSpeed = 125, .earlyExitRange = 5});
    
 
-   chassis.moveToPoint(15, -3, 4000, {.forwards = false,.maxSpeed = 90, .minSpeed = 75, .earlyExitRange = 7});
+   chassis.moveToPoint(10, 4, 2340, {.forwards = false,.maxSpeed = 65, .minSpeed = 60});
    chassis.waitUntil(10);
    ladybrown.set_current_target(235);
-   chassis.tank(-75, -75, true);
+   chassis.moveToPoint(65, -60, 300);
+   chassis.waitUntilDone();
 
    pros::delay(5000);
 

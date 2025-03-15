@@ -101,7 +101,7 @@ void initialize() {
     pros::Task task{ [&]() {
             while (true) {
                 lemlib::Pose p = chassis.getPose();
-                controller.print(0, 0, "%.2f %.2f %.2f", p.x, p.y, p.theta);
+                controller.print(0, 0, "%.1f %.1f %.1f", p.x, p.y, p.theta);
                 pros::delay(DELAY_TIME);
             }
         }

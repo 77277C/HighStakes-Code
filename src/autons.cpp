@@ -295,7 +295,7 @@ void blue_safe(){
    chassis.setPose(54.5, 16.5, 130);
    // score on alliance stake
    pros::delay(100);
-   chassis.moveToPoint(56.5, 10, 2000);
+   chassis.moveToPoint(56, 12, 2000, {.earlyExitRange = 4});
    chassis.waitUntilDone();
    pros::delay(200);
    ladybrown.set_current_target(330);
@@ -303,7 +303,7 @@ void blue_safe(){
    chassis.moveToPoint(30, 27, 5000, {
 
       .forwards = false,
-      .maxSpeed = 100,
+      .maxSpeed = 70,
    });
    chassis.waitUntil(5);
 
@@ -323,144 +323,98 @@ void blue_safe(){
    clamp.set_state(true);
    intake.move_percentage(100, TIMEOUT_MAX);
    // Do code for the solo awp and grabbing the first mogo
-   chassis.moveToPoint(22, 54, 5000, {
+   chassis.moveToPoint(22, 47.5, 5000, {
 
-      .maxSpeed = 80,
+      .maxSpeed = 60,
    });
 
    chassis.waitUntilDone();
 
-   chassis.moveToPoint(30, 50, 5000, {
+   pros::delay(700);
 
+   chassis.moveToPoint(22, 39, 5000, {
       .forwards = false,
-      .maxSpeed = 50,
+      .maxSpeed = 60,
    });
-
-   chassis.waitUntilDone();
-
-   chassis.moveToPoint(9, 54, 5000, {
-
-      .maxSpeed = 50,
-   });
-
-   chassis.waitUntilDone();
-   pros::delay(1000);
-
-   chassis.moveToPoint(30, 50, 5000, {
-
-      .forwards = false,
-      .maxSpeed = 50,
-   });
-
-   chassis.waitUntilDone();
-   chassis.moveToPoint(45, 0, 5000, {
-
-      .maxSpeed = 75,
-   });
-
-   chassis.waitUntilDone();
-
-
-   chassis.moveToPoint(28, 22, 5000, {
-
-      .forwards = false,
-      .maxSpeed = 50,
-   });
-   chassis.waitUntilDone();
-
-   chassis.moveToPoint(15, 15, 5000, {
+   chassis.moveToPoint(12, 44, 5000, {
 
       .maxSpeed = 50,
    });
 
    chassis.waitUntilDone();
+   pros::delay(1500);
+
+   chassis.moveToPoint(25, 44, 5000, {
+      .forwards = false, 
+      .maxSpeed = 70,
+   });
+
+   chassis.moveToPoint(15, 12, 2000, {.maxSpeed = 60});
 
    ladybrown.cycle_target();
    ladybrown.cycle_target();
    pros::delay(2000);
 }
 void red_safe() {
-   chassis.setPose(-54.5, 16.5, 225);
+   chassis.setPose(-54.5, 16.5, 230);
    // score on alliance stake
    pros::delay(100);
-   chassis.moveToPoint(-58, 13, 2000);
+   chassis.moveToPoint(-56, 12, 2000, {.earlyExitRange = 1});
    chassis.waitUntilDone();
+   pros::delay(200);
    ladybrown.set_current_target(330);
-   pros::delay(1000);
-   chassis.moveToPoint(-30, 30, 5000, {
+   pros::delay(1300);
+   chassis.moveToPoint(-30, 24, 5000, {
 
       .forwards = false,
-      .maxSpeed = 100,
+      .maxSpeed = 60,
    });
    chassis.waitUntil(5);
 
-   ladybrown.cycle_target();
+   ladybrown.set_current_target(71.5);
    chassis.waitUntilDone();
 
    chassis.waitUntil(25);
    chassis.cancelMotion();
 
 
-   chassis.moveToPoint(-26, 34, 5000, {
+   chassis.moveToPoint(-24, 27, 5000, {
 
       .forwards = false,
-      .maxSpeed = 50,
+      .maxSpeed = 40,
    });
    chassis.waitUntilDone();
    clamp.set_state(true);
+   pros::delay(300);
    intake.move_percentage(100, TIMEOUT_MAX);
    // Do code for the solo awp and grabbing the first mogo
-   chassis.moveToPoint(-30, 54, 5000, {
+   chassis.moveToPoint(-22, 46.5, 5000, {
 
-      .maxSpeed = 80,
+      .maxSpeed = 60,
    });
 
    chassis.waitUntilDone();
 
-   chassis.moveToPoint(-30, 50, 5000, {
+   pros::delay(700);
 
+   chassis.moveToPoint(-22, 39, 5000, {
       .forwards = false,
-      .maxSpeed = 50,
+      .maxSpeed = 60,
    });
-
-   chassis.waitUntilDone();
-
-   chassis.moveToPoint(-12, 55, 5000, {
-
-      .maxSpeed = 50,
-   });
-
-   chassis.waitUntilDone();
-   pros::delay(1000);
-
-   chassis.moveToPoint(-30, 50, 5000, {
-
-      .forwards = false,
-      .maxSpeed = 50,
-   });
-
-   chassis.waitUntilDone();
-   chassis.moveToPoint(-45, 0, 5000, {
+   chassis.moveToPoint(-12, 42, 5000, {
 
       .maxSpeed = 50,
    });
 
    chassis.waitUntilDone();
+   pros::delay(1500);
 
-
-   chassis.moveToPoint(-28, 22, 5000, {
-
-      .forwards = false,
-      .maxSpeed = 50,
-   });
-   chassis.waitUntilDone();
-
-   chassis.moveToPoint(-15, 15, 5000, {
-
-      .maxSpeed = 50,
+   chassis.moveToPoint(-25, 44, 5000, {
+      .forwards = false, 
+      .maxSpeed = 70,
    });
 
-   chassis.waitUntilDone();
+   chassis.moveToPoint(-15, 12, 2000, {.maxSpeed = 60});
 
    ladybrown.cycle_target();
    ladybrown.cycle_target();
@@ -917,23 +871,19 @@ void pid_tuning2(){
 
 
 void middle_ring_rush() {
-   pros::Task task{[]() {
-      pros::Controller controller(pros::E_CONTROLLER_MASTER);
-      while (true) {
-         controller.print(0, 0, "%.2f %.2f %.2f", chassis.getPose().theta, chassis.getPose().x, chassis.getPose().y);
-         pros::delay(50);
-      }
-      }
-   };
+
 
    chassis.setPose(-52, -24, 270);
 
    chassis.moveToPoint(-20, -24, 3000, {.forwards = false, .maxSpeed = 80});
-   chassis.waitUntil(25);
-   clamp.set_state(true);
+   chassis.waitUntil(10);
+   chassis.cancelMotion();
+   chassis.moveToPoint(-19, -24, 3000, {.forwards = false, .maxSpeed = 45});
    chassis.waitUntilDone();
-
+   clamp.set_state(true);
+   pros::delay(200);
    intake.move_percentage(100, TIMEOUT_MAX);
+   pros::delay(200);
 
 
    chassis.moveToPoint(-13, -9, 5000);
@@ -961,24 +911,31 @@ void middle_ring_rush() {
 
    pros::delay(500);
 
-   chassis.moveToPose(-45, -25, 90, 5000, {
+   chassis.moveToPose(-45, -25, 85, 5000, {
    .forwards = false, .minSpeed = 100});
    chassis.waitUntilDone();
 
+   chassis.turnToHeading(75, 2000, {.maxSpeed = 60});
+   chassis.waitUntilDone();
    left_doinker.set_state(false);
    right_doinker.set_state(false);
 
    pros::delay(500);
-
-   chassis.moveToPose(-24, -25, 180, 1000, {.earlyExitRange = 3});
+   
+   intake.move_percentage(100, TIMEOUT_MAX);
+   chassis.moveToPose(-24, -21, 180, 1000, {.earlyExitRange = 3});
    chassis.waitUntilDone();
 
    intake.move_percentage(100, TIMEOUT_MAX);
 
-   chassis.moveToPoint(-24, -54, 5000, {.maxSpeed = 90});
+   chassis.moveToPoint(-24, -50, 5000, {.maxSpeed = 90});
+   chassis.waitUntilDone();
+   
+   pros::delay(200);
+   chassis.moveToPoint(-24, -47, 5000, {.maxSpeed = 90});
    chassis.waitUntilDone();
 
-   chassis.moveToPoint(-54, -59, 3000, {.minSpeed = 100});
+   chassis.moveToPoint(-46, -55, 3000, {.minSpeed = 100});
    chassis.waitUntilDone();
 
    chassis.turnToHeading(225, 1000);
@@ -987,8 +944,16 @@ void middle_ring_rush() {
    intake.move_percentage(100, TIMEOUT_MAX);
 
    chassis.tank(127, 127, true);
-   pros::delay(3000);
+   pros::delay(1600);
+   chassis.tank(-15, -15, true);
+   pros::delay(500);
    chassis.tank(0, 0, true);
+
+   chassis.moveToPoint(-15, -50, 3000);
+   clamp.set_state(false);
+   chassis.waitUntilDone();
+
+
 
    intake.move_percentage(0, TIMEOUT_MAX);
 }
